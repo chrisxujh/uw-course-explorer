@@ -1,6 +1,9 @@
 # UwCourseExplorer
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.2.3.
+## Demo
+
+Link to demo:
+[http://chrisxu.me/uw-course-explorer/](http://chrisxu.me/uw-course-explorer)
 
 ## Development server
 
