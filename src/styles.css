@@ -1,1 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
+* {
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  list-style: none;
+}
+
+.message-padding-md-center {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.message-padding-lg-center {
+  text-align: center;
+  padding: 28px 0;
+}

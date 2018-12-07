@@ -1,0 +1,36 @@
+<div
+  *ngIf="
+    !(isLoading$ | async) && (examSchedule$ | async) as examSchedule;
+    else: loading
+  "
+>
+  <div *ngIf="!(isError$ | async) && examSchedule.sections; else: notfound">
+    <ul class="list-group" style="max-height: 40vh; overflow-y: auto">
+      <li class="list-group-item" *ngFor="let section of examSchedule.sections">
+        <b>SECTION {{ section.section }}</b>
+        <div>
+          <span>Date: </span><span>{{ section.date }}</span>
+        </div>
+        <div>
+          <span>Day: </span> <span>{{ section.day }}</span>
+        </div>
+        <div>
+          <span>Time: </span
+          ><span>{{ section.start_time }} - {{ section.end_time }}</span>
+        </div>
+        <div>
+          <span>Location: </span><span>{{ section.location }} </span>
+        </div>
+        <div *ngIf="section.notes">
+          <span>Notes: </span><span>{{ section.notes }} </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+<ng-template #notfound>
+  <p class="message-padding-lg-center">No exam schedule found</p>
+</ng-template>
+<ng-template #loading>
+  <p class="message-padding-lg-center">Loading...</p>
+</ng-template>

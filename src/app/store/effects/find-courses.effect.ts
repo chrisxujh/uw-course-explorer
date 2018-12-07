@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { map, switchMap, catchError } from 'rxjs/operators';
 
 import { UwDataService } from '../../services/uw-data.service';
 
@@ -18,9 +18,10 @@ export class FindCourseEffects {
   getSubjects$: Observable<any> = this.actions$.pipe(
     ofType(fromAction.GET_SUBJECTS),
     switchMap(() =>
-      this.uwDataService
-        .getSubjects()
-        .pipe(map(subjects => new fromAction.GetSubjectsSuccess(subjects)))
+      this.uwDataService.getSubjects().pipe(
+        map(subjects => new fromAction.GetSubjectsSuccess(subjects)),
+        catchError(() => of(new fromAction.GetSubjectsFailure()))
+      )
     )
   );
 
@@ -28,9 +29,10 @@ export class FindCourseEffects {
   getCoursesBySubject$: Observable<any> = this.actions$.pipe(
     ofType(fromAction.GET_COURSES_BY_SUBJECT),
     switchMap((action: any) =>
-      this.uwDataService
-        .getCoursesBySubject(action.subject)
-        .pipe(map(courses => new fromAction.GetCoursesSuccess(courses)))
+      this.uwDataService.getCoursesBySubject(action.subject).pipe(
+        map(courses => new fromAction.GetCoursesSuccess(courses)),
+        catchError(() => of(new fromAction.GetCoursesFailure()))
+      )
     )
   );
 
@@ -43,7 +45,8 @@ export class FindCourseEffects {
           return course.subject === action.payload.subject
             ? new fromAction.GetCoursesSuccess(course)
             : new fromAction.GetCoursesFailure();
-        })
+        }),
+        catchError(() => of(new fromAction.GetCoursesFailure()))
       )
     )
   );

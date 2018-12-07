@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { map, switchMap, catchError } from 'rxjs/operators';
 
 import { UwDataService } from '../../services/uw-data.service';
 
@@ -21,7 +21,24 @@ export class GetCourseScheduleEffects {
       this.uwDataService
         .getCourseSchedule(action.payload.subject, action.payload.catalogNumber)
         .pipe(
-          map(schedule => new fromAction.GetCourseScheduleSuccess(schedule))
+          map(schedule => new fromAction.GetCourseScheduleSuccess(schedule)),
+          catchError(() => of(new fromAction.GetCourseScheduleFailure()))
+        )
+    )
+  );
+
+  @Effect()
+  getCourseExamSchedule$: Observable<any> = this.actions$.pipe(
+    ofType(fromAction.GET_COURSE_EXAM_SCHEDULE),
+    switchMap((action: any) =>
+      this.uwDataService
+        .getCourseExamSchedule(
+          action.payload.subject,
+          action.payload.catalogNumber
+        )
+        .pipe(
+          map(schedule => new fromAction.GetCourseScheduleSuccess(schedule)),
+          catchError(() => of(new fromAction.GetCourseScheduleFailure()))
         )
     )
   );

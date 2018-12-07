@@ -1,0 +1,28 @@
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a
+      class="nav-link"
+      href="javascript:;"
+      [ngClass]="{ active: currentMeta === COURSE_SCHEDULE_META }"
+      (click)="handleCourseSchedule()"
+      >Course Schedule</a
+    >
+  </li>
+  <li class="nav-item">
+    <a
+      class="nav-link"
+      href="javascript:;"
+      [ngClass]="{ active: currentMeta === EXAM_SCHEDULE_META }"
+      (click)="handleExamSchedule()"
+      >Exam Schedule</a
+    >
+  </li>
+</ul>
+<div [ngSwitch]="currentMeta">
+  <div *ngSwitchCase="COURSE_SCHEDULE_META">
+    <app-course-schedule [course]="course"></app-course-schedule>
+  </div>
+  <div *ngSwitchCase="EXAM_SCHEDULE_META">
+    <app-exam-schedule [course]="course"></app-exam-schedule>
+  </div>
+</div>

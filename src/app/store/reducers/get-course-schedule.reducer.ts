@@ -6,7 +6,8 @@ export function GetCourseScheduleReducer(
   action: fromAction.GetCourseScheduleActions
 ) {
   switch (action.type) {
-    case fromAction.GET_COURSE_SCHEDULE: {
+    case fromAction.GET_COURSE_SCHEDULE:
+    case fromAction.GET_COURSE_EXAM_SCHEDULE: {
       return { ...state, isLoading: true, isError: false };
     }
 

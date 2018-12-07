@@ -1,14 +1,22 @@
-<ng-container
-  *ngIf="
-    !(isLoading$ | async) && (subjects$ | async) as subjects;
-    else: loading
-  "
+<div class="container">
+  <div
+    *ngIf="
+      !(isLoading$ | async) && (subjects$ | async) as subjects;
+      else: loading
+    "
+  >
+    <ul class="list-group" *ngIf="!(isError$ | async); else: error">
+      <li class="list-group-item" *ngFor="let subject of subjects">
+        <a [routerLink]="['/subjects', subject.subject]">{{
+          subject.subject
+        }}</a>
+      </li>
+    </ul>
+  </div>
+</div>
+<ng-template #loading
+  ><p class="message-padding-lg-center">Loading...</p></ng-template
 >
-  <ul *ngIf="!(isError$ | async); else: error">
-    <li *ngFor="let subject of subjects">
-      <a [routerLink]="['/subjects', subject.subject]">{{ subject.subject }}</a>
-    </li>
-  </ul>
-</ng-container>
-<ng-template #loading>Loading...</ng-template>
-<ng-template #error>Unknown error.</ng-template>
+<ng-template #error
+  ><p class="message-padding-lg-center">Failed to fetch data</p></ng-template
+>

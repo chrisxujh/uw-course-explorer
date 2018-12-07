@@ -1,14 +1,14 @@
-<ng-container
+<div
   *ngIf="
     !(isLoading$ | async) && (schedule$ | async) as schedule;
     else: loading
   "
 >
-  <div *ngIf="!(isError$ | async); else: error">
-    <ul>
-      <li *ngFor="let section of schedule">
+  <div *ngIf="!(isError$ | async) && schedule.length > 0; else: notfound">
+    <ul class="list-group" style="max-height: 40vh; overflow-y: auto">
+      <li class="list-group-item" *ngFor="let section of schedule">
         <div>
-          <h4>{{ section.section }} ({{ section.campus }})</h4>
+          <b>{{ section.section }} ({{ section.campus }})</b>
           <div>
             <ul>
               <li *ngFor="let class of section.classes">
@@ -22,7 +22,7 @@
                 <div>
                   <span>Instructors: </span><span>{{ class.instructors }}</span>
                 </div>
-                <div>
+                <div *ngIf="class.location">
                   <span>Location: </span
                   ><span
                     >{{ class.location.building }}
@@ -36,6 +36,10 @@
       </li>
     </ul>
   </div>
-</ng-container>
-<ng-template #error>No course found!</ng-template>
-<ng-template #loading>Loading...</ng-template>
+</div>
+<ng-template #notfound
+  ><p class="message-padding-lg-center">No schedule found</p></ng-template
+>
+<ng-template #loading
+  ><p class="message-padding-lg-center">Loading...</p></ng-template
+>

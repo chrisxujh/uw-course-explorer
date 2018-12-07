@@ -1,39 +1,69 @@
-<ng-container
-  *ngIf="!(isLoading$ | async) && (course$ | async) as course; else: loading"
->
-  <div *ngIf="!(isError$ | async); else: error">
-    <h1>{{ course.subject }} {{ course.catalog_number }}</h1>
-    <h2>{{ course.title }}</h2>
-    <p>{{ course.description }}</p>
-    <div>
-      <ul>
-        <li>
-          <span>Academic Level: </span><span>{{ course.academic_level }}</span>
-        </li>
-        <li *ngIf="course.antirequisites">
-          <span>Anti-requisites: </span>
-          <span>{{ course.antirequisites }}</span>
-        </li>
-        <li *ngIf="course.prerequisites">
-          <span>Pre-requisites: </span> <span>{{ course.prerequisites }}</span>
-        </li>
-        <li *ngIf="course.terms_offered && course.terms_offered.length > 0">
-          <span>Terms Offered: </span> <span>{{ course.terms_offered }}</span>
-        </li>
-        <li *ngIf="course.notes">
-          <span>Notes: </span> <span>{{ course.notes }}</span>
-        </li>
-        <li>
-          <span>Course Website: </span
-          ><a href="{{course.url}}">{{ course.url }}</a>
-        </li>
-      </ul>
+<div class="container">
+  <div
+    *ngIf="!(isLoading$ | async) && (course$ | async) as course; else: loading"
+  >
+    <div *ngIf="!(isError$ | async); else: error">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body">
+              <h2 class="card-title">
+                {{ course.subject }} {{ course.catalog_number }}
+                {{ course.title }}
+              </h2>
+              <p class="card-text">{{ course.description }}</p>
+              <div>
+                <ul>
+                  <li>
+                    <b>Academic Level: </b
+                    ><span>{{ course.academic_level }}</span>
+                  </li>
+                  <li *ngIf="course.antirequisites">
+                    <b>Anti-requisites: </b>
+                    <span>{{ course.antirequisites }}</span>
+                  </li>
+                  <li *ngIf="course.prerequisites">
+                    <b>Pre-requisites: </b>
+                    <span>{{ course.prerequisites }}</span>
+                  </li>
+                  <li
+                    *ngIf="
+                      course.terms_offered && course.terms_offered.length > 0
+                    "
+                  >
+                    <b>Terms Offered: </b>
+                    <span>{{ course.terms_offered }}</span>
+                  </li>
+                  <li *ngIf="course.notes">
+                    <b>Notes: </b> <span>{{ course.notes }}</span>
+                  </li>
+                  <li>
+                    <a
+                      class="card-link"
+                      style="float: right"
+                      href="{{course.url}}"
+                      >Course Website</a
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div>
-      <h3>Course Schedule:</h3>
-      <app-course-schedule [course]="course"></app-course-schedule>
+    <div class="row" style="margin-top: 18px">
+      <div class="col-12">
+        <app-course-meta [course]="course"></app-course-meta>
+      </div>
     </div>
   </div>
-</ng-container>
-<ng-template #error>No course found!</ng-template>
-<ng-template #loading>Loading...</ng-template>
+</div>
+<ng-template #error
+  ><p class="message-padding-lg-center">
+    Failed to retrieve course data
+  </p></ng-template
+>
+<ng-template #loading
+  ><p class="message-padding-lg-center">Loading...</p></ng-template
+>

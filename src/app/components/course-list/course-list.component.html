@@ -1,19 +1,32 @@
-<ng-container
-  *ngIf="!(isLoading$ | async) && (courses$ | async) as courses; else: loading"
+<div class="container">
+  <div
+    *ngIf="
+      !(isLoading$ | async) && (courses$ | async) as courses;
+      else: loading
+    "
+  >
+    <ul
+      class="list-group"
+      *ngIf="!(isError$ | async) && courses.length > 0; else: notfound"
+    >
+      <li class="list-group-item" *ngFor="let course of courses">
+        <a
+          [routerLink]="[
+            '/subjects',
+            course.subject,
+            'courses',
+            course.course_id
+          ]"
+          >{{ course.subject }} {{ course.catalog_number }}
+          {{ course.title }}</a
+        >
+      </li>
+    </ul>
+  </div>
+</div>
+<ng-template #loading
+  ><p class="message-padding-lg-center">Loading...</p></ng-template
 >
-  <ul *ngIf="!(isError$ | async) && courses.length > 0; else: notfound">
-    <li *ngFor="let course of courses">
-      <a
-        [routerLink]="[
-          '/subjects',
-          course.subject,
-          'courses',
-          course.course_id
-        ]"
-        >{{ course.subject }} {{ course.catalog_number }} {{ course.title }}</a
-      >
-    </li>
-  </ul>
-</ng-container>
-<ng-template #loading>Loading...</ng-template>
-<ng-template #notfound>No course found!</ng-template>
+<ng-template #notfound
+  ><p class="message-padding-lg-center">No course found!</p></ng-template
+>
