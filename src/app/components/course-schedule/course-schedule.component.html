@@ -1,0 +1,41 @@
+<ng-container
+  *ngIf="
+    !(isLoading$ | async) && (schedule$ | async) as schedule;
+    else: loading
+  "
+>
+  <div *ngIf="!(isError$ | async); else: error">
+    <ul>
+      <li *ngFor="let section of schedule">
+        <div>
+          <h4>{{ section.section }} ({{ section.campus }})</h4>
+          <div>
+            <ul>
+              <li *ngFor="let class of section.classes">
+                <div>
+                  <span>Time: </span><span *ngIf="class.date.is_tba">TBA</span
+                  ><span *ngIf="!class.date.is_tba"
+                    >{{ class.date.weekdays }} {{ class.date.start_time }} -
+                    {{ class.date.end_time }}</span
+                  >
+                </div>
+                <div>
+                  <span>Instructors: </span><span>{{ class.instructors }}</span>
+                </div>
+                <div>
+                  <span>Location: </span
+                  ><span
+                    >{{ class.location.building }}
+                    {{ class.location.room }}</span
+                  >
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</ng-container>
+<ng-template #error>No course found!</ng-template>
+<ng-template #loading>Loading...</ng-template>

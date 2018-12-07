@@ -1,0 +1,19 @@
+<ng-container
+  *ngIf="!(isLoading$ | async) && (courses$ | async) as courses; else: loading"
+>
+  <ul *ngIf="!(isError$ | async) && courses.length > 0; else: notfound">
+    <li *ngFor="let course of courses">
+      <a
+        [routerLink]="[
+          '/subjects',
+          course.subject,
+          'courses',
+          course.course_id
+        ]"
+        >{{ course.subject }} {{ course.catalog_number }} {{ course.title }}</a
+      >
+    </li>
+  </ul>
+</ng-container>
+<ng-template #loading>Loading...</ng-template>
+<ng-template #notfound>No course found!</ng-template>

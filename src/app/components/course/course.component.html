@@ -1,0 +1,39 @@
+<ng-container
+  *ngIf="!(isLoading$ | async) && (course$ | async) as course; else: loading"
+>
+  <div *ngIf="!(isError$ | async); else: error">
+    <h1>{{ course.subject }} {{ course.catalog_number }}</h1>
+    <h2>{{ course.title }}</h2>
+    <p>{{ course.description }}</p>
+    <div>
+      <ul>
+        <li>
+          <span>Academic Level: </span><span>{{ course.academic_level }}</span>
+        </li>
+        <li *ngIf="course.antirequisites">
+          <span>Anti-requisites: </span>
+          <span>{{ course.antirequisites }}</span>
+        </li>
+        <li *ngIf="course.prerequisites">
+          <span>Pre-requisites: </span> <span>{{ course.prerequisites }}</span>
+        </li>
+        <li *ngIf="course.terms_offered && course.terms_offered.length > 0">
+          <span>Terms Offered: </span> <span>{{ course.terms_offered }}</span>
+        </li>
+        <li *ngIf="course.notes">
+          <span>Notes: </span> <span>{{ course.notes }}</span>
+        </li>
+        <li>
+          <span>Course Website: </span
+          ><a href="{{course.url}}">{{ course.url }}</a>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <h3>Course Schedule:</h3>
+      <app-course-schedule [course]="course"></app-course-schedule>
+    </div>
+  </div>
+</ng-container>
+<ng-template #error>No course found!</ng-template>
+<ng-template #loading>Loading...</ng-template>

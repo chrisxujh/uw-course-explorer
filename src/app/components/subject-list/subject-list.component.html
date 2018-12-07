@@ -1,0 +1,14 @@
+<ng-container
+  *ngIf="
+    !(isLoading$ | async) && (subjects$ | async) as subjects;
+    else: loading
+  "
+>
+  <ul *ngIf="!(isError$ | async); else: error">
+    <li *ngFor="let subject of subjects">
+      <a [routerLink]="['/subjects', subject.subject]">{{ subject.subject }}</a>
+    </li>
+  </ul>
+</ng-container>
+<ng-template #loading>Loading...</ng-template>
+<ng-template #error>Unknown error.</ng-template>
