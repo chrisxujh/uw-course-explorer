@@ -16,7 +16,7 @@ install:
   - yarn install
 
 script:
-  - yarn build --base-href http://chrisxu.me/uw-course-explorer/
+  - npm run build-github
 deploy:
   provider: pages
   skip_cleanup: true
