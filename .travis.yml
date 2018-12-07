@@ -14,11 +14,10 @@ cache:
 
 install:
   - npm install -g yarn
-  - npm install -g @angular/cli
-  - yarn add @angular-devkit/build-angular --dev
+  - yarn install
 
 script:
-  - ng build --base-href https://ChrisXJH.github.io/uw-course-explorer/
+  - yarn build --base-href https://chrisxjh.github.io/uw-course-explorer/
 deploy:
   provider: pages
   skip_cleanup: true
