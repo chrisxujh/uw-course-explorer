@@ -8,6 +8,10 @@ li {
   list-style: none;
 }
 
+.padding-lg {
+  padding: 50px 0;
+}
+
 .message-padding-md-center {
   text-align: center;
   padding: 20px 0;
@@ -15,5 +19,5 @@ li {
 
 .message-padding-lg-center {
   text-align: center;
-  padding: 28px 0;
+  padding: 50px 0;
 }
