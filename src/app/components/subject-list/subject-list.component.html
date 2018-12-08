@@ -7,10 +7,7 @@
   >
     <ul
       class="list-group"
-      *ngIf="
-        !(isError$ | async) && (popularSubjects$ | async) as popularSubjects;
-        else: error
-      "
+      *ngIf="(popularSubjects$ | async) as popularSubjects; else: loading"
     >
       <ng-container *ngFor="let subject of subjects">
         <li

@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ConfigService } from '../../services/config.service';
 
 import * as fromStore from '../../store';
-import { filter, map } from '../../../../node_modules/rxjs/operators';
+import {
+  filter,
+  map,
+  catchError
+} from '../../../../node_modules/rxjs/operators';
 
 @Component({
   selector: 'app-subject-list',
@@ -30,9 +34,10 @@ export class SubjectListComponent implements OnInit {
       select(fromStore.findCoursesLoadingSelector)
     );
     this.isError$ = this.store.pipe(select(fromStore.findCoursesErrorSelector));
-
     this.requestSubjectData();
-    this.popularSubjects$ = this.configService.getPopularSubjects();
+    this.popularSubjects$ = this.configService
+      .getPopularSubjects()
+      .pipe(catchError(() => of([])));
   }
 
   requestSubjectData() {
