@@ -1,12 +1,12 @@
 import { Action } from '@ngrx/store';
 
-export const GET_COURSE_SCHEDULE = '[Course Explorer] Get Course Schedule';
+export const GET_COURSE_SCHEDULE = '[Get Course Schedule] Get Course Schedule';
 export const GET_COURSE_EXAM_SCHEDULE =
-  '[Course Explorer] Get Course Exam Schedule';
+  '[Get Course Schedule] Get Course Exam Schedule';
 export const GET_COURSE_SCHEDULE_SUCCESS =
-  '[Course Explorer] Get Course Schedule Success';
+  '[Get Course Schedule] Get Course Schedule Success';
 export const GET_COURSE_SCHEDULE_FAILURE =
-  '[Course Explorer] Get Course Schedule Failure';
+  '[Get Course Schedule] Get Course Schedule Failure';
 
 export class GetCourseSchedule implements Action {
   readonly type = GET_COURSE_SCHEDULE;

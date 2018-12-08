@@ -52,7 +52,7 @@
         </div>
       </div>
     </div>
-    <div class="row" style="margin-top: 18px">
+    <div class="row" style="margin-top: 18px" *ngIf="!(isError$ | async)">
       <div class="col-12">
         <app-course-meta [course]="course"></app-course-meta>
       </div>

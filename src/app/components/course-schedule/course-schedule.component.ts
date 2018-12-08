@@ -11,6 +11,7 @@ import * as fromStore from '../../store';
 })
 export class CourseScheduleComponent implements OnInit {
   @Input() course;
+  @Input() termId;
   schedule$: Observable<any>;
   isLoading$: Observable<any>;
   isError$: Observable<any>;
@@ -29,9 +30,10 @@ export class CourseScheduleComponent implements OnInit {
     );
 
     const subject = this.course.subject,
-      catalogNumber = this.course.catalog_number;
+      catalogNumber = this.course.catalog_number,
+      termId = this.termId;
     this.store.dispatch(
-      new fromStore.GetCourseSchedule({ subject, catalogNumber })
+      new fromStore.GetCourseSchedule({ termId, subject, catalogNumber })
     );
   }
 }
