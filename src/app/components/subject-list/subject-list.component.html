@@ -5,12 +5,33 @@
       else: loading
     "
   >
-    <ul class="list-group" *ngIf="!(isError$ | async); else: error">
-      <li class="list-group-item" *ngFor="let subject of subjects">
-        <a [routerLink]="['/subjects', subject.subject]">{{
-          subject.subject
-        }}</a>
-      </li>
+    <ul
+      class="list-group"
+      *ngIf="
+        !(isError$ | async) && (popularSubjects$ | async) as popularSubjects;
+        else: error
+      "
+    >
+      <ng-container *ngFor="let subject of subjects">
+        <li
+          class="list-group-item"
+          *ngIf="popularSubjects.includes(subject.subject)"
+        >
+          <a [routerLink]="['/subjects', subject.subject]">{{
+            subject.subject
+          }}</a>
+        </li></ng-container
+      >
+      <ng-container *ngFor="let subject of subjects">
+        <li
+          class="list-group-item"
+          *ngIf="!popularSubjects.includes(subject.subject)"
+        >
+          <a [routerLink]="['/subjects', subject.subject]">{{
+            subject.subject
+          }}</a>
+        </li></ng-container
+      >
     </ul>
   </div>
 </div>
