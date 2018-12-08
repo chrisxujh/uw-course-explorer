@@ -19,7 +19,11 @@ export class GetCourseScheduleEffects {
     ofType(fromAction.GET_COURSE_SCHEDULE),
     switchMap((action: any) =>
       this.uwDataService
-        .getCourseSchedule(action.payload.subject, action.payload.catalogNumber)
+        .getCourseSchedule(
+          action.payload.termId,
+          action.payload.subject,
+          action.payload.catalogNumber
+        )
         .pipe(
           map(schedule => new fromAction.GetCourseScheduleSuccess(schedule)),
           catchError(() => of(new fromAction.GetCourseScheduleFailure()))

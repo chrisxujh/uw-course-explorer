@@ -32,9 +32,9 @@ export class UwDataService {
     );
   }
 
-  getCourseSchedule(subject: string, catalogNumber: string) {
+  getCourseSchedule(termId: string, subject: string, catalogNumber: string) {
     return this.uwDataGet(
-      '/courses/' + subject + '/' + catalogNumber + '/schedule'
+      '/terms/' + termId + '/' + subject + '/' + catalogNumber + '/schedule'
     ).pipe(map((res: any) => res.data));
   }
 
@@ -42,6 +42,45 @@ export class UwDataService {
     return this.uwDataGet(
       '/courses/' + subject + '/' + catalogNumber + '/examschedule'
     ).pipe(map((res: any) => res.data));
+  }
+
+  getTermsList() {
+    return this.uwDataGet('/terms/list').pipe(map((res: any) => res.data));
+  }
+
+  getTermsInfo() {
+    return this.getTermsList().pipe(
+      map(termsList => this.processTermsList(termsList))
+    );
+  }
+
+  processTermsList(termsList: any) {
+    termsList.previous_term = this.selectTermFromTermsListById(
+      termsList,
+      termsList.previous_term
+    );
+    termsList.current_term = this.selectTermFromTermsListById(
+      termsList,
+      termsList.current_term
+    );
+    termsList.next_term = this.selectTermFromTermsListById(
+      termsList,
+      termsList.next_term
+    );
+    return termsList;
+  }
+
+  selectTermFromTermsListById(termsList: any, id: string) {
+    const terms = termsList.listings;
+    let result = null;
+    Object.keys(terms).forEach(key => {
+      terms[key].forEach(term => {
+        if (term.id === id) {
+          result = term;
+        }
+      });
+    });
+    return result;
   }
 
   uwDataGet(target: string) {

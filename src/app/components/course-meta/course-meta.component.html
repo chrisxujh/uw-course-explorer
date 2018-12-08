@@ -1,28 +1,57 @@
-<ul class="nav nav-tabs">
-  <li class="nav-item">
-    <a
-      class="nav-link"
-      href="javascript:;"
-      [ngClass]="{ active: currentMeta === COURSE_SCHEDULE_META }"
-      (click)="handleCourseSchedule()"
-      >Course Schedule</a
-    >
-  </li>
-  <li class="nav-item">
-    <a
-      class="nav-link"
-      href="javascript:;"
-      [ngClass]="{ active: currentMeta === EXAM_SCHEDULE_META }"
-      (click)="handleExamSchedule()"
-      >Exam Schedule</a
-    >
-  </li>
-</ul>
-<div [ngSwitch]="currentMeta">
-  <div *ngSwitchCase="COURSE_SCHEDULE_META">
-    <app-course-schedule [course]="course"></app-course-schedule>
-  </div>
-  <div *ngSwitchCase="EXAM_SCHEDULE_META">
-    <app-exam-schedule [course]="course"></app-exam-schedule>
+<div *ngIf="!(isLoading$ | async); else: loading">
+  <ul class="nav nav-tabs">
+    <li class="nav-item" *ngIf="(terms$ | async) as terms">
+      <a
+        class="nav-link"
+        href="javascript:;"
+        *ngIf="terms.current_term"
+        [ngClass]="{
+          active: currentMeta === COURSE_SCHEDULE_META
+        }"
+        (click)="handleCourseSchedule(terms.current_term.id)"
+        >Course Schedule</a
+      >
+    </li>
+    <li class="nav-item" *ngIf="(terms$ | async) as terms">
+      <a
+        class="nav-link"
+        href="javascript:;"
+        *ngIf="terms.next_term"
+        (click)="handleNextTermCourseSchedule(terms.next_term.id)"
+        [ngClass]="{
+          active: currentMeta === NEXT_TERM_SCHEDULE_META
+        }"
+        >{{ terms.next_term.name }} Schedule</a
+      >
+    </li>
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        href="javascript:;"
+        [ngClass]="{ active: currentMeta === EXAM_SCHEDULE_META }"
+        (click)="handleExamSchedule()"
+        >Exam Schedule</a
+      >
+    </li>
+  </ul>
+  <div [ngSwitch]="currentMeta">
+    <div *ngSwitchCase="COURSE_SCHEDULE_META">
+      <app-course-schedule
+        [course]="course"
+        [termId]="selectedTermId"
+      ></app-course-schedule>
+    </div>
+    <div *ngSwitchCase="NEXT_TERM_SCHEDULE_META">
+      <app-course-schedule
+        [course]="course"
+        [termId]="selectedTermId"
+      ></app-course-schedule>
+    </div>
+    <div *ngSwitchCase="EXAM_SCHEDULE_META">
+      <app-exam-schedule [course]="course"></app-exam-schedule>
+    </div>
   </div>
 </div>
+<ng-template #loading
+  ><p class="message-padding-lg-center">Loading...</p></ng-template
+>
