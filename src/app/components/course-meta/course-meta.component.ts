@@ -2,9 +2,9 @@ import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 import * as fromStore from '../../store';
-import { filter } from '../../../../node_modules/rxjs/operators';
 
 @Component({
   selector: 'app-course-meta',
