@@ -1,17 +1,24 @@
 <footer class="page-footer">
-  <p>
-    Contains information provided by the University of Waterloo under license on
-    an 'as is' basis
-  </p>
-  <ul>
-    <li *ngIf="(age$ | async) as age">
-      {{ age.daysDiff }} days {{ age.hoursDiff }} hrs {{ age.minutesDiff }} mins
-      {{ age.secondsDiff }} secs <i class="fas fa-heart icon heart-icon"></i>
-    </li>
-    <li>
-      <a href="https://github.com/ChrisXJH/uw-course-explorer"
-        >GITHUB <i class="fab fa-github icon"></i
-      ></a>
-    </li>
-  </ul>
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <p>
+          Contains information provided by the University of Waterloo under
+          license on an 'as is' basis
+        </p>
+        <ul>
+          <li *ngIf="(age$ | async) as age">
+            {{ age.daysDiff }} days {{ age.hoursDiff }} hrs
+            {{ age.minutesDiff }} mins {{ age.secondsDiff }} secs
+            <i class="fas fa-heart icon heart-icon"></i>
+          </li>
+          <li>
+            <a href="https://github.com/ChrisXJH/uw-course-explorer"
+              >GITHUB <i class="fab fa-github icon"></i
+            ></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </footer>

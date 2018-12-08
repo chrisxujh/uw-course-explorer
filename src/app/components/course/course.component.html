@@ -1,60 +1,68 @@
 <div class="container">
-  <div
-    *ngIf="!(isLoading$ | async) && (course$ | async) as course; else: loading"
-  >
-    <div *ngIf="!(isError$ | async); else: error">
-      <div class="row">
-        <div class="col-12">
-          <div class="card">
-            <div class="card-body">
-              <h2 class="card-title">
-                {{ course.subject }} {{ course.catalog_number }}
-                {{ course.title }}
-              </h2>
-              <p class="card-text">{{ course.description }}</p>
-              <div>
-                <ul>
-                  <li>
-                    <b>Academic Level: </b
-                    ><span>{{ course.academic_level }}</span>
-                  </li>
-                  <li *ngIf="course.antirequisites">
-                    <b>Anti-requisites: </b>
-                    <span>{{ course.antirequisites }}</span>
-                  </li>
-                  <li *ngIf="course.prerequisites">
-                    <b>Pre-requisites: </b>
-                    <span>{{ course.prerequisites }}</span>
-                  </li>
-                  <li
-                    *ngIf="
-                      course.terms_offered && course.terms_offered.length > 0
-                    "
-                  >
-                    <b>Terms Offered: </b>
-                    <span>{{ course.terms_offered }}</span>
-                  </li>
-                  <li *ngIf="course.notes">
-                    <b>Notes: </b> <span>{{ course.notes }}</span>
-                  </li>
-                  <li>
-                    <a
-                      class="card-link"
-                      style="float: right"
-                      href="{{course.url}}"
-                      >Course Website</a
-                    >
-                  </li>
-                </ul>
+  <div class="row">
+    <div class="col-12">
+      <div
+        *ngIf="
+          !(isLoading$ | async) && (course$ | async) as course;
+          else: loading
+        "
+      >
+        <div *ngIf="!(isError$ | async); else: error">
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <h2 class="card-title">
+                    {{ course.subject }} {{ course.catalog_number }}
+                    {{ course.title }}
+                  </h2>
+                  <p class="card-text">{{ course.description }}</p>
+                  <div>
+                    <ul>
+                      <li>
+                        <b>Academic Level: </b
+                        ><span>{{ course.academic_level }}</span>
+                      </li>
+                      <li *ngIf="course.antirequisites">
+                        <b>Anti-requisites: </b>
+                        <span>{{ course.antirequisites }}</span>
+                      </li>
+                      <li *ngIf="course.prerequisites">
+                        <b>Pre-requisites: </b>
+                        <span>{{ course.prerequisites }}</span>
+                      </li>
+                      <li
+                        *ngIf="
+                          course.terms_offered &&
+                          course.terms_offered.length > 0
+                        "
+                      >
+                        <b>Terms Offered: </b>
+                        <span>{{ course.terms_offered }}</span>
+                      </li>
+                      <li *ngIf="course.notes">
+                        <b>Notes: </b> <span>{{ course.notes }}</span>
+                      </li>
+                      <li>
+                        <a
+                          class="card-link"
+                          style="float: right"
+                          href="{{course.url}}"
+                          >Course Website</a
+                        >
+                      </li>
+                    </ul>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-    <div class="row" style="margin-top: 18px" *ngIf="!(isError$ | async)">
-      <div class="col-12">
-        <app-course-meta [course]="course"></app-course-meta>
+        <div class="row" style="margin-top: 18px" *ngIf="!(isError$ | async)">
+          <div class="col-12">
+            <app-course-meta [course]="course"></app-course-meta>
+          </div>
+        </div>
       </div>
     </div>
   </div>

@@ -5,7 +5,7 @@
   "
 >
   <div *ngIf="!(isError$ | async) && examSchedule.sections; else: notfound">
-    <ul class="list-group" style="max-height: 40vh; overflow-y: auto">
+    <ul class="list-group exam-schedule-list">
       <li class="list-group-item" *ngFor="let section of examSchedule.sections">
         <b>SECTION {{ section.section }}</b>
         <div>

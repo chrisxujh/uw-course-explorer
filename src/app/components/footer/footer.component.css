@@ -33,7 +33,7 @@ ul li:first-of-type::before {
 }
 
 .heart-icon {
-  animation: heart-beat 1s linear infinite;
+  animation: heart-beat 0.8s linear infinite;
 }
 
 @keyframes heart-beat {

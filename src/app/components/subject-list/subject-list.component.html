@@ -1,35 +1,39 @@
 <div class="container">
-  <div
-    *ngIf="
-      !(isLoading$ | async) && (subjects$ | async) as subjects;
-      else: loading
-    "
-  >
-    <ul
-      class="list-group"
-      *ngIf="(popularSubjects$ | async) as popularSubjects; else: loading"
-    >
-      <ng-container *ngFor="let subject of subjects">
-        <li
-          class="list-group-item"
-          *ngIf="popularSubjects.includes(subject.subject)"
-        >
-          <a [routerLink]="['/subjects', subject.subject]">{{
-            subject.subject
-          }}</a>
-        </li></ng-container
+  <div class="row">
+    <div class="col-12">
+      <div
+        *ngIf="
+          !(isLoading$ | async) && (subjects$ | async) as subjects;
+          else: loading
+        "
       >
-      <ng-container *ngFor="let subject of subjects">
-        <li
-          class="list-group-item"
-          *ngIf="!popularSubjects.includes(subject.subject)"
+        <ul
+          class="list-group"
+          *ngIf="(popularSubjects$ | async) as popularSubjects; else: loading"
         >
-          <a [routerLink]="['/subjects', subject.subject]">{{
-            subject.subject
-          }}</a>
-        </li></ng-container
-      >
-    </ul>
+          <ng-container *ngFor="let subject of subjects">
+            <li
+              class="list-group-item"
+              *ngIf="popularSubjects.includes(subject.subject)"
+            >
+              <a [routerLink]="['/subjects', subject.subject]">{{
+                subject.subject
+              }}</a>
+            </li></ng-container
+          >
+          <ng-container *ngFor="let subject of subjects">
+            <li
+              class="list-group-item"
+              *ngIf="!popularSubjects.includes(subject.subject)"
+            >
+              <a [routerLink]="['/subjects', subject.subject]">{{
+                subject.subject
+              }}</a>
+            </li></ng-container
+          >
+        </ul>
+      </div>
+    </div>
   </div>
 </div>
 <ng-template #loading><app-spinner></app-spinner></ng-template>
