@@ -5,6 +5,8 @@
 export const environment = {
   production: false,
   backendUrl: 'https://api.uwaterloo.ca/v2',
+  configResourceUrl:
+    'https://raw.githubusercontent.com/ChrisXJH/config-server/master/uw_course_explorer',
   uwApiKey: 'a9e6e1c758257c4222b19293fd7ff2be'
 };
 

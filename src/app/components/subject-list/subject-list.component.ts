@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { ConfigService } from '../../services/config.service';
 
 import * as fromStore from '../../store';
+import { filter, map } from '../../../../node_modules/rxjs/operators';
 
 @Component({
   selector: 'app-subject-list',
@@ -13,8 +15,12 @@ export class SubjectListComponent implements OnInit {
   subjects$: Observable<any>;
   isLoading$: Observable<any>;
   isError$: Observable<any>;
+  popularSubjects$: Observable<any>;
 
-  constructor(private store: Store<fromStore.StoreState>) {}
+  constructor(
+    private store: Store<fromStore.StoreState>,
+    private configService: ConfigService
+  ) {}
 
   ngOnInit() {
     this.subjects$ = this.store.pipe(
@@ -26,6 +32,7 @@ export class SubjectListComponent implements OnInit {
     this.isError$ = this.store.pipe(select(fromStore.findCoursesErrorSelector));
 
     this.requestSubjectData();
+    this.popularSubjects$ = this.configService.getPopularSubjects();
   }
 
   requestSubjectData() {
