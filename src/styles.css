@@ -21,3 +21,61 @@ li {
 .message-padding-lg-center {
   text-align: center;
 }
+
+.schedule-list {
+  max-height: 50vh;
+  overflow-y: auto;
+  border-bottom: 1px solid #ddd;
+}
+
+.schedule-list .schedule-item {
+  padding: 0.8em 0.75em;
+  border-left: 1px solid #ddd;
+}
+
+.schedule-list .schedule-item .item-name {
+  margin-bottom: 0;
+}
+
+.schedule-list .schedule-item:nth-child(odd) {
+  background-color: #eee;
+}
+
+.schedule-list .schedule-item .icon::after {
+  content: ' ';
+  margin-right: 0.4em;
+}
+
+.schedule-list .schedule-item .schedule-details .detail-item {
+  font-size: 0.8em;
+  display: inline;
+  margin-right: 0.8em;
+}
+
+.tabs {
+  margin: 0;
+  padding: 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.tabs .tab-item {
+  display: inline-block;
+  margin-bottom: -1px;
+  background-color: #fff;
+}
+
+.tabs .tab-item .tab-item-link {
+  display: inline-block;
+  padding: 0.8em;
+  text-decoration: none;
+  color: #666;
+  border: 1px solid rgba(250, 237, 237, 0);
+  border-bottom-color: #ddd;
+}
+
+.tabs .tab-item .tab-item-link.active {
+  border: 1px solid #ddd;
+  /* border: 1px solid rgba(250, 237, 237, 1); */
+  border-bottom-color: rgba(250, 237, 237, 0);
+  color: #333;
+}

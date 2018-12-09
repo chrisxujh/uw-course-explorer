@@ -5,30 +5,58 @@
   "
 >
   <div *ngIf="!(isError$ | async) && schedule.length > 0; else: notfound">
-    <ul class="list-group course-schedule-list">
-      <li class="list-group-item" *ngFor="let section of schedule">
+    <ul class="schedule-list">
+      <li class="schedule-item" *ngFor="let section of schedule">
         <div>
-          <b>{{ section.section }} ({{ section.campus }})</b>
+          <p class="item-name">
+            <b>{{ section.section }} ({{ section.campus }})</b>
+          </p>
           <div>
             <ul>
               <li *ngFor="let class of section.classes">
-                <div>
-                  <span>Time: </span><span *ngIf="class.date.is_tba">TBA</span
-                  ><span *ngIf="!class.date.is_tba"
-                    >{{ class.date.weekdays }} {{ class.date.start_time }} -
-                    {{ class.date.end_time }}</span
+                <ul class="schedule-details">
+                  <li class="detail-item">
+                    <i class="far fa-clock icon"></i
+                    ><span *ngIf="class.date.is_tba">TBA</span
+                    ><span *ngIf="!class.date.is_tba"
+                      >{{ class.date.start_time }} -
+                      {{ class.date.end_time }} ({{
+                        class.date.weekdays
+                      }})</span
+                    >
+                  </li>
+                  <li
+                    class="detail-item"
+                    *ngIf="class.date.start_date && class.date.end_date"
                   >
-                </div>
-                <div>
-                  <span>Instructors: </span><span>{{ class.instructors }}</span>
-                </div>
-                <div *ngIf="class.location">
-                  <span>Location: </span
-                  ><span
-                    >{{ class.location.building }}
-                    {{ class.location.room }}</span
+                    <i class="far fa-calendar-alt icon"></i
+                    ><span
+                      >{{ class.date.start_date }} -
+                      {{ class.date.end_date }}</span
+                    >
+                  </li>
+
+                  <li
+                    class="detail-item"
+                    *ngIf="
+                      class.location &&
+                      (class.location.building || class.location.room)
+                    "
                   >
-                </div>
+                    <i class="fas fa-location-arrow icon"></i
+                    ><span
+                      >{{ class.location.building }}
+                      {{ class.location.room }}</span
+                    >
+                  </li>
+                  <li
+                    class="detail-item"
+                    *ngIf="class.instructors && class.instructors.length > 0"
+                  >
+                    <i class="far fa-user icon"></i
+                    ><span>{{ class.instructors }}</span>
+                  </li>
+                </ul>
               </li>
             </ul>
           </div>

@@ -1,8 +1,8 @@
 <div *ngIf="!(isLoading$ | async); else: loading">
-  <ul class="nav nav-tabs">
-    <li class="nav-item" *ngIf="(terms$ | async) as terms">
+  <ul class="tabs">
+    <li class="tab-item" *ngIf="(terms$ | async) as terms">
       <a
-        class="nav-link"
+        class="tab-item-link"
         href="javascript:;"
         *ngIf="terms.current_term"
         [ngClass]="{
@@ -12,9 +12,9 @@
         >Course Schedule</a
       >
     </li>
-    <li class="nav-item" *ngIf="(terms$ | async) as terms">
+    <li class="tab-item" *ngIf="(terms$ | async) as terms">
       <a
-        class="nav-link"
+        class="tab-item-link"
         href="javascript:;"
         *ngIf="terms.next_term"
         (click)="handleNextTermCourseSchedule(terms.next_term.id)"
@@ -24,9 +24,9 @@
         >{{ terms.next_term.name }} Schedule</a
       >
     </li>
-    <li class="nav-item">
+    <li class="tab-item">
       <a
-        class="nav-link"
+        class="tab-item-link"
         href="javascript:;"
         [ngClass]="{ active: currentMeta === EXAM_SCHEDULE_META }"
         (click)="handleExamSchedule()"
@@ -52,4 +52,6 @@
     </div>
   </div>
 </div>
-<ng-template #loading><app-spinner></app-spinner></ng-template>
+<ng-template #loading
+  ><p class="message-padding-lg-center">Loading...</p></ng-template
+>
