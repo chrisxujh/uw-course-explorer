@@ -45,8 +45,7 @@
                       </li>
                       <li>
                         <a
-                          class="card-link"
-                          style="float: right"
+                          class="card-link course-website-link"
                           href="{{course.url}}"
                           >Course Website</a
                         >
@@ -58,7 +57,7 @@
             </div>
           </div>
         </div>
-        <div class="row" style="margin-top: 18px" *ngIf="!(isError$ | async)">
+        <div class="row course-meta-container" *ngIf="!(isError$ | async)">
           <div class="col-12">
             <app-course-meta [course]="course"></app-course-meta>
           </div>

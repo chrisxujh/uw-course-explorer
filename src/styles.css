@@ -8,16 +8,16 @@ li {
   list-style: none;
 }
 
-.padding-lg {
-  padding: 50px 0;
+.padding-lg,
+.message-padding-lg-center {
+  padding: 3em 0;
 }
 
 .message-padding-md-center {
   text-align: center;
-  padding: 20px 0;
+  padding: 1em 0;
 }
 
 .message-padding-lg-center {
   text-align: center;
-  padding: 50px 0;
 }
