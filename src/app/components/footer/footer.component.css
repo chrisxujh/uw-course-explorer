@@ -29,20 +29,20 @@ ul li::before {
 }
 
 ul li:first-of-type::before {
-  content: '';
+  content: ' ';
 }
 
 .heart-icon {
-  animation: heart-beat 0.8s linear infinite;
+  animation: heart-beat 0.4s linear infinite;
 }
 
 @keyframes heart-beat {
   0%,
   100% {
-    transform: initial;
+    transform: scaleY(0.9);
   }
 
-  50% {
+  30% {
     transform: translateY(-0.3em);
   }
 }
