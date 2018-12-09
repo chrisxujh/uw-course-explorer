@@ -7,7 +7,7 @@
   <div *ngIf="!(isError$ | async) && examSchedule.sections; else: notfound">
     <ul class="schedule-list exam-schedule-list">
       <li class="schedule-item" *ngFor="let section of examSchedule.sections">
-        <p class="name">
+        <p class="item-name">
           <b>SECTION {{ section.section }}</b>
         </p>
         <ul class="schedule-details">
