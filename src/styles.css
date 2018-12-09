@@ -28,14 +28,16 @@ li {
 
 .schedule-list .schedule-item {
   padding: 0.8em 0.75em;
-  border-left: 1px solid #ddd;
+  border: 1px solid #ddd;
+  border-top: none;
+  border-bottom: none;
 }
 
 .schedule-list .schedule-item .item-name {
   margin-bottom: 0;
 }
 
-.schedule-list .schedule-item:nth-child(odd) {
+.schedule-list .schedule-item:nth-child(even) {
   background-color: #eee;
 }
 
