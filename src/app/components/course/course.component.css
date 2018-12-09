@@ -1,7 +1,15 @@
 .course-meta-container {
-  margin-top: 18px;
+  margin-top: 1em;
 }
 
 .course-website-link {
   float: right;
+}
+
+.course-title {
+  font-weight: normal;
+}
+
+.course-details {
+  margin-top: 2em;
 }

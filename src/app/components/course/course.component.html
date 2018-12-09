@@ -10,38 +10,70 @@
         <div *ngIf="!(isError$ | async); else: error">
           <div class="row">
             <div class="col-12">
-              <div class="card">
-                <div class="card-body">
-                  <h2 class="card-title">
-                    {{ course.subject }} {{ course.catalog_number }}
+              <div>
+                <div>
+                  <h2 class="course-title">
+                    {{ course.subject }} {{ course.catalog_number }} -
                     {{ course.title }}
                   </h2>
-                  <p class="card-text">{{ course.description }}</p>
-                  <div>
+                  <div class="course-details">
+                    <p class="course-description">{{ course.description }}</p>
                     <ul>
-                      <li>
-                        <b>Academic Level: </b
-                        ><span>{{ course.academic_level }}</span>
+                      <li class="row">
+                        <div class="col-lg-2 col-md-2"><b>Id:</b></div>
+                        <div class="col-lg-10 col-md-10">
+                          {{ course.course_id }}
+                        </div>
                       </li>
-                      <li *ngIf="course.antirequisites">
-                        <b>Anti-requisites: </b>
-                        <span>{{ course.antirequisites }}</span>
+                      <li class="row">
+                        <div class="col-lg-2 col-md-2">
+                          <b>Academic Level:</b>
+                        </div>
+                        <div class="col-lg-10 col-md-10">
+                          {{ course.academic_level }}
+                        </div>
                       </li>
-                      <li *ngIf="course.prerequisites">
-                        <b>Pre-requisites: </b>
-                        <span>{{ course.prerequisites }}</span>
+                      <li class="row" *ngIf="course.units">
+                        <div class="col-lg-2 col-md-2"><b>Units:</b></div>
+                        <div class="col-lg-10 col-md-10">
+                          {{ course.units }}
+                        </div>
+                      </li>
+                      <li class="row" *ngIf="course.antirequisites">
+                        <div class="col-lg-2 col-md-2">
+                          <b>Anti-requisites:</b>
+                        </div>
+                        <div class="col-lg-10 col-md-10">
+                          {{ course.antirequisites }}
+                        </div>
+                      </li>
+                      <li class="row" *ngIf="course.prerequisites">
+                        <div class="col-lg-2 col-md-2">
+                          <b>Pre-requisites:</b>
+                        </div>
+                        <div class="col-lg-10 col-md-10">
+                          {{ course.prerequisites }}
+                        </div>
                       </li>
                       <li
+                        class="row"
                         *ngIf="
                           course.terms_offered &&
                           course.terms_offered.length > 0
                         "
                       >
-                        <b>Terms Offered: </b>
-                        <span>{{ course.terms_offered }}</span>
+                        <div class="col-lg-2 col-md-2">
+                          <b>Terms Offered:</b>
+                        </div>
+                        <div class="col-lg-10 col-md-10">
+                          {{ course.terms_offered }}
+                        </div>
                       </li>
-                      <li *ngIf="course.notes">
-                        <b>Notes: </b> <span>{{ course.notes }}</span>
+                      <li class="row" *ngIf="course.notes">
+                        <div class="col-lg-2 col-md-2"><b>Notes:</b></div>
+                        <div class="col-lg-10 col-md-10">
+                          {{ course.notes }}
+                        </div>
                       </li>
                       <li>
                         <a

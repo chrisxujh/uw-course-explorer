@@ -23,21 +23,21 @@ li {
 }
 
 .schedule-list {
-  max-height: 50vh;
-  overflow-y: auto;
   border-bottom: 1px solid #ddd;
 }
 
 .schedule-list .schedule-item {
   padding: 0.8em 0.75em;
-  border-left: 1px solid #ddd;
+  border: 1px solid #ddd;
+  border-top: none;
+  border-bottom: none;
 }
 
 .schedule-list .schedule-item .item-name {
   margin-bottom: 0;
 }
 
-.schedule-list .schedule-item:nth-child(odd) {
+.schedule-list .schedule-item:nth-child(even) {
   background-color: #eee;
 }
 
@@ -78,4 +78,22 @@ li {
   /* border: 1px solid rgba(250, 237, 237, 1); */
   border-bottom-color: rgba(250, 237, 237, 0);
   color: #333;
+}
+
+@media only screen and (max-width: 550px) {
+  .schedule-list .schedule-item .schedule-details .detail-item {
+    display: block;
+  }
+  .tabs .tab-item {
+    display: block;
+  }
+  .tabs .tab-item .tab-item-link {
+    display: block;
+    border: none;
+    text-align: center;
+  }
+  .tabs .tab-item .tab-item-link.active {
+    border: none;
+    background-color: #ddd;
+  }
 }
