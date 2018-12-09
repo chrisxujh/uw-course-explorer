@@ -4,11 +4,7 @@ import { Observable, of } from 'rxjs';
 import { ConfigService } from '../../services/config.service';
 
 import * as fromStore from '../../store';
-import {
-  filter,
-  map,
-  catchError
-} from '../../../../node_modules/rxjs/operators';
+import { filter, map, catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-subject-list',
@@ -20,6 +16,7 @@ export class SubjectListComponent implements OnInit {
   isLoading$: Observable<any>;
   isError$: Observable<any>;
   popularSubjects$: Observable<any>;
+  subjectFilter: RegExp = null;
 
   constructor(
     private store: Store<fromStore.StoreState>,
@@ -42,5 +39,29 @@ export class SubjectListComponent implements OnInit {
 
   requestSubjectData() {
     this.store.dispatch(new fromStore.GetSubjects());
+  }
+
+  addFilterToAllSubjects(val: any) {
+    this.subjectFilter =
+      val !== ''
+        ? new RegExp(
+            val
+              .toUpperCase()
+              .split('')
+              .filter(c => c !== ' ')
+              .map(c => c + '\\s*')
+              .reduce((acc, curr) => acc + curr)
+          )
+        : null;
+  }
+
+  filterSubjects(subjects: any[]) {
+    return this.subjectFilter === null
+      ? subjects
+      : subjects.filter(
+          subject =>
+            subject.subject.toUpperCase().match(this.subjectFilter) ||
+            subject.description.toUpperCase().match(this.subjectFilter)
+        );
   }
 }

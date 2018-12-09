@@ -14,6 +14,7 @@ export class CourseListComponent implements OnInit {
   courses$: Observable<any>;
   isLoading$: Observable<any>;
   isError$: Observable<any>;
+  filter: RegExp = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -31,6 +32,33 @@ export class CourseListComponent implements OnInit {
 
     const subject = this.route.snapshot.params.subject;
     this.requestSubjectData(subject);
+  }
+
+  handleFilter(val: string) {
+    this.filter =
+      val !== ''
+        ? new RegExp(
+            val
+              .toUpperCase()
+              .split('')
+              .filter(c => c !== ' ')
+              .map(c => c + '\\s*')
+              .reduce((acc, curr) => acc + curr)
+          )
+        : null;
+  }
+
+  filterCourses(courses: any) {
+    return this.filter === null
+      ? courses
+      : courses.filter(
+          course =>
+            (course.subject + course.catalog_number)
+              .toUpperCase()
+              .match(this.filter) ||
+            course.title.toUpperCase().match(this.filter) ||
+            course.course_id.toUpperCase().match(this.filter)
+        );
   }
 
   private requestSubjectData(subject: string) {

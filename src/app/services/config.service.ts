@@ -5,7 +5,7 @@ import { environment } from '../../environments/environment';
 
 @Injectable()
 export class ConfigService {
-  configResourceUrl = environment.configResourceUrl;
+  configServerUrl = environment.configServerUrl;
   constructor(private httpClient: HttpClient) {}
 
   getUwApiKey() {
@@ -21,6 +21,6 @@ export class ConfigService {
   }
 
   configGet(target: string) {
-    return this.httpClient.get(this.configResourceUrl + target);
+    return this.httpClient.get(this.configServerUrl + target);
   }
 }

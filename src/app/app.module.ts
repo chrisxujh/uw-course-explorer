@@ -17,6 +17,7 @@ import { CourseMetaComponent } from './components/course-meta/course-meta.compon
 import { HeaderComponent } from './components/header/header.component';
 import { ExamScheduleComponent } from './components/exam-schedule/exam-schedule.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
+import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { services } from './services';
 
 import * as fromCourseExplorerReducers from './store/reducers';
@@ -47,7 +48,8 @@ const routes: Routes = [
     CourseMetaComponent,
     HeaderComponent,
     ExamScheduleComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    SearchBarComponent
   ],
   imports: [
     BrowserModule,

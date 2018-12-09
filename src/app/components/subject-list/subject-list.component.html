@@ -7,28 +7,39 @@
           else: loading
         "
       >
+        <h5>Popular Subjects</h5>
         <ul
-          class="list-group"
+          class="list subject-list popular-subject-list"
           *ngIf="(popularSubjects$ | async) as popularSubjects; else: loading"
         >
           <ng-container *ngFor="let subject of subjects">
-            <li
-              class="list-group-item"
-              *ngIf="popularSubjects.includes(subject.subject)"
-            >
-              <a [routerLink]="['/subjects', subject.subject]">{{
-                subject.subject
-              }}</a>
+            <li *ngIf="popularSubjects.includes(subject.subject)">
+              <a class="list-item" [routerLink]="['/subjects', subject.subject]"
+                ><div>
+                  <p>
+                    <b>{{ subject.subject }}</b>
+                  </p>
+                  <p class="description">{{ subject.description }}</p>
+                </div></a
+              >
             </li></ng-container
           >
-          <ng-container *ngFor="let subject of subjects">
-            <li
-              class="list-group-item"
-              *ngIf="!popularSubjects.includes(subject.subject)"
-            >
-              <a [routerLink]="['/subjects', subject.subject]">{{
-                subject.subject
-              }}</a>
+        </ul>
+        <br />
+        <h5>All Subjects</h5>
+        <app-search-bar
+          (contentEmitter)="addFilterToAllSubjects($event)"
+          [placeHolder]="'Search by code or description (e.g., CS)...'"
+        ></app-search-bar>
+        <ul class="list subject-list">
+          <ng-container *ngFor="let subject of filterSubjects(subjects)">
+            <li>
+              <a
+                class="list-item"
+                [routerLink]="['/subjects', subject.subject]"
+              >
+                {{ subject.subject }}</a
+              >
             </li></ng-container
           >
         </ul>

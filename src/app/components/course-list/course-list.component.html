@@ -1,6 +1,10 @@
 <div class="container">
   <div class="row">
     <div class="col-12">
+      <app-search-bar
+        (contentEmitter)="handleFilter($event)"
+        [placeHolder]="'Search by id, code, or title (e.g., CS 350)...'"
+      ></app-search-bar>
       <div
         *ngIf="
           !(isLoading$ | async) && (courses$ | async) as courses;
@@ -8,11 +12,12 @@
         "
       >
         <ul
-          class="list-group"
+          class="list"
           *ngIf="!(isError$ | async) && courses.length > 0; else: notfound"
         >
-          <li class="list-group-item" *ngFor="let course of courses">
+          <li *ngFor="let course of filterCourses(courses)">
             <a
+              class="list-item"
               [routerLink]="[
                 '/subjects',
                 course.subject,

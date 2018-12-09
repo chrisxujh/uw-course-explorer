@@ -80,6 +80,19 @@ li {
   color: #333;
 }
 
+.list .list-item {
+  display: block;
+  padding: 0.8em 1em;
+  border: 1px solid #ddd;
+  margin-bottom: -1px;
+  color: #333;
+  text-decoration: none;
+}
+
+.list .list-item:hover {
+  background-color: #ddd;
+}
+
 @media only screen and (max-width: 550px) {
   .schedule-list .schedule-item .schedule-details .detail-item {
     display: block;

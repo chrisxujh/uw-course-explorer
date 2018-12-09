@@ -1,0 +1,29 @@
+h5 {
+  margin-bottom: 1em;
+}
+
+.popular-subject-list .popular-subject-item {
+  display: block;
+  margin: 1em 1em 0 0;
+}
+
+.subject-list .list-item p {
+  margin: 0;
+}
+
+.popular-subject-list .list-item .description {
+  font-size: 0.8em;
+}
+
+.subject-card-box {
+  width: 18em;
+}
+
+.subject-card-box:hover {
+  background-color: #ddd;
+}
+
+app-search-bar {
+  display: block;
+  margin-bottom: 1em;
+}
