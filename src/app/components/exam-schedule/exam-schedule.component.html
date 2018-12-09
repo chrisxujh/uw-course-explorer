@@ -5,25 +5,32 @@
   "
 >
   <div *ngIf="!(isError$ | async) && examSchedule.sections; else: notfound">
-    <ul class="list-group exam-schedule-list">
-      <li class="list-group-item" *ngFor="let section of examSchedule.sections">
-        <b>SECTION {{ section.section }}</b>
-        <div>
-          <span>Date: </span><span>{{ section.date }}</span>
-        </div>
-        <div>
-          <span>Day: </span> <span>{{ section.day }}</span>
-        </div>
-        <div>
-          <span>Time: </span
-          ><span>{{ section.start_time }} - {{ section.end_time }}</span>
-        </div>
-        <div>
-          <span>Location: </span><span>{{ section.location }} </span>
-        </div>
-        <div *ngIf="section.notes">
-          <span>Notes: </span><span>{{ section.notes }} </span>
-        </div>
+    <ul class="schedule-list exam-schedule-list">
+      <li class="schedule-item" *ngFor="let section of examSchedule.sections">
+        <p class="name">
+          <b>SECTION {{ section.section }}</b>
+        </p>
+        <ul class="schedule-details">
+          <li class="detail-item" *ngIf="section.date || section.day">
+            <i class="far fa-calendar-alt icon"></i
+            ><span>{{ section.day }} {{ section.date }}</span>
+          </li>
+          <li
+            class="detail-item"
+            *ngIf="section.start_time || section.end_time"
+          >
+            <i class="far fa-clock icon"></i
+            ><span>{{ section.start_time }} - {{ section.end_time }}</span>
+          </li>
+          <li class="detail-item" *ngIf="section.location">
+            <i class="fas fa-location-arrow icon"></i
+            ><span>{{ section.location }} </span>
+          </li>
+          <li class="detail-item" *ngIf="section.notes">
+            <i class="far fa-sticky-note icon"></i
+            ><span>{{ section.notes }} </span>
+          </li>
+        </ul>
       </li>
     </ul>
   </div>

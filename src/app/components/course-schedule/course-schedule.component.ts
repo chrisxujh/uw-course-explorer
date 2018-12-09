@@ -35,5 +35,7 @@ export class CourseScheduleComponent implements OnInit {
     this.store.dispatch(
       new fromStore.GetCourseSchedule({ termId, subject, catalogNumber })
     );
+
+    this.schedule$.subscribe(data => console.log(data));
   }
 }
