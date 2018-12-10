@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 
 export const GET_SUBJECTS = '[Find Courses] Get Subjects';
+export const GET_COURSES = '[Find Courses] Get Courses';
 export const GET_COURSES_BY_SUBJECT = '[Find Courses] Get Courses by Subject';
 export const GET_COURSE_BY_SUBJECT_AND_ID = '[Find Courses] Get Course by Id';
 export const GET_SUBJECTS_SUCCESS = '[Find Courses] Get Subjects Success';
@@ -10,6 +11,11 @@ export const GET_COURSES_FAILURE = '[Find Courses] Get Courses Failure';
 
 export class GetSubjects implements Action {
   readonly type = GET_SUBJECTS;
+  constructor() {}
+}
+
+export class GetCourses implements Action {
+  readonly type = GET_COURSES;
   constructor() {}
 }
 
@@ -45,6 +51,7 @@ export class GetCoursesFailure implements Action {
 
 export type FindCoursesActions =
   | GetSubjects
+  | GetCourses
   | GetCoursesBySubject
   | GetCourseBySubjectAndId
   | GetSubjectsSuccess

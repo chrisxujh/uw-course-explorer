@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+
 import { ConfigService } from './config.service';
 
 @Injectable()
@@ -18,6 +19,10 @@ export class UwDataService {
 
   getSubjects() {
     return this.uwDataGet('/codes/subjects').pipe(map((res: any) => res.data));
+  }
+
+  getCourses() {
+    return this.uwDataGet('/courses').pipe(map((res: any) => res.data));
   }
 
   getCoursesBySubject(subjectId: string) {
@@ -83,7 +88,7 @@ export class UwDataService {
     return result;
   }
 
-  uwDataGet(target: string) {
+  private uwDataGet(target: string) {
     return this.httpClient.get(
       this.backendUrl + target + '.json?key=' + this.apiKey
     );

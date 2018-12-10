@@ -29,10 +29,8 @@ export class CourseMetaComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.terms$ = this.store.pipe(select(fromStore.getTermsEntitiesSelector));
-    this.isLoading$ = this.store.pipe(
-      select(fromStore.getTermsLoadingSelector)
-    );
+    this.terms$ = this.store.select(fromStore.getTermsEntitiesSelector);
+    this.isLoading$ = this.store.select(fromStore.getTermsLoadingSelector);
     this.unsusbscribable = this.terms$
       .pipe(filter(data => data.current_term))
       .subscribe(terms => this.handleCourseSchedule(terms.current_term.id));

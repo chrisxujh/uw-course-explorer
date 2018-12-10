@@ -18,6 +18,8 @@ import { HeaderComponent } from './components/header/header.component';
 import { ExamScheduleComponent } from './components/exam-schedule/exam-schedule.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
+import { SubjectComponent } from './components/subject/subject.component';
+import { CoursesComponent } from './components/courses/courses.component';
 import { services } from './services';
 
 import * as fromCourseExplorerReducers from './store/reducers';
@@ -26,13 +28,9 @@ import * as fromCourseExplorerEffects from './store/effects';
 const routes: Routes = [
   { path: '', redirectTo: '/subjects', pathMatch: 'full' },
   { path: 'subjects', component: SubjectListComponent },
-  {
-    path: 'subjects/:subject',
-    redirectTo: 'subjects/:subject/courses',
-    pathMatch: 'full'
-  },
-  { path: 'subjects/:subject/courses', component: CourseListComponent },
-  { path: 'subjects/:subject/courses/:courseId', component: CourseComponent },
+  { path: 'subjects/:subject', component: SubjectComponent },
+  { path: 'subjects/:subject/:courseId', component: CourseComponent },
+  { path: 'courses', component: CoursesComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
 
@@ -49,7 +47,9 @@ const routes: Routes = [
     HeaderComponent,
     ExamScheduleComponent,
     SpinnerComponent,
-    SearchBarComponent
+    SearchBarComponent,
+    SubjectComponent,
+    CoursesComponent
   ],
   imports: [
     BrowserModule,

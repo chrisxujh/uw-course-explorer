@@ -19,15 +19,13 @@ export class CourseScheduleComponent implements OnInit {
   constructor(private store: Store<fromStore.StoreState>) {}
 
   ngOnInit() {
-    this.schedule$ = this.store.pipe(
-      select(fromStore.getCourseScheduleEntitiesSelector)
+    this.schedule$ = this.store.select(
+      fromStore.getCourseScheduleEntitiesSelector
     );
-    this.isLoading$ = this.store.pipe(
-      select(fromStore.getCourseScheduleLoadingSelector)
+    this.isLoading$ = this.store.select(
+      fromStore.getCourseScheduleLoadingSelector
     );
-    this.isError$ = this.store.pipe(
-      select(fromStore.getCourseScheduleErrorSelector)
-    );
+    this.isError$ = this.store.select(fromStore.getCourseScheduleErrorSelector);
 
     const subject = this.course.subject,
       catalogNumber = this.course.catalog_number,

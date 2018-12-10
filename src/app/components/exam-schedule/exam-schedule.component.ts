@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
+import { Observable } from 'rxjs';
 
 import * as fromStore from '../../store';
 
@@ -22,15 +22,13 @@ export class ExamScheduleComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.examSchedule$ = this.store.pipe(
-      select(fromStore.getCourseScheduleEntitiesSelector)
+    this.examSchedule$ = this.store.select(
+      fromStore.getCourseScheduleEntitiesSelector
     );
-    this.isLoading$ = this.store.pipe(
-      select(fromStore.getCourseScheduleLoadingSelector)
+    this.isLoading$ = this.store.select(
+      fromStore.getCourseScheduleLoadingSelector
     );
-    this.isError$ = this.store.pipe(
-      select(fromStore.getCourseScheduleErrorSelector)
-    );
+    this.isError$ = this.store.select(fromStore.getCourseScheduleErrorSelector);
 
     const subject = this.course.subject,
       catalogNumber = this.course.catalog_number;

@@ -29,7 +29,9 @@
         <h5>All Subjects</h5>
         <app-search-bar
           (contentEmitter)="addFilterToAllSubjects($event)"
-          [placeHolder]="'Search by code or description (e.g., CS)...'"
+          [placeHolder]="
+            'Search by code or description (e.g., Computer Science)...'
+          "
         ></app-search-bar>
         <ul class="list subject-list">
           <ng-container *ngFor="let subject of filterSubjects(subjects)">

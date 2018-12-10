@@ -7,6 +7,7 @@ export function FindCoursesReducer(
 ) {
   switch (action.type) {
     case fromAction.GET_SUBJECTS:
+    case fromAction.GET_COURSES:
     case fromAction.GET_COURSE_BY_SUBJECT_AND_ID:
     case fromAction.GET_COURSES_BY_SUBJECT: {
       return { ...state, isLoading: true, isError: false };

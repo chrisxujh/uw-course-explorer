@@ -39,10 +39,10 @@ ul li:first-of-type::before {
 @keyframes heart-beat {
   0%,
   100% {
-    transform: scaleY(0.9);
+    transform: initial;
   }
 
-  30% {
+  40% {
     transform: translateY(-0.3em);
   }
 }

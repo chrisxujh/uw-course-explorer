@@ -4,7 +4,6 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import * as fromStore from '../../store';
-import { map } from '../../../../node_modules/rxjs/operators';
 
 @Component({
   selector: 'app-course',

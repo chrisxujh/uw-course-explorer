@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+
 import { ConfigService } from '../../services/config.service';
 
 import * as fromStore from '../../store';
-import { filter, map, catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-subject-list',

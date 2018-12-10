@@ -18,12 +18,7 @@
           <li *ngFor="let course of filterCourses(courses)">
             <a
               class="list-item"
-              [routerLink]="[
-                '/subjects',
-                course.subject,
-                'courses',
-                course.course_id
-              ]"
+              [routerLink]="['/subjects', course.subject, course.course_id]"
               >{{ course.subject }} {{ course.catalog_number }}
               {{ course.title }}</a
             >

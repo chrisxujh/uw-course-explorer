@@ -26,6 +26,17 @@ export class FindCourseEffects {
   );
 
   @Effect()
+  getCourses$: Observable<any> = this.actions$.pipe(
+    ofType(fromAction.GET_COURSES),
+    switchMap(() =>
+      this.uwDataService.getCourses().pipe(
+        map(courses => new fromAction.GetCoursesSuccess(courses)),
+        catchError(() => of(new fromAction.GetCoursesFailure()))
+      )
+    )
+  );
+
+  @Effect()
   getCoursesBySubject$: Observable<any> = this.actions$.pipe(
     ofType(fromAction.GET_COURSES_BY_SUBJECT),
     switchMap((action: any) =>

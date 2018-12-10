@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import * as fromStore from '../../store';
@@ -16,22 +15,12 @@ export class CourseListComponent implements OnInit {
   isError$: Observable<any>;
   filter: RegExp = null;
 
-  constructor(
-    private route: ActivatedRoute,
-    private store: Store<fromStore.StoreState>
-  ) {}
+  constructor(private store: Store<fromStore.StoreState>) {}
 
   ngOnInit() {
-    this.courses$ = this.store.pipe(
-      select(fromStore.findCoursesEntitiesSelector)
-    );
-    this.isLoading$ = this.store.pipe(
-      select(fromStore.findCoursesLoadingSelector)
-    );
-    this.isError$ = this.store.pipe(select(fromStore.findCoursesErrorSelector));
-
-    const subject = this.route.snapshot.params.subject;
-    this.requestSubjectData(subject);
+    this.courses$ = this.store.select(fromStore.findCoursesEntitiesSelector);
+    this.isLoading$ = this.store.select(fromStore.findCoursesLoadingSelector);
+    this.isError$ = this.store.select(fromStore.findCoursesErrorSelector);
   }
 
   handleFilter(val: string) {
@@ -59,9 +48,5 @@ export class CourseListComponent implements OnInit {
             course.title.toUpperCase().match(this.filter) ||
             course.course_id.toUpperCase().match(this.filter)
         );
-  }
-
-  private requestSubjectData(subject: string) {
-    this.store.dispatch(new fromStore.GetCoursesBySubject(subject));
   }
 }
