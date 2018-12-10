@@ -48,8 +48,8 @@ export class SubjectListComponent implements OnInit {
         ? new RegExp(
             val
               .toUpperCase()
+              .replace(/\s/g, '')
               .split('')
-              .filter(c => c !== ' ')
               .map(c => c + '\\s*')
               .reduce((acc, curr) => acc + curr)
           )
