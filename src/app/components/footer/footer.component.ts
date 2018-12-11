@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Observable } from '../../../../node_modules/rxjs';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-footer',
@@ -14,7 +14,7 @@ export class FooterComponent implements OnInit, OnDestroy {
   constructor() {}
 
   ngOnInit() {
-    this.birthday = new Date(1544158800000).toString();
+    this.birthday = new Date(1544164920000).toString();
     this.age$ = Observable.create(observer => {
       this.interval = setInterval(() => {
         const timeDiff =

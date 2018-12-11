@@ -5,7 +5,7 @@
         (contentEmitter)="handleFilter($event)"
         [placeHolder]="'Search by id, code, or title (e.g., CS 350)...'"
       ></app-search-bar>
-      <div
+      <ng-container
         *ngIf="
           !(isLoading$ | async) && (courses$ | async) as courses;
           else: loading
@@ -24,7 +24,7 @@
             >
           </li>
         </ul>
-      </div>
+      </ng-container>
     </div>
   </div>
 </div>

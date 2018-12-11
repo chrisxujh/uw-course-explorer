@@ -1,9 +1,9 @@
 import * as fromState from '../states';
 import * as fromAction from '../actions';
 
-export function GetCourseScheduleReducer(
-  state: fromState.GetCourseScheduleState = fromState.initialGetCourseScheduleState,
-  action: fromAction.GetCourseScheduleActions
+export function GetSchedulesReducer(
+  state: fromState.GetSchedulesState = fromState.initialGetSchedulesState,
+  action: fromAction.GetSchedulesActions
 ) {
   switch (action.type) {
     case fromAction.GET_COURSE_SCHEDULE:
@@ -11,17 +11,17 @@ export function GetCourseScheduleReducer(
       return { ...state, isLoading: true, isError: false };
     }
 
-    case fromAction.GET_COURSE_SCHEDULE_SUCCESS: {
-      const findCoursesEntities = action.payload;
+    case fromAction.GET_SCHEDULES_SUCCESS: {
+      const getSchedulesEntities = action.payload;
       return {
         ...state,
-        findCoursesEntities,
+        getSchedulesEntities,
         isLoading: false,
         isError: false
       };
     }
 
-    case fromAction.GET_COURSE_SCHEDULE_FAILURE: {
+    case fromAction.GET_SCHEDULES_FAILURE: {
       return { ...state, isLoading: false, isError: true };
     }
   }

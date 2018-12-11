@@ -1,13 +1,13 @@
 <div class="container">
   <div class="row">
     <div class="col-12">
-      <div
+      <ng-container
         *ngIf="
           !(isLoading$ | async) && (course$ | async) as course;
           else: loading
         "
       >
-        <div *ngIf="!(isError$ | async); else: error">
+        <ng-container *ngIf="!(isError$ | async); else: error">
           <div class="row">
             <div class="col-12">
               <div>
@@ -88,13 +88,13 @@
               </div>
             </div>
           </div>
-        </div>
+        </ng-container>
         <div class="row course-meta-container" *ngIf="!(isError$ | async)">
           <div class="col-12">
             <app-course-meta [course]="course"></app-course-meta>
           </div>
         </div>
-      </div>
+      </ng-container>
     </div>
   </div>
 </div>

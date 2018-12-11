@@ -1,3 +1,3 @@
-export * from './find-courses.action';
-export * from './get-course-schedule.action';
+export * from './get-courses.action';
+export * from './get-schedules.action';
 export * from './get-terms.action';

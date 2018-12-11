@@ -1,9 +1,9 @@
 import * as fromState from '../states';
 import * as fromAction from '../actions';
 
-export function FindCoursesReducer(
-  state: fromState.FindCoursesState = fromState.initialFindCoursesState,
-  action: fromAction.FindCoursesActions
+export function GetCoursesReducer(
+  state: fromState.GetCoursesState = fromState.initialGetCoursesState,
+  action: fromAction.GetCoursesActions
 ) {
   switch (action.type) {
     case fromAction.GET_SUBJECTS:
@@ -15,10 +15,10 @@ export function FindCoursesReducer(
 
     case fromAction.GET_SUBJECTS_SUCCESS:
     case fromAction.GET_COURSES_SUCCESS: {
-      const findCoursesEntities = action.payload;
+      const getCoursesEntities = action.payload;
       return {
         ...state,
-        findCoursesEntities,
+        getCoursesEntities,
         isLoading: false,
         isError: false
       };

@@ -1,13 +1,13 @@
 import { Action } from '@ngrx/store';
 
-export const GET_SUBJECTS = '[Find Courses] Get Subjects';
-export const GET_COURSES = '[Find Courses] Get Courses';
-export const GET_COURSES_BY_SUBJECT = '[Find Courses] Get Courses by Subject';
-export const GET_COURSE_BY_SUBJECT_AND_ID = '[Find Courses] Get Course by Id';
-export const GET_SUBJECTS_SUCCESS = '[Find Courses] Get Subjects Success';
-export const GET_SUBJECTS_FAILURE = '[Find Courses] Get Subjects Failure';
-export const GET_COURSES_SUCCESS = '[Find Courses] Get Courses Success';
-export const GET_COURSES_FAILURE = '[Find Courses] Get Courses Failure';
+export const GET_SUBJECTS = '[Get Courses] Get Subjects';
+export const GET_COURSES = '[Get Courses] Get Courses';
+export const GET_COURSES_BY_SUBJECT = '[Get Courses] Get Courses by Subject';
+export const GET_COURSE_BY_SUBJECT_AND_ID = '[Get Courses] Get Course by Id';
+export const GET_SUBJECTS_SUCCESS = '[Get Courses] Get Subjects Success';
+export const GET_SUBJECTS_FAILURE = '[Get Courses] Get Subjects Failure';
+export const GET_COURSES_SUCCESS = '[Get Courses] Get Courses Success';
+export const GET_COURSES_FAILURE = '[Get Courses] Get Courses Failure';
 
 export class GetSubjects implements Action {
   readonly type = GET_SUBJECTS;
@@ -49,7 +49,7 @@ export class GetCoursesFailure implements Action {
   constructor() {}
 }
 
-export type FindCoursesActions =
+export type GetCoursesActions =
   | GetSubjects
   | GetCourses
   | GetCoursesBySubject

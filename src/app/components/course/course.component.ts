@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import * as fromStore from '../../store';
@@ -21,18 +21,18 @@ export class CourseComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.course$ = this.store.select(fromStore.findCoursesEntitiesSelector);
-    this.isLoading$ = this.store.select(fromStore.findCoursesLoadingSelector);
-    this.isError$ = this.store.select(fromStore.findCoursesErrorSelector);
-
-    const courseId = this.route.snapshot.params.courseId,
-      subject = this.route.snapshot.params.subject;
-    this.requestCourseData(subject, courseId);
+    this.course$ = this.store.select(fromStore.getCoursesEntitiesSelector);
+    this.isLoading$ = this.store.select(fromStore.getCoursesLoadingSelector);
+    this.isError$ = this.store.select(fromStore.getCoursesErrorSelector);
+    this.requestCourseData();
   }
 
-  private requestCourseData(subject: string, courseId: string) {
+  private requestCourseData() {
+    const courseId = this.route.snapshot.params.courseId,
+      subject = this.route.snapshot.params.subject;
     this.store.dispatch(
       new fromStore.GetCourseBySubjectAndId({ subject, courseId })
     );
+    this.store.dispatch(new fromStore.GetTerms());
   }
 }

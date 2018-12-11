@@ -1,3 +1,3 @@
-export * from './find-courses.selector';
-export * from './get-course-schedule.selector';
+export * from './get-courses.selector';
+export * from './get-schedules.selector';
 export * from './get-terms.selector';

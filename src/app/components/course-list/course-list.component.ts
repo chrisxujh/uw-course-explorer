@@ -18,9 +18,9 @@ export class CourseListComponent implements OnInit {
   constructor(private store: Store<fromStore.StoreState>) {}
 
   ngOnInit() {
-    this.courses$ = this.store.select(fromStore.findCoursesEntitiesSelector);
-    this.isLoading$ = this.store.select(fromStore.findCoursesLoadingSelector);
-    this.isError$ = this.store.select(fromStore.findCoursesErrorSelector);
+    this.courses$ = this.store.select(fromStore.getCoursesEntitiesSelector);
+    this.isLoading$ = this.store.select(fromStore.getCoursesLoadingSelector);
+    this.isError$ = this.store.select(fromStore.getCoursesErrorSelector);
   }
 
   handleFilter(val: string) {

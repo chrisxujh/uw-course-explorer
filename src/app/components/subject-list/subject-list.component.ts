@@ -26,12 +26,12 @@ export class SubjectListComponent implements OnInit {
 
   ngOnInit() {
     this.subjects$ = this.store.pipe(
-      select(fromStore.findCoursesEntitiesSelector)
+      select(fromStore.getCoursesEntitiesSelector)
     );
     this.isLoading$ = this.store.pipe(
-      select(fromStore.findCoursesLoadingSelector)
+      select(fromStore.getCoursesLoadingSelector)
     );
-    this.isError$ = this.store.pipe(select(fromStore.findCoursesErrorSelector));
+    this.isError$ = this.store.pipe(select(fromStore.getCoursesErrorSelector));
     this.requestSubjectData();
     this.popularSubjects$ = this.configService
       .getPopularSubjects()

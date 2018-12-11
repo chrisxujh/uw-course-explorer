@@ -8,7 +8,7 @@ import { UwDataService } from '../../services/uw-data.service';
 import * as fromAction from '../actions';
 
 @Injectable()
-export class FindCourseEffects {
+export class GetCoursesEffects {
   constructor(
     private actions$: Actions,
     private uwDataService: UwDataService

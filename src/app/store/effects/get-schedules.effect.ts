@@ -8,7 +8,7 @@ import { UwDataService } from '../../services/uw-data.service';
 import * as fromAction from '../actions';
 
 @Injectable()
-export class GetCourseScheduleEffects {
+export class GetSchedulesEffects {
   constructor(
     private actions$: Actions,
     private uwDataService: UwDataService
@@ -25,8 +25,8 @@ export class GetCourseScheduleEffects {
           action.payload.catalogNumber
         )
         .pipe(
-          map(schedule => new fromAction.GetCourseScheduleSuccess(schedule)),
-          catchError(() => of(new fromAction.GetCourseScheduleFailure()))
+          map(schedule => new fromAction.GetSchedulesSuccess(schedule)),
+          catchError(() => of(new fromAction.GetSchedulesFailure()))
         )
     )
   );
@@ -41,8 +41,8 @@ export class GetCourseScheduleEffects {
           action.payload.catalogNumber
         )
         .pipe(
-          map(schedule => new fromAction.GetCourseScheduleSuccess(schedule)),
-          catchError(() => of(new fromAction.GetCourseScheduleFailure()))
+          map(schedule => new fromAction.GetSchedulesSuccess(schedule)),
+          catchError(() => of(new fromAction.GetSchedulesFailure()))
         )
     )
   );
