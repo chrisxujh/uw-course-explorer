@@ -93,6 +93,14 @@ li {
   background-color: #ddd;
 }
 
+.list .list-item p {
+  margin: 0;
+}
+
+.list .list-item .description {
+  font-size: 0.8em;
+}
+
 @media only screen and (max-width: 550px) {
   .schedule-list .schedule-item .schedule-details .detail-item {
     display: block;
