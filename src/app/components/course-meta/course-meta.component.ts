@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
@@ -24,8 +24,10 @@ export class CourseMetaComponent implements OnInit, OnDestroy {
   constructor(private store: Store<fromStore.StoreState>) {}
 
   ngOnInit() {
-    this.terms$ = this.store.select(fromStore.getTermsEntitiesSelector);
-    this.isLoading$ = this.store.select(fromStore.getTermsLoadingSelector);
+    this.terms$ = this.store.pipe(select(fromStore.getTermsEntitiesSelector));
+    this.isLoading$ = this.store.pipe(
+      select(fromStore.getTermsLoadingSelector)
+    );
     this.unsusbscribable = this.terms$
       .pipe(filter(data => data.current_term))
       .subscribe(terms => this.handleCourseSchedule(terms.current_term.id));

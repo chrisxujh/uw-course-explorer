@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import * as fromStore from '../../store';
@@ -21,9 +21,13 @@ export class CourseComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.course$ = this.store.select(fromStore.getCoursesEntitiesSelector);
-    this.isLoading$ = this.store.select(fromStore.getCoursesLoadingSelector);
-    this.isError$ = this.store.select(fromStore.getCoursesErrorSelector);
+    this.course$ = this.store.pipe(
+      select(fromStore.getCoursesEntitiesSelector)
+    );
+    this.isLoading$ = this.store.pipe(
+      select(fromStore.getCoursesLoadingSelector)
+    );
+    this.isError$ = this.store.pipe(select(fromStore.getCoursesErrorSelector));
     this.requestCourseData();
   }
 

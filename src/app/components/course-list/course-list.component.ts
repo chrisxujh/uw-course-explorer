@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import * as fromStore from '../../store';
@@ -18,9 +18,13 @@ export class CourseListComponent implements OnInit {
   constructor(private store: Store<fromStore.StoreState>) {}
 
   ngOnInit() {
-    this.courses$ = this.store.select(fromStore.getCoursesEntitiesSelector);
-    this.isLoading$ = this.store.select(fromStore.getCoursesLoadingSelector);
-    this.isError$ = this.store.select(fromStore.getCoursesErrorSelector);
+    this.courses$ = this.store.pipe(
+      select(fromStore.getCoursesEntitiesSelector)
+    );
+    this.isLoading$ = this.store.pipe(
+      select(fromStore.getCoursesLoadingSelector)
+    );
+    this.isError$ = this.store.pipe(select(fromStore.getCoursesErrorSelector));
   }
 
   handleFilter(val: string) {
