@@ -19,10 +19,10 @@ export class SubjectComponent implements OnInit {
 
   ngOnInit() {
     this.subject = this.route.snapshot.params.subject;
-    this.requestSubjectData();
+    this.requestCoursesData();
   }
 
-  private requestSubjectData() {
+  private requestCoursesData() {
     this.store.dispatch(new fromStore.GetCoursesBySubject(this.subject));
   }
 }
