@@ -20,6 +20,7 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { SubjectComponent } from './components/subject/subject.component';
 import { CoursesComponent } from './components/courses/courses.component';
+import { PaginatorComponent } from './components/paginator/paginator.component';
 import { services } from './services';
 
 import * as fromCourseExplorerReducers from './store/reducers';
@@ -49,7 +50,8 @@ const routes: Routes = [
     SpinnerComponent,
     SearchBarComponent,
     SubjectComponent,
-    CoursesComponent
+    CoursesComponent,
+    PaginatorComponent
   ],
   imports: [
     BrowserModule,

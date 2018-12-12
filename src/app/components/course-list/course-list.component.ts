@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 
 import * as fromStore from '../../store';
 
@@ -10,21 +11,43 @@ import * as fromStore from '../../store';
   styleUrls: ['./course-list.component.css']
 })
 export class CourseListComponent implements OnInit {
+  @Input() subject: string;
+  courses: any[];
+  pagedCourses: any[];
   courses$: Observable<any>;
   isLoading$: Observable<any>;
   isError$: Observable<any>;
+  currentPage = 0;
   filter: RegExp = null;
 
   constructor(private store: Store<fromStore.StoreState>) {}
 
   ngOnInit() {
     this.courses$ = this.store.pipe(
-      select(fromStore.getCoursesEntitiesSelector)
+      select(fromStore.getCoursesEntitiesSelector),
+      tap(courses => (this.courses = courses)),
+      map(courses => this.filterCourses(courses)),
+      map(courses => this.paginate(courses)),
+      tap(pagedCourses => (this.pagedCourses = pagedCourses)),
+      map(pagedCourses => pagedCourses[this.currentPage])
     );
     this.isLoading$ = this.store.pipe(
       select(fromStore.getCoursesLoadingSelector)
     );
     this.isError$ = this.store.pipe(select(fromStore.getCoursesErrorSelector));
+  }
+
+  handlePaginatorEvent(index: number) {
+    this.currentPage = index;
+    this.reloadData();
+  }
+
+  private paginate(list: any[], pageSize: number = 10) {
+    const result: any[] = [];
+    for (let i = 0; i < list.length; i += pageSize) {
+      result.push(list.slice(i, i + pageSize));
+    }
+    return result;
   }
 
   handleFilter(val: string) {
@@ -39,6 +62,8 @@ export class CourseListComponent implements OnInit {
               .reduce((acc, curr) => acc + curr)
           )
         : null;
+    this.currentPage = 0;
+    this.reloadData();
   }
 
   filterCourses(courses: any) {
@@ -52,5 +77,9 @@ export class CourseListComponent implements OnInit {
             course.title.toUpperCase().match(this.filter) ||
             course.course_id.toUpperCase().match(this.filter)
         );
+  }
+
+  private reloadData() {
+    this.store.dispatch(new fromStore.GetCoursesSuccess(this.courses.slice(0)));
   }
 }

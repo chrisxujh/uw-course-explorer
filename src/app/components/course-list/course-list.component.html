@@ -1,21 +1,21 @@
 <div class="container">
   <div class="row">
     <div class="col-12">
+      <app-search-bar
+        (contentEmitter)="handleFilter($event)"
+        [placeHolder]="'Search by id, code, or title (e.g., CS 350)...'"
+      ></app-search-bar>
       <ng-container
         *ngIf="
           !(isLoading$ | async) && (courses$ | async) as courses;
           else: loading
         "
       >
-        <app-search-bar
-          (contentEmitter)="handleFilter($event)"
-          [placeHolder]="'Search by id, code, or title (e.g., CS 350)...'"
-        ></app-search-bar>
         <ul
           class="list"
           *ngIf="!(isError$ | async) && courses.length > 0; else: notfound"
         >
-          <li *ngFor="let course of filterCourses(courses)">
+          <li *ngFor="let course of courses">
             <a
               class="list-item"
               [routerLink]="['/subjects', course.subject, course.course_id]"
@@ -24,6 +24,10 @@
             >
           </li>
         </ul>
+        <app-paginator
+          [size]="pagedCourses.length"
+          (emitter)="handlePaginatorEvent($event)"
+        ></app-paginator>
       </ng-container>
     </div>
   </div>
