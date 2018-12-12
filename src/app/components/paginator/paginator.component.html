@@ -1,8 +1,8 @@
-<nav aria-label="Page navigation example" *ngIf="maxIndex > 1">
-  <ul class="pagination">
-    <li class="page-item" [ngClass]="{ disabled: currentIndex <= 1 }">
+<nav *ngIf="maxIndex > 1">
+  <ul class="paginator-items">
+    <li class="paginator-item" [ngClass]="{ disabled: currentIndex <= 1 }">
       <a
-        class="page-link"
+        class="paginator-link"
         href="javascript:;"
         aria-label="Previous"
         (click)="previous()"
@@ -12,15 +12,21 @@
       </a>
     </li>
     <ng-container *ngFor="let index of indexes">
-      <li class="page-item" [ngClass]="{ active: index === currentIndex }">
-        <a class="page-link" href="javascript:;" (click)="switchIndex(index)">{{
-          index
-        }}</a>
+      <li class="paginator-item" [ngClass]="{ active: index === currentIndex }">
+        <a
+          class="paginator-link"
+          href="javascript:;"
+          (click)="switchIndex(index)"
+          >{{ index }}</a
+        >
       </li>
     </ng-container>
-    <li class="page-item" [ngClass]="{ disabled: currentIndex >= maxIndex }">
+    <li
+      class="paginator-item"
+      [ngClass]="{ disabled: currentIndex >= maxIndex }"
+    >
       <a
-        class="page-link"
+        class="paginator-link"
         href="javascript:;"
         aria-label="Next"
         (click)="next()"
