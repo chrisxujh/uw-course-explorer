@@ -15,4 +15,6 @@
 }
 
 .paginator-items .paginator-item.disabled .paginator-link {
+  pointer-events: none;
+  color: #888;
 }
