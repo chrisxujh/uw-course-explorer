@@ -29,7 +29,9 @@ export class CourseListComponent implements OnInit {
       map(courses => this.filterCourses(courses)),
       map(courses => this.paginate(courses)),
       tap(pagedCourses => (this.pagedCourses = pagedCourses)),
-      map(pagedCourses => pagedCourses[this.currentPage])
+      map(pagedCourses =>
+        pagedCourses[this.currentPage] ? pagedCourses[this.currentPage] : []
+      )
     );
     this.isLoading$ = this.store.pipe(
       select(fromStore.getCoursesLoadingSelector)
