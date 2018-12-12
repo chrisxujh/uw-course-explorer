@@ -3,17 +3,17 @@
     <div class="col-12">
       <div
         *ngIf="
-          !(isLoading$ | async) && (subjects$ | async) as subjects;
+          !(isLoading$ | async) && {
+            subjects: subjects$ | async,
+            popularSubjects: popularSubjects$ | async
+          } as data;
           else: loading
         "
       >
         <h5>Popular Subjects</h5>
-        <ul
-          class="list subject-list popular-subject-list"
-          *ngIf="(popularSubjects$ | async) as popularSubjects; else: loading"
-        >
-          <ng-container *ngFor="let subject of subjects">
-            <li *ngIf="popularSubjects.includes(subject.subject)">
+        <ul class="list subject-list popular-subject-list">
+          <ng-container *ngFor="let subject of data.subjects">
+            <li *ngIf="data.popularSubjects.includes(subject.subject)">
               <a class="list-item" [routerLink]="['/subjects', subject.subject]"
                 ><div>
                   <p>
@@ -34,7 +34,7 @@
           "
         ></app-search-bar>
         <ul class="list subject-list">
-          <ng-container *ngFor="let subject of filterSubjects(subjects)">
+          <ng-container *ngFor="let subject of filterSubjects(data.subjects)">
             <li>
               <a
                 class="list-item"
