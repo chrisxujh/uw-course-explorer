@@ -21,6 +21,7 @@ export class PaginatorComponent implements OnInit {
   @Input()
   set size(s: number) {
     this.maxIndex = s;
+    this.currentIndex = 1;
   }
 
   next() {
