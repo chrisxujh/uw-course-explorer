@@ -15,7 +15,6 @@ import * as fromStore from '../../store';
 export class CourseListComponent implements OnInit {
   @Input() subject: string;
   courses: any[];
-  pagedCourses: any[];
   courses$: Observable<any>;
   isLoading$: Observable<any>;
   isError$: Observable<any>;
@@ -31,12 +30,12 @@ export class CourseListComponent implements OnInit {
     this.courses$ = this.store.pipe(
       select(fromStore.getCoursesEntitiesSelector),
       tap(courses => (this.courses = courses)),
-      map(courses => this.filterCourses(courses)),
-      map(courses => this.paginationUtil.paginateList(courses)),
-      tap(pagedCourses => (this.pagedCourses = pagedCourses)),
-      map(pagedCourses =>
-        pagedCourses[this.currentPage] ? pagedCourses[this.currentPage] : []
-      )
+      map(courses => {
+        const filteredCourses = this.filterCourses(courses),
+          paginatedCourses = this.paginationUtil.paginateList(filteredCourses),
+          coursesToDisplay = paginatedCourses[this.currentPage];
+        return { courses, filteredCourses, paginatedCourses, coursesToDisplay };
+      })
     );
     this.isLoading$ = this.store.pipe(
       select(fromStore.getCoursesLoadingSelector)
@@ -65,7 +64,7 @@ export class CourseListComponent implements OnInit {
     this.reloadData();
   }
 
-  filterCourses(courses: any) {
+  private filterCourses(courses: any) {
     return this.filter === null
       ? courses
       : courses.filter(
