@@ -15,10 +15,11 @@ export class FooterComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.birthday = new Date(1544164920000).toString();
+    let timeDiff =
+      Date.parse(new Date().toString()) - Date.parse(this.birthday);
     this.age$ = Observable.create(observer => {
       this.interval = setInterval(() => {
-        const timeDiff =
-          Date.parse(new Date().toString()) - Date.parse(this.birthday);
+        timeDiff += 1000;
         const diff = new Date(timeDiff);
         observer.next({
           secondsDiff: diff.getUTCSeconds(),
@@ -26,7 +27,7 @@ export class FooterComponent implements OnInit, OnDestroy {
           hoursDiff: diff.getUTCHours(),
           daysDiff: Math.ceil(timeDiff / (1000 * 3600 * 24))
         });
-      });
+      }, 1000);
     });
   }
 
