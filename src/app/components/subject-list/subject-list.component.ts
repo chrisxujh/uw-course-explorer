@@ -35,7 +35,8 @@ export class SubjectListComponent implements OnInit {
         this.subjects = subjects;
         const filteredSubjects = this.filterSubjects(subjects);
         const paginatedSubjects = this.paginationUtil.paginateList(
-          filteredSubjects
+          filteredSubjects,
+          20
         );
         const subjectsToDisplay = paginatedSubjects[this.currentPage];
         return { subjects, paginatedSubjects, subjectsToDisplay };

@@ -8,7 +8,7 @@ import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 export class PaginatorComponent implements OnInit {
   @Output() emitter: EventEmitter<any> = new EventEmitter();
   maxIndex: number;
-  indexes: number[] = null;
+  indexes: number[] = [];
   indexTolerance = 2;
   currentIndex = 1;
 
@@ -49,7 +49,7 @@ export class PaginatorComponent implements OnInit {
 
   private resetIndexes() {
     if (
-      this.indexes === null ||
+      this.indexes.length <= 0 ||
       this.currentIndex <= this.indexes[0] ||
       this.currentIndex >= this.indexes[this.indexes.length - 1]
     ) {
