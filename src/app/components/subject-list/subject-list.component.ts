@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap, map } from 'rxjs/operators';
 
 import { ConfigService } from '../../services/config.service';
+import { PaginationUtil } from '../../utils';
 
 import * as fromStore from '../../store';
 
@@ -13,20 +14,32 @@ import * as fromStore from '../../store';
   styleUrls: ['./subject-list.component.css']
 })
 export class SubjectListComponent implements OnInit {
-  subjects$: Observable<any>;
+  private currentPage = 0;
+  private subjects: any[];
+  private subjectFilter: RegExp = null;
+  subjectsData$: Observable<any>;
   isLoading$: Observable<any>;
   isError$: Observable<any>;
   popularSubjects$: Observable<any>;
-  subjectFilter: RegExp = null;
 
   constructor(
     private store: Store<fromStore.StoreState>,
-    private configService: ConfigService
+    private configService: ConfigService,
+    private paginationUtil: PaginationUtil
   ) {}
 
   ngOnInit() {
-    this.subjects$ = this.store.pipe(
-      select(fromStore.getCoursesEntitiesSelector)
+    this.subjectsData$ = this.store.pipe(
+      select(fromStore.getCoursesEntitiesSelector),
+      map(subjects => {
+        this.subjects = subjects;
+        const filteredSubjects = this.filterSubjects(subjects);
+        const paginatedSubjects = this.paginationUtil.paginateList(
+          filteredSubjects
+        );
+        const subjectsToDisplay = paginatedSubjects[this.currentPage];
+        return { subjects, paginatedSubjects, subjectsToDisplay };
+      })
     );
     this.isLoading$ = this.store.pipe(
       select(fromStore.getCoursesLoadingSelector)
@@ -38,11 +51,7 @@ export class SubjectListComponent implements OnInit {
       .pipe(catchError(() => of([])));
   }
 
-  requestSubjectData() {
-    this.store.dispatch(new fromStore.GetSubjects());
-  }
-
-  addFilterToAllSubjects(val: any) {
+  handleFilter(val: any) {
     this.subjectFilter =
       val !== ''
         ? new RegExp(
@@ -54,9 +63,16 @@ export class SubjectListComponent implements OnInit {
               .reduce((acc, curr) => acc + curr)
           )
         : null;
+    this.currentPage = 0;
+    this.reloadSubjectsData();
   }
 
-  filterSubjects(subjects: any[]) {
+  handlePaginationEvent(newPage: number) {
+    this.currentPage = newPage;
+    this.reloadSubjectsData();
+  }
+
+  private filterSubjects(subjects: any[]) {
     return this.subjectFilter === null
       ? subjects
       : subjects.filter(
@@ -64,5 +80,15 @@ export class SubjectListComponent implements OnInit {
             subject.subject.toUpperCase().match(this.subjectFilter) ||
             subject.description.toUpperCase().match(this.subjectFilter)
         );
+  }
+
+  private requestSubjectData() {
+    this.store.dispatch(new fromStore.GetSubjects());
+  }
+
+  private reloadSubjectsData() {
+    this.store.dispatch(
+      new fromStore.GetSubjectsSuccess(this.subjects.slice(0))
+    );
   }
 }

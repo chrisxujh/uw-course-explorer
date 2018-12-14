@@ -3,6 +3,8 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
+import { PaginationUtil } from '../../utils';
+
 import * as fromStore from '../../store';
 
 @Component({
@@ -20,14 +22,17 @@ export class CourseListComponent implements OnInit {
   currentPage = 0;
   filter: RegExp = null;
 
-  constructor(private store: Store<fromStore.StoreState>) {}
+  constructor(
+    private store: Store<fromStore.StoreState>,
+    private paginationUtil: PaginationUtil
+  ) {}
 
   ngOnInit() {
     this.courses$ = this.store.pipe(
       select(fromStore.getCoursesEntitiesSelector),
       tap(courses => (this.courses = courses)),
       map(courses => this.filterCourses(courses)),
-      map(courses => this.paginate(courses)),
+      map(courses => this.paginationUtil.paginateList(courses)),
       tap(pagedCourses => (this.pagedCourses = pagedCourses)),
       map(pagedCourses =>
         pagedCourses[this.currentPage] ? pagedCourses[this.currentPage] : []
@@ -42,14 +47,6 @@ export class CourseListComponent implements OnInit {
   handlePaginatorEvent(index: number) {
     this.currentPage = index;
     this.reloadData();
-  }
-
-  private paginate(list: any[], pageSize: number = 10) {
-    const result: any[] = [];
-    for (let i = 0; i < list.length; i += pageSize) {
-      result.push(list.slice(i, i + pageSize));
-    }
-    return result;
   }
 
   handleFilter(val: string) {

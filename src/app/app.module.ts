@@ -22,6 +22,7 @@ import { SubjectComponent } from './components/subject/subject.component';
 import { CoursesComponent } from './components/courses/courses.component';
 import { PaginatorComponent } from './components/paginator/paginator.component';
 import { services } from './services';
+import { utils } from './utils';
 
 import * as fromCourseExplorerReducers from './store/reducers';
 import * as fromCourseExplorerEffects from './store/effects';
@@ -61,7 +62,7 @@ const routes: Routes = [
     StoreModule.forRoot(fromCourseExplorerReducers.reducers),
     EffectsModule.forRoot(fromCourseExplorerEffects.effects)
   ],
-  providers: [services],
+  providers: [services, utils],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
