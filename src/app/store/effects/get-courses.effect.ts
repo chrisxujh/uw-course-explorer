@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { map, switchMap, catchError } from 'rxjs/operators';
+import { map, switchMap, catchError, tap } from 'rxjs/operators';
 
 import { UwDataService } from '../../services/uw-data.service';
 
@@ -49,14 +49,10 @@ export class GetCoursesEffects {
 
   @Effect()
   getCourseById$: Observable<any> = this.actions$.pipe(
-    ofType(fromAction.GET_COURSE_BY_SUBJECT_AND_ID),
+    ofType(fromAction.GET_COURSE_BY_ID),
     switchMap((action: any) =>
       this.uwDataService.getCourseByCourseId(action.payload.courseId).pipe(
-        map(course => {
-          return course.subject === action.payload.subject
-            ? new fromAction.GetCoursesSuccess(course)
-            : new fromAction.GetCoursesFailure();
-        }),
+        map(course => new fromAction.GetCoursesSuccess(course)),
         catchError(() => of(new fromAction.GetCoursesFailure()))
       )
     )

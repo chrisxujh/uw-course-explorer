@@ -19,9 +19,7 @@
           "
         >
           <li *ngFor="let course of courseData.coursesToDisplay">
-            <a
-              class="list-item"
-              [routerLink]="['/subjects', course.subject, course.course_id]"
+            <a class="list-item" [routerLink]="['./', course.course_id]"
               >{{ course.subject }} {{ course.catalog_number }}
               {{ course.title }}</a
             >

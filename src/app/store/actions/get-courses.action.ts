@@ -2,8 +2,8 @@ import { Action } from '@ngrx/store';
 
 export const GET_SUBJECTS = '[Get Courses] Get Subjects';
 export const GET_COURSES = '[Get Courses] Get Courses';
+export const GET_COURSE_BY_ID = '[Get Courses] Get Course by Id';
 export const GET_COURSES_BY_SUBJECT = '[Get Courses] Get Courses by Subject';
-export const GET_COURSE_BY_SUBJECT_AND_ID = '[Get Courses] Get Course by Id';
 export const GET_SUBJECTS_SUCCESS = '[Get Courses] Get Subjects Success';
 export const GET_SUBJECTS_FAILURE = '[Get Courses] Get Subjects Failure';
 export const GET_COURSES_SUCCESS = '[Get Courses] Get Courses Success';
@@ -19,14 +19,14 @@ export class GetCourses implements Action {
   constructor() {}
 }
 
+export class GetCourseById implements Action {
+  readonly type = GET_COURSE_BY_ID;
+  constructor(public payload: any) {}
+}
+
 export class GetCoursesBySubject implements Action {
   readonly type = GET_COURSES_BY_SUBJECT;
   constructor(public subject: string) {}
-}
-
-export class GetCourseBySubjectAndId implements Action {
-  readonly type = GET_COURSE_BY_SUBJECT_AND_ID;
-  constructor(public payload: any) {}
 }
 
 export class GetSubjectsSuccess implements Action {
@@ -52,8 +52,8 @@ export class GetCoursesFailure implements Action {
 export type GetCoursesActions =
   | GetSubjects
   | GetCourses
+  | GetCourseById
   | GetCoursesBySubject
-  | GetCourseBySubjectAndId
   | GetSubjectsSuccess
   | GetSubjectsFailure
   | GetCoursesSuccess

@@ -33,6 +33,7 @@ const routes: Routes = [
   { path: 'subjects/:subject', component: SubjectComponent },
   { path: 'subjects/:subject/:courseId', component: CourseComponent },
   { path: 'courses', component: CoursesComponent },
+  { path: 'courses/:courseId', component: CourseComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
 
