@@ -33,7 +33,9 @@ export class CourseListComponent implements OnInit {
       map(courses => {
         const filteredCourses = this.filterCourses(courses),
           paginatedCourses = this.paginationUtil.paginateList(filteredCourses),
-          coursesToDisplay = paginatedCourses[this.currentPage];
+          coursesToDisplay = paginatedCourses[this.currentPage]
+            ? paginatedCourses[this.currentPage]
+            : [];
         return { courses, filteredCourses, paginatedCourses, coursesToDisplay };
       })
     );
