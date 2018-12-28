@@ -1,12 +1,14 @@
 <div
-  *ngIf="
-    !(isLoading$ | async) && (schedule$ | async) as schedule;
-    else: loading
-  "
+  *ngIf="!(isLoading$ | async) && (schedule$ | async) as schedule; else loading"
 >
-  <div *ngIf="!(isError$ | async) && schedule.length > 0; else: notfound">
+  <div
+    *ngIf="
+      !(isError$ | async) && schedule.listToDisplay.length > 0;
+      else notfound
+    "
+  >
     <ul class="schedule-list">
-      <li class="schedule-item" *ngFor="let section of schedule">
+      <li class="schedule-item" *ngFor="let section of schedule.listToDisplay">
         <div>
           <p class="item-name">
             <b>{{ section.section }} ({{ section.campus }})</b>
@@ -63,6 +65,10 @@
         </div>
       </li>
     </ul>
+    <app-paginator
+      [size]="schedule.paginatedList.length"
+      (emitter)="handlePaginationEvent($event)"
+    ></app-paginator>
   </div>
 </div>
 <ng-template #notfound

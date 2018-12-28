@@ -30,34 +30,24 @@ export class CourseMetaComponent implements OnInit, OnDestroy {
     );
     this.unsusbscribable = this.terms$
       .pipe(filter(data => data.current_term))
-      .subscribe(terms => this.handleCourseSchedule(terms.current_term.id));
+      .subscribe(terms => this.handleCourseSchedule());
   }
 
   ngOnDestroy() {
     this.unsusbscribable.unsubscribe();
   }
 
-  handleCourseSchedule(termId: string) {
-    this.requestCourseScheduleData(termId);
+  handleCourseSchedule() {
     this.currentMeta = this.COURSE_SCHEDULE_META;
   }
 
-  handleNextTermCourseSchedule(termId: string) {
-    this.requestCourseScheduleData(termId);
+  handleNextTermCourseSchedule() {
     this.currentMeta = this.NEXT_TERM_SCHEDULE_META;
   }
 
   handleExamSchedule() {
     this.requestExamScheduleData();
     this.currentMeta = this.EXAM_SCHEDULE_META;
-  }
-
-  private requestCourseScheduleData(termId: string) {
-    const subject = this.course.subject,
-      catalogNumber = this.course.catalog_number;
-    this.store.dispatch(
-      new fromStore.GetCourseSchedule({ termId, subject, catalogNumber })
-    );
   }
 
   private requestExamScheduleData() {
