@@ -32,11 +32,8 @@ export class CourseComponent implements OnInit {
   }
 
   private requestCourseData() {
-    const courseId = this.route.snapshot.params.courseId,
-      subject = this.route.snapshot.params.subject;
-    this.store.dispatch(
-      new fromStore.GetCourseBySubjectAndId({ subject, courseId })
-    );
+    const courseId = this.route.snapshot.params.courseId;
+    this.store.dispatch(new fromStore.GetCourseById({ courseId }));
     this.store.dispatch(new fromStore.GetTerms());
   }
 }
