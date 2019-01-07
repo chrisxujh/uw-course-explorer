@@ -110,7 +110,6 @@ li {
   }
   .tabs .tab-item .tab-item-link {
     display: block;
-    border: none;
     text-align: center;
   }
   .tabs .tab-item .tab-item-link.active {
