@@ -35,7 +35,12 @@ const CoursesList = ({ courses, loading, getCourses }) => {
     </Link>
   ));
 
-  return loading ? <Spinner /> : <List>{coursesList}</List>;
+  return (
+    <React.Fragment>
+      {loading && <Spinner />}
+      {!loading && <List>{coursesList}</List>}
+    </React.Fragment>
+  );
 };
 
 CoursesList.propTypes = {

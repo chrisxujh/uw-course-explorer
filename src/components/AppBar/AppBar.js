@@ -4,6 +4,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
+import { Container } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -25,11 +26,13 @@ export default function ButtonAppBar() {
     <div className={classes.root}>
       <AppBar position="fixed">
         <Toolbar>
-          <Link className={classes.link} to="/">
-            <Typography variant="h6" className={classes.title}>
-              UW Course Explorer
-            </Typography>
-          </Link>
+          <Container maxWidth="lg">
+            <Link className={classes.link} to="/">
+              <Typography variant="h6" className={classes.title}>
+                UW Course Explorer
+              </Typography>
+            </Link>
+          </Container>
         </Toolbar>
       </AppBar>
     </div>
