@@ -1,24 +1,42 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import AppBar from "./components/AppBar/AppBar";
+import SubjectsList from "./components/subjects/SubjectsList";
+import CoursesList from "./components/courses/CoursesList";
+import CoursePage from "./components/course/CoursePage";
+import { Switch, Route, BrowserRouter, Redirect } from "react-router-dom";
+import { makeStyles } from "@material-ui/core";
+
+const useStyle = makeStyles(theme => ({
+  offset: theme.mixins.toolbar
+}));
 
 function App() {
+  const classes = useStyle();
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <BrowserRouter>
+        <AppBar />
+        <div className={classes.offset} />
+        <Switch>
+          <Route path="/subjects/:subject/:courseId">
+            <CoursePage />
+          </Route>
+
+          <Route path="/subjects/:subject">
+            <CoursesList />
+          </Route>
+
+          <Route path="/subjects">
+            <SubjectsList />
+          </Route>
+
+          <Route exact path="/">
+            <Redirect to="/subjects" />
+          </Route>
+        </Switch>
+      </BrowserRouter>
     </div>
   );
 }
