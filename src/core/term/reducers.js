@@ -4,8 +4,7 @@ const initialState = {
   loading: false,
   previousTerm: null,
   currentTerm: null,
-  nextTerm: null,
-  terms: []
+  nextTerm: null
 };
 
 export default function(state = initialState, action) {
@@ -14,19 +13,13 @@ export default function(state = initialState, action) {
       return { ...state, loading: true };
 
     case coreActionTypes.GET_TERMS_SUCCESS: {
-      const {
-        previous_term,
-        current_term,
-        next_term,
-        listings
-      } = action.result;
+      const { previousTerm, currentTerm, nextTerm } = action.result;
       return {
         ...state,
         loading: false,
-        previousTerm: previous_term,
-        currentTerm: current_term,
-        nextTerm: next_term,
-        terms: listings
+        previousTerm,
+        currentTerm,
+        nextTerm
       };
     }
 

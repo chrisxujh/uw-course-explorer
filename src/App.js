@@ -9,6 +9,7 @@ import { connect } from "react-redux";
 import { getTerms } from "./core/term/actions";
 import PropTypes from "prop-types";
 import "./App.css";
+import Footer from "./components/footer/Footer";
 
 const useStyle = makeStyles(theme => ({
   offset: theme.mixins.toolbar,
@@ -47,6 +48,7 @@ function App({ getTerms }) {
               <Redirect to="/subjects" />
             </Route>
           </Switch>
+          <Footer />
         </BrowserRouter>
       </Container>
     </div>

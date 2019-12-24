@@ -11,3 +11,8 @@ export const nextTermSelector = createSelector(
   selectDomain,
   subState => subState.nextTerm
 );
+
+export const termIsLoadingSelector = createSelector(
+  selectDomain,
+  subState => subState.loading
+);

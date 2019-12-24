@@ -12,7 +12,8 @@ import {
   TableHead,
   TableRow,
   TableCell,
-  TableBody
+  TableBody,
+  Typography
 } from "@material-ui/core";
 import Spinner from "../spinner/Spinner";
 
@@ -25,8 +26,8 @@ const CourseSchedule = ({
   getCourseSchedule
 }) => {
   useEffect(() => {
-    getCourseSchedule(term, subject, catalogNumber);
-  }, [getCourseSchedule]);
+    if (term) getCourseSchedule(term, subject, catalogNumber);
+  }, [catalogNumber, getCourseSchedule, subject, term]);
 
   const sectionsList = sections
     .map(({ section, classes }) => ({
@@ -65,7 +66,14 @@ const CourseSchedule = ({
   return (
     <React.Fragment>
       {loading && <Spinner />}
-      {!loading && sectionsList.length === 0 && "Empty"}
+      {!loading && sectionsList.length === 0 && (
+        <React.Fragment>
+          <br />
+          <Typography variant="body2" align="center">
+            No schedule found.
+          </Typography>
+        </React.Fragment>
+      )}
       {!loading && sectionsList.length > 0 && (
         <TableContainer>
           <Table>

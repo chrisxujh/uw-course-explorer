@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { courseIsLoadingSelector, courseSelector } from "./selectors";
@@ -12,10 +12,16 @@ import {
   TableRow,
   TableCell,
   Table,
-  Link
+  Link,
+  Tabs,
+  Tab
 } from "@material-ui/core";
 import CourseSchedule from "./CourseSchedule";
-import { currentTermSelector } from "../../core/term/selectors";
+import {
+  currentTermSelector,
+  nextTermSelector,
+  termIsLoadingSelector
+} from "../../core/term/selectors";
 
 const displayedFileds = [
   { key: "units", display: "Units" },
@@ -45,7 +51,14 @@ const displayedFileds = [
   }
 ];
 
-const CoursePage = ({ loading, course, getCourseById, currentTerm }) => {
+const CoursePage = ({
+  loading,
+  termLoading,
+  course,
+  getCourseById,
+  currentTerm,
+  nextTerm
+}) => {
   const { courseId } = useParams();
   useEffect(() => {
     getCourseById(courseId);
@@ -73,6 +86,14 @@ const CoursePage = ({ loading, course, getCourseById, currentTerm }) => {
           ))
       : [];
 
+  const [activeTerm, setActiveTerm] = useState();
+
+  useEffect(() => {
+    if (!termLoading && currentTerm !== null) setActiveTerm(currentTerm.id);
+  }, [termLoading, currentTerm]);
+
+  const handleSelectTerm = (e, term) => setActiveTerm(term);
+
   return (
     <div>
       {loading && <Spinner />}
@@ -95,11 +116,37 @@ const CoursePage = ({ loading, course, getCourseById, currentTerm }) => {
           <br />
           <br />
           <Typography variant="h6">Sections</Typography>
-          {currentTerm !== null && (
+          {!termLoading && (
+            <Tabs
+              value={activeTerm}
+              onChange={handleSelectTerm}
+              indicatorColor="primary"
+              textColor="primary"
+            >
+              {currentTerm !== null && (
+                <Tab
+                  label={
+                    "Current Term" +
+                    (currentTerm.name ? ` (${currentTerm.name})` : "")
+                  }
+                  value={currentTerm.id}
+                />
+              )}
+              {nextTerm !== null && (
+                <Tab
+                  label={
+                    "Next Term" + (nextTerm.name ? ` (${nextTerm.name})` : "")
+                  }
+                  value={nextTerm.id}
+                />
+              )}
+            </Tabs>
+          )}
+          {activeTerm !== null && (
             <CourseSchedule
               subject={course.subject}
               catalogNumber={course.catalog_number}
-              term={currentTerm}
+              term={activeTerm}
             />
           )}
         </React.Fragment>
@@ -110,16 +157,20 @@ const CoursePage = ({ loading, course, getCourseById, currentTerm }) => {
 
 CoursePage.propTypes = {
   loading: PropTypes.bool,
+  termLoading: PropTypes.bool,
   course: PropTypes.object,
-  currentTerm: PropTypes.number,
+  currentTerm: PropTypes.object,
+  nextTerm: PropTypes.object,
 
   getCourseById: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
   loading: courseIsLoadingSelector(state),
+  termLoading: termIsLoadingSelector(state),
   course: courseSelector(state),
-  currentTerm: currentTermSelector(state)
+  currentTerm: currentTermSelector(state),
+  nextTerm: nextTermSelector(state)
 });
 
 const mapDispatchToProps = {

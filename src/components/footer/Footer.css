@@ -1,0 +1,18 @@
+.icon {
+  font-size: 10px !important;
+}
+
+.heart-icon {
+  animation: heart-beat 0.4s linear infinite;
+}
+
+@keyframes heart-beat {
+  0%,
+  100% {
+    transform: scale(0.9);
+  }
+
+  40% {
+    transform: translateY(-0.3em);
+  }
+}

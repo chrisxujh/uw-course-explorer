@@ -4,7 +4,13 @@ import PropTypes from "prop-types";
 import { coursesSelector, coursesIsLoadingSelector } from "./selectors";
 import Spinner from "../spinner/Spinner";
 import { getCourses } from "./actions";
-import { ListItem, ListItemText, List, makeStyles } from "@material-ui/core";
+import {
+  ListItem,
+  ListItemText,
+  List,
+  makeStyles,
+  Typography
+} from "@material-ui/core";
 import { Link, useParams } from "react-router-dom";
 
 const useStyles = makeStyles(() => ({
@@ -38,7 +44,15 @@ const CoursesList = ({ courses, loading, getCourses }) => {
   return (
     <React.Fragment>
       {loading && <Spinner />}
-      {!loading && <List>{coursesList}</List>}
+      {!loading && coursesList.length === 0 && (
+        <React.Fragment>
+          <br />
+          <Typography variant="body2" align="center">
+            No course found.
+          </Typography>
+        </React.Fragment>
+      )}
+      {!loading && coursesList.length > 0 && <List>{coursesList}</List>}
     </React.Fragment>
   );
 };

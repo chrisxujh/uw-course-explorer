@@ -34,7 +34,7 @@ export default function(state = initialState, action) {
       };
 
     case courseActionTypes.GET_COURSE_SCHEDULE_FAILURE:
-      return { ...state, schedule: { loading: false } };
+      return { ...state, schedule: { ...state.schedule, loading: false } };
 
     default:
       break;
