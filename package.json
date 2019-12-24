@@ -1,5 +1,6 @@
 {
   "name": "uw-course-explorer",
+  "homepage": "https://chrisxu.me/uw-course-explorer",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

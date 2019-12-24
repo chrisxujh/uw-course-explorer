@@ -28,7 +28,7 @@ function App({ getTerms }) {
   return (
     <div className="App">
       <Container className={classes.container} maxWidth="lg">
-        <BrowserRouter>
+        <BrowserRouter basename="/uw-course-explorer">
           <AppBar />
           <div className={classes.offset} />
           <Switch>
