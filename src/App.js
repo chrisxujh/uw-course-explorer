@@ -8,8 +8,8 @@ import CoursesListLayout from "./layouts/CoursesListLayout";
 import { connect } from "react-redux";
 import { getTerms } from "./core/term/actions";
 import PropTypes from "prop-types";
-import "./App.css";
 import Footer from "./components/footer/Footer";
+import "./App.css";
 
 const useStyle = makeStyles(theme => ({
   offset: theme.mixins.toolbar,
