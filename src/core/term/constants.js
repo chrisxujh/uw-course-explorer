@@ -1,0 +1,5 @@
+export const Terms = {
+  PREVIOUS_TERM: "PREVIOUS_TERM",
+  CURRENT_TERM: "CURRENT_TERM",
+  NEXT_TERM: "NEXT_TERM"
+};
