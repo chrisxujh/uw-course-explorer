@@ -13,9 +13,17 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  Typography
+  Typography,
+  makeStyles
 } from "@material-ui/core";
 import Spinner from "../spinner/Spinner";
+
+const useStyles = makeStyles(theme => ({
+  emptyMsg: {
+    paddingTop: theme.spacing(4),
+    paddingBottom: theme.spacing(4)
+  }
+}));
 
 const CourseSchedule = ({
   subject,
@@ -25,6 +33,7 @@ const CourseSchedule = ({
   sections,
   getCourseSchedule
 }) => {
+  const classes = useStyles();
   useEffect(() => {
     if (term) getCourseSchedule(term, subject, catalogNumber);
   }, [catalogNumber, getCourseSchedule, subject, term]);
@@ -68,8 +77,11 @@ const CourseSchedule = ({
       {loading && <Spinner />}
       {!loading && sectionsList.length === 0 && (
         <React.Fragment>
-          <br />
-          <Typography variant="body2" align="center">
+          <Typography
+            className={classes.emptyMsg}
+            variant="body2"
+            align="center"
+          >
             No schedule found.
           </Typography>
         </React.Fragment>

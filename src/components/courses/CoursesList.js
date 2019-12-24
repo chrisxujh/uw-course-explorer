@@ -13,10 +13,14 @@ import {
 } from "@material-ui/core";
 import { Link, useParams } from "react-router-dom";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
   link: {
     color: "#333",
     textDecoration: "none"
+  },
+  emptyMsg: {
+    paddingTop: theme.spacing(4),
+    paddingBottom: theme.spacing(4)
   }
 }));
 
@@ -46,9 +50,12 @@ const CoursesList = ({ courses, loading, getCourses }) => {
       {loading && <Spinner />}
       {!loading && coursesList.length === 0 && (
         <React.Fragment>
-          <br />
-          <Typography variant="body2" align="center">
-            No course found.
+          <Typography
+            className={classes.emptyMsg}
+            variant="body2"
+            align="center"
+          >
+            No courses found.
           </Typography>
         </React.Fragment>
       )}

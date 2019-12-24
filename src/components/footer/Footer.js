@@ -39,7 +39,7 @@ export default function() {
       const seconds = Math.floor(diff / SECOND_MILL_SECONDS) % 60;
       const minutes = Math.floor(diff / MINUTE_MILL_SECONDS) % 60;
       const hours = Math.floor(diff / HOUR_MILL_SECONDS) % 24;
-      const days = Math.ceil(diff / DAY_MILL_SECONDS);
+      const days = Math.floor(diff / DAY_MILL_SECONDS);
 
       setAge({ seconds, minutes, hours, days });
     }, 1000);
@@ -68,7 +68,7 @@ export default function() {
             target="_blank"
             rel="noopener"
           >
-            Github&nbsp;
+            GITHUB&nbsp;
             <SvgIcon
               className="icon"
               component={GitHubIcon}
