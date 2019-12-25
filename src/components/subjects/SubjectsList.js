@@ -16,7 +16,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const SubjectsList = ({ subjects, loading, filter, pagination = false }) => {
-  const classes = useStyles(0);
+  const classes = useStyles();
 
   if (loading) return <Spinner />;
 
