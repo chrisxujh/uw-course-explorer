@@ -9,6 +9,7 @@ import { connect } from "react-redux";
 import { getTerms } from "./core/term/actions";
 import PropTypes from "prop-types";
 import Footer from "./components/footer/Footer";
+import NotificationsProvider from "./providers/NotificationsProvider";
 import "./App.css";
 
 const useStyle = makeStyles(theme => ({
@@ -27,30 +28,34 @@ function App({ getTerms }) {
 
   return (
     <div className="App">
-      <Container className={classes.container} maxWidth="lg">
-        <BrowserRouter basename="/uw-course-explorer">
-          <AppBar />
-          <div className={classes.offset} />
-          <Switch>
-            <Route path="/subjects/:subject/:courseId">
-              <CoursePage />
-            </Route>
+      {/* <SnackbarProvider maxSnack={3}> */}
+      <NotificationsProvider>
+        <Container className={classes.container} maxWidth="lg">
+          <BrowserRouter basename="/uw-course-explorer">
+            <AppBar />
+            <div className={classes.offset} />
+            <Switch>
+              <Route path="/subjects/:subject/:courseId">
+                <CoursePage />
+              </Route>
 
-            <Route path="/subjects/:subject">
-              <CoursesListLayout />
-            </Route>
+              <Route path="/subjects/:subject">
+                <CoursesListLayout />
+              </Route>
 
-            <Route path="/subjects">
-              <SubjectsLayout />
-            </Route>
+              <Route path="/subjects">
+                <SubjectsLayout />
+              </Route>
 
-            <Route exact path="/">
-              <Redirect to="/subjects" />
-            </Route>
-          </Switch>
-          <Footer />
-        </BrowserRouter>
-      </Container>
+              <Route exact path="/">
+                <Redirect to="/subjects" />
+              </Route>
+            </Switch>
+            <Footer />
+          </BrowserRouter>
+        </Container>
+      </NotificationsProvider>
+      {/* </SnackbarProvider> */}
     </div>
   );
 }
