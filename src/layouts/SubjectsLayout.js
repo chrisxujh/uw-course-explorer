@@ -41,7 +41,7 @@ const SubjectsLayout = ({ loading, getSubjects }) => {
         </React.Fragment>
       )}
       <Typography variant="h5">Other subjects:</Typography>
-      <SubjectsList filter={otherFilter} />
+      <SubjectsList filter={otherFilter} pagination={true} />
     </React.Fragment>
   );
 };
