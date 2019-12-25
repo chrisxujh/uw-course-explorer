@@ -82,10 +82,18 @@ const CourseSchedule = ({
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>Section</TableCell>
-            <TableCell>Time</TableCell>
-            <TableCell>Location</TableCell>
-            <TableCell>Instructors</TableCell>
+            <TableCell>
+              <b>Section</b>
+            </TableCell>
+            <TableCell>
+              <b>Time</b>
+            </TableCell>
+            <TableCell>
+              <b>Location</b>
+            </TableCell>
+            <TableCell>
+              <b>Instructors</b>
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>{sectionsToRender}</TableBody>

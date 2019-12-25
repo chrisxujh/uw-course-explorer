@@ -7,7 +7,7 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    paddingTop: theme.spacing(2),
+    paddingTop: theme.spacing(4),
     "& > * + *": {
       marginLeft: theme.spacing(2)
     }
