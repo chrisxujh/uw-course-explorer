@@ -5,7 +5,7 @@ export const CONFIG_SERVER_URL =
 
 export const configList = [
   {
-    key: "popularCourses",
+    key: "popularSubjects",
     url: `${CONFIG_SERVER_URL}/subjects/popular_subjects.json`
   }
 ];

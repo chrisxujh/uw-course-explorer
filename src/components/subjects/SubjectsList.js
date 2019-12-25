@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { subjectsSelector, subjectsIsLoadingSelector } from "./selectors";
-import { getSubjects } from "./actions";
 import PropTypes from "prop-types";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -17,13 +16,13 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const SubjectsList = ({ subjects, loading, getSubjects }) => {
+const SubjectsList = ({ subjects, loading, filter }) => {
   const classes = useStyles();
-  useEffect(() => {
-    getSubjects();
-  }, [getSubjects]);
 
-  const subjectsList = subjects.map((subject, key) => (
+  if (loading) return <Spinner />;
+
+  const filterUsed = filter instanceof Function ? filter : () => true;
+  const subjectsList = subjects.filter(filterUsed).map((subject, key) => (
     <Link
       key={key}
       className={classes.link}
@@ -38,12 +37,13 @@ const SubjectsList = ({ subjects, loading, getSubjects }) => {
     </Link>
   ));
 
-  return <List>{loading ? <Spinner /> : subjectsList}</List>;
+  return <List>{subjectsList}</List>;
 };
 
 SubjectsList.propTypes = {
   subjects: PropTypes.array,
-  loading: PropTypes.bool
+  loading: PropTypes.bool,
+  filter: PropTypes.func
 };
 
 const mapStateToProps = state => ({
@@ -51,6 +51,4 @@ const mapStateToProps = state => ({
   loading: subjectsIsLoadingSelector(state)
 });
 
-const mapDispatchToProps = { getSubjects };
-
-export default connect(mapStateToProps, mapDispatchToProps)(SubjectsList);
+export default connect(mapStateToProps)(SubjectsList);
