@@ -10,7 +10,8 @@ import { getSubjects } from "../components/subjects/actions";
 
 const popularFilter = isPopular => ({ subject }) => isPopular[subject] === true;
 
-const noPopularFilter = isPopular => subject => isPopular[subject] !== true;
+const noPopularFilter = isPopular => ({ subject }) =>
+  isPopular[subject] !== true;
 
 const allFilter = () => true;
 
