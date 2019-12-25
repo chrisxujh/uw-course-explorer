@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { courseIsLoadingSelector, courseSelector } from "./selectors";
@@ -12,16 +12,11 @@ import {
   TableRow,
   TableCell,
   Table,
-  Link,
-  Tabs,
-  Tab
+  Link
 } from "@material-ui/core";
-import CourseSchedule from "./CourseSchedule";
-import {
-  currentTermSelector,
-  nextTermSelector,
-  termIsLoadingSelector
-} from "../../core/term/selectors";
+import CourseSchedulePanel from "../../layouts/CourseSchedulePanel";
+import MessageBanner from "../common/MessageBanner";
+import _ from "lodash";
 
 const displayedFileds = [
   { key: "units", display: "Units" },
@@ -51,52 +46,35 @@ const displayedFileds = [
   }
 ];
 
-const CoursePage = ({
-  loading,
-  termLoading,
-  course,
-  getCourseById,
-  currentTerm,
-  nextTerm
-}) => {
+const CoursePage = ({ loading, course, getCourseById }) => {
   const { courseId } = useParams();
   useEffect(() => {
     getCourseById(courseId);
   }, [courseId, getCourseById]);
 
-  const fields =
-    course !== null
-      ? displayedFileds
-          .filter(({ key, accessor }) =>
-            accessor instanceof Function ? accessor(course[key]) : course[key]
-          )
-          .map(({ key, display, accessor }, index) => (
-            <TableRow key={index}>
-              <TableCell>
-                <Typography variant="body2">{display}</Typography>
-              </TableCell>
-              <TableCell>
-                <Typography variant="body2">
-                  {accessor instanceof Function
-                    ? accessor(course[key])
-                    : course[key]}
-                </Typography>
-              </TableCell>
-            </TableRow>
-          ))
-      : [];
+  if (loading) return <Spinner />;
+  if (course === null || _.isEmpty(course))
+    return <MessageBanner message="Course not available." />;
 
-  const [activeTerm, setActiveTerm] = useState();
-
-  useEffect(() => {
-    if (!termLoading && currentTerm !== null) setActiveTerm(currentTerm.id);
-  }, [termLoading, currentTerm]);
-
-  const handleSelectTerm = (e, term) => setActiveTerm(term);
+  const fields = displayedFileds
+    .filter(({ key, accessor }) =>
+      accessor instanceof Function ? accessor(course[key]) : course[key]
+    )
+    .map(({ key, display, accessor }, index) => (
+      <TableRow key={index}>
+        <TableCell>
+          <Typography variant="body2">{display}</Typography>
+        </TableCell>
+        <TableCell>
+          <Typography variant="body2">
+            {accessor instanceof Function ? accessor(course[key]) : course[key]}
+          </Typography>
+        </TableCell>
+      </TableRow>
+    ));
 
   return (
     <div>
-      {loading && <Spinner />}
       {!loading && course && (
         <React.Fragment>
           <div>
@@ -116,39 +94,7 @@ const CoursePage = ({
           <br />
           <br />
           <Typography variant="h6">Sections</Typography>
-          {!termLoading && (
-            <Tabs
-              value={activeTerm}
-              onChange={handleSelectTerm}
-              indicatorColor="primary"
-              textColor="primary"
-            >
-              {currentTerm !== null && (
-                <Tab
-                  label={
-                    "Current Term" +
-                    (currentTerm.name ? ` (${currentTerm.name})` : "")
-                  }
-                  value={currentTerm.id}
-                />
-              )}
-              {nextTerm !== null && (
-                <Tab
-                  label={
-                    "Next Term" + (nextTerm.name ? ` (${nextTerm.name})` : "")
-                  }
-                  value={nextTerm.id}
-                />
-              )}
-            </Tabs>
-          )}
-          {activeTerm !== null && (
-            <CourseSchedule
-              subject={course.subject}
-              catalogNumber={course.catalog_number}
-              term={activeTerm}
-            />
-          )}
+          {course !== null && <CourseSchedulePanel course={course} />}
         </React.Fragment>
       )}
     </div>
@@ -157,20 +103,14 @@ const CoursePage = ({
 
 CoursePage.propTypes = {
   loading: PropTypes.bool,
-  termLoading: PropTypes.bool,
   course: PropTypes.object,
-  currentTerm: PropTypes.object,
-  nextTerm: PropTypes.object,
 
   getCourseById: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
   loading: courseIsLoadingSelector(state),
-  termLoading: termIsLoadingSelector(state),
-  course: courseSelector(state),
-  currentTerm: currentTermSelector(state),
-  nextTerm: nextTermSelector(state)
+  course: courseSelector(state)
 });
 
 const mapDispatchToProps = {

@@ -7,7 +7,7 @@ export default function() {
   const { subject } = useParams();
   return (
     <React.Fragment>
-      <Typography variant="h6">{subject} courses:</Typography>
+      <Typography variant="h5">Courses of {subject}:</Typography>
       <CoursesList />
     </React.Fragment>
   );

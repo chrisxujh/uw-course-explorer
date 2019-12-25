@@ -38,11 +38,7 @@ const SubjectsList = ({ subjects, loading, getSubjects }) => {
     </Link>
   ));
 
-  return (
-    <div>
-      <List>{loading ? <Spinner /> : subjectsList}</List>
-    </div>
-  );
+  return <List>{loading ? <Spinner /> : subjectsList}</List>;
 };
 
 SubjectsList.propTypes = {

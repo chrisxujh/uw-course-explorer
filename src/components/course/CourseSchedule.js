@@ -12,18 +12,10 @@ import {
   TableHead,
   TableRow,
   TableCell,
-  TableBody,
-  Typography,
-  makeStyles
+  TableBody
 } from "@material-ui/core";
 import Spinner from "../spinner/Spinner";
-
-const useStyles = makeStyles(theme => ({
-  emptyMsg: {
-    paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4)
-  }
-}));
+import MessageBanner from "../common/MessageBanner";
 
 const CourseSchedule = ({
   subject,
@@ -33,10 +25,11 @@ const CourseSchedule = ({
   sections,
   getCourseSchedule
 }) => {
-  const classes = useStyles();
   useEffect(() => {
     if (term) getCourseSchedule(term, subject, catalogNumber);
   }, [catalogNumber, getCourseSchedule, subject, term]);
+
+  if (loading) return <Spinner />;
 
   const sectionsList = sections
     .map(({ section, classes }) => ({
@@ -72,36 +65,23 @@ const CourseSchedule = ({
       )
     );
 
+  if (sectionsList.length === 0)
+    return <MessageBanner message="No schedule found." />;
+
   return (
-    <React.Fragment>
-      {loading && <Spinner />}
-      {!loading && sectionsList.length === 0 && (
-        <React.Fragment>
-          <Typography
-            className={classes.emptyMsg}
-            variant="body2"
-            align="center"
-          >
-            No schedule found.
-          </Typography>
-        </React.Fragment>
-      )}
-      {!loading && sectionsList.length > 0 && (
-        <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Section</TableCell>
-                <TableCell>Time</TableCell>
-                <TableCell>Location</TableCell>
-                <TableCell>Instructors</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>{sectionsList}</TableBody>
-          </Table>
-        </TableContainer>
-      )}
-    </React.Fragment>
+    <TableContainer>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>Section</TableCell>
+            <TableCell>Time</TableCell>
+            <TableCell>Location</TableCell>
+            <TableCell>Instructors</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>{sectionsList}</TableBody>
+      </Table>
+    </TableContainer>
   );
 };
 

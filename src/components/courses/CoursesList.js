@@ -4,23 +4,14 @@ import PropTypes from "prop-types";
 import { coursesSelector, coursesIsLoadingSelector } from "./selectors";
 import Spinner from "../spinner/Spinner";
 import { getCourses } from "./actions";
-import {
-  ListItem,
-  ListItemText,
-  List,
-  makeStyles,
-  Typography
-} from "@material-ui/core";
+import { ListItem, ListItemText, List, makeStyles } from "@material-ui/core";
 import { Link, useParams } from "react-router-dom";
+import MessageBanner from "../common/MessageBanner";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   link: {
     color: "#333",
     textDecoration: "none"
-  },
-  emptyMsg: {
-    paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4)
   }
 }));
 
@@ -30,6 +21,8 @@ const CoursesList = ({ courses, loading, getCourses }) => {
   useEffect(() => {
     getCourses(subject);
   }, [getCourses, subject]);
+
+  if (loading) return <Spinner />;
 
   const coursesList = courses.map((course, key) => (
     <Link
@@ -45,23 +38,10 @@ const CoursesList = ({ courses, loading, getCourses }) => {
     </Link>
   ));
 
-  return (
-    <React.Fragment>
-      {loading && <Spinner />}
-      {!loading && coursesList.length === 0 && (
-        <React.Fragment>
-          <Typography
-            className={classes.emptyMsg}
-            variant="body2"
-            align="center"
-          >
-            No courses found.
-          </Typography>
-        </React.Fragment>
-      )}
-      {!loading && coursesList.length > 0 && <List>{coursesList}</List>}
-    </React.Fragment>
-  );
+  if (coursesList.length === 0)
+    return <MessageBanner message="No courses found." />;
+
+  return <List>{coursesList}</List>;
 };
 
 CoursesList.propTypes = {

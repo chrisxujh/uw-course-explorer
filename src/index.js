@@ -1,16 +1,21 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
 import App from "./App";
 import { Provider } from "react-redux";
-import * as serviceWorker from "./serviceWorker";
 import configureStore from "./config/configureStore";
+import * as serviceWorker from "./serviceWorker";
+import "./index.css";
+import configAxios from "./config/configAxios";
+import ConfigProviders from "./providers/ConfigProviders";
 
 const store = configureStore();
+configAxios(store);
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <ConfigProviders>
+      <App />
+    </ConfigProviders>
   </Provider>,
   document.getElementById("root")
 );
