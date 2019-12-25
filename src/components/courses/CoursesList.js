@@ -1,11 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
-import PropTypes from "prop-types";
 import { coursesSelector, coursesIsLoadingSelector } from "./selectors";
 import Spinner from "../spinner/Spinner";
-import { ListItem, ListItemText, List, makeStyles } from "@material-ui/core";
+import { ListItem, ListItemText, makeStyles } from "@material-ui/core";
 import { Link, useParams } from "react-router-dom";
 import MessageBanner from "../common/MessageBanner";
+import PaginatedList from "../common/PaginatedList";
+import PropTypes from "prop-types";
 
 const useStyles = makeStyles(() => ({
   link: {
@@ -20,7 +21,10 @@ const CoursesList = ({ courses, loading }) => {
 
   if (loading) return <Spinner />;
 
-  const coursesList = courses.map((course, key) => (
+  if (courses.length === 0)
+    return <MessageBanner message="No courses found." />;
+
+  const renderCourse = (course, key) => (
     <Link
       key={key}
       className={classes.link}
@@ -32,12 +36,9 @@ const CoursesList = ({ courses, loading }) => {
         </ListItemText>
       </ListItem>
     </Link>
-  ));
+  );
 
-  if (coursesList.length === 0)
-    return <MessageBanner message="No courses found." />;
-
-  return <List>{coursesList}</List>;
+  return <PaginatedList items={courses} renderItem={renderCourse} />;
 };
 
 CoursesList.propTypes = {

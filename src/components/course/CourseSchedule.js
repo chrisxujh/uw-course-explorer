@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import {
   courseScheduleIsLoadingSelector,
@@ -12,7 +12,9 @@ import {
   TableHead,
   TableRow,
   TableCell,
-  TableBody
+  TableBody,
+  TableFooter,
+  TablePagination
 } from "@material-ui/core";
 import Spinner from "../spinner/Spinner";
 import MessageBanner from "../common/MessageBanner";
@@ -28,34 +30,41 @@ const CourseSchedule = ({
   useEffect(() => {
     if (term) getCourseSchedule(term, subject, catalogNumber);
   }, [catalogNumber, getCourseSchedule, subject, term]);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   if (loading) return <Spinner />;
 
-  const sectionsList = sections
-    .map(({ section, classes }) => ({
-      section,
-      startTime: classes[0].date.start_time,
-      endTime: classes[0].date.end_time,
-      weekdays: classes[0].date.weekdays,
-      location: classes[0].location,
-      instructors: classes[0].instructors
-    }))
+  const handlePageChange = (e, newPage) => setPage(newPage);
+
+  const handleRowsPerPageChange = event => {
+    setRowsPerPage(event.target.value);
+    setPage(0);
+  };
+
+  const sectionsList = [];
+  sections.forEach(({ section, classes }) => {
+    classes.forEach(({ date, location, instructors }) => {
+      sectionsList.push({ section, date, location, instructors });
+    });
+  });
+
+  const sectionsToRender = sectionsList
+    .slice(page * rowsPerPage, (page + 1) * rowsPerPage)
     .map(
       (
         {
           section,
-          startTime,
-          endTime,
-          weekdays,
-          instructors,
-          location: { building, room }
+          date: { start_time, end_time, weekdays },
+          location: { building, room },
+          instructors
         },
         key
       ) => (
         <TableRow key={key}>
           <TableCell>{section}</TableCell>
           <TableCell>
-            {startTime} - {endTime} ({weekdays})
+            {start_time} - {end_time} ({weekdays})
           </TableCell>
           <TableCell>
             {building} {room}
@@ -79,7 +88,19 @@ const CourseSchedule = ({
             <TableCell>Instructors</TableCell>
           </TableRow>
         </TableHead>
-        <TableBody>{sectionsList}</TableBody>
+        <TableBody>{sectionsToRender}</TableBody>
+        <TableFooter>
+          <TableRow>
+            <TablePagination
+              rowsPerPageOptions={[5, 10, 15]}
+              rowsPerPage={rowsPerPage}
+              count={sectionsList.length}
+              page={page}
+              onChangePage={handlePageChange}
+              onChangeRowsPerPage={handleRowsPerPageChange}
+            />
+          </TableRow>
+        </TableFooter>
       </Table>
     </TableContainer>
   );

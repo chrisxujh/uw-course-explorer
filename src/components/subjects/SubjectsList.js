@@ -1,13 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
 import { subjectsSelector, subjectsIsLoadingSelector } from "./selectors";
-import PropTypes from "prop-types";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Spinner from "../spinner/Spinner";
 import { Link } from "react-router-dom";
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, ListItem } from "@material-ui/core";
+import PaginatedList from "../common/PaginatedList";
+import PropTypes from "prop-types";
 
 const useStyles = makeStyles(() => ({
   link: {
@@ -16,13 +15,14 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const SubjectsList = ({ subjects, loading, filter }) => {
-  const classes = useStyles();
+const SubjectsList = ({ subjects, loading, filter, pagination = false }) => {
+  const classes = useStyles(0);
 
   if (loading) return <Spinner />;
 
   const filterUsed = filter instanceof Function ? filter : () => true;
-  const subjectsList = subjects.filter(filterUsed).map((subject, key) => (
+
+  const renderSubject = (subject, key) => (
     <Link
       key={key}
       className={classes.link}
@@ -35,15 +35,24 @@ const SubjectsList = ({ subjects, loading, filter }) => {
         </ListItemText>
       </ListItem>
     </Link>
-  ));
+  );
 
-  return <List>{subjectsList}</List>;
+  return (
+    <PaginatedList
+      items={subjects}
+      renderItem={renderSubject}
+      filter={filterUsed}
+      pagination={pagination}
+      rowsPerPage={[20, 30, 50, 100]}
+    />
+  );
 };
 
 SubjectsList.propTypes = {
   subjects: PropTypes.array,
   loading: PropTypes.bool,
-  filter: PropTypes.func
+  filter: PropTypes.func,
+  pagination: PropTypes.bool
 };
 
 const mapStateToProps = state => ({
