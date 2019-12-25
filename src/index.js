@@ -6,16 +6,13 @@ import configureStore from "./config/configureStore";
 import * as serviceWorker from "./serviceWorker";
 import "./index.css";
 import configAxios from "./config/configAxios";
-import ConfigProviders from "./providers/ConfigProviders";
 
 const store = configureStore();
 configAxios(store);
 
 ReactDOM.render(
   <Provider store={store}>
-    <ConfigProviders>
-      <App />
-    </ConfigProviders>
+    <App />
   </Provider>,
   document.getElementById("root")
 );

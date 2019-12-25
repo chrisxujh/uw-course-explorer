@@ -1,9 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { coursesSelector, coursesIsLoadingSelector } from "./selectors";
 import Spinner from "../spinner/Spinner";
-import { getCourses } from "./actions";
 import { ListItem, ListItemText, List, makeStyles } from "@material-ui/core";
 import { Link, useParams } from "react-router-dom";
 import MessageBanner from "../common/MessageBanner";
@@ -15,12 +14,9 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const CoursesList = ({ courses, loading, getCourses }) => {
+const CoursesList = ({ courses, loading }) => {
   const classes = useStyles();
   const { subject } = useParams();
-  useEffect(() => {
-    getCourses(subject);
-  }, [getCourses, subject]);
 
   if (loading) return <Spinner />;
 
@@ -46,9 +42,7 @@ const CoursesList = ({ courses, loading, getCourses }) => {
 
 CoursesList.propTypes = {
   courses: PropTypes.array,
-  loading: PropTypes.bool,
-
-  getCourses: PropTypes.func.isRequired
+  loading: PropTypes.bool
 };
 
 const mapStateToProps = state => ({
@@ -56,8 +50,4 @@ const mapStateToProps = state => ({
   loading: coursesIsLoadingSelector(state)
 });
 
-const mapDispatchToProps = {
-  getCourses
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(CoursesList);
+export default connect(mapStateToProps)(CoursesList);
