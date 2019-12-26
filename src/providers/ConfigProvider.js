@@ -10,12 +10,14 @@ export default function({ children }) {
   const [config, setConfig] = useState({});
 
   useEffect(() => {
+    const newConfig = {};
+
     Promise.all(
       configList.map(({ key, url }) =>
-        getConfig(url).then(result => setConfig({ ...config, [key]: result }))
+        getConfig(url).then(result => (newConfig[key] = result))
       )
-    );
-  }, [config]);
+    ).then(() => setConfig(newConfig));
+  }, []);
 
   return (
     <ConfigContext.Provider value={config}>{children}</ConfigContext.Provider>
