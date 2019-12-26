@@ -1,22 +1,22 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { getFeatureFlags } from "../core/services/config/configService";
 
-const featureFlags = {};
-const featureFlagContext = React.createContext(featureFlags);
+const FeatureFlagContext = React.createContext({});
 
-export const useFeatureFlags = () => useContext(featureFlagContext);
+export const useFeatureFlags = () => useContext(FeatureFlagContext);
 
-export default function({ children, onReady }) {
+export default function({ children }) {
+  const [featureFlags, setFeatureFlags] = useState({});
+
   useEffect(() => {
     getFeatureFlags()
-      .then(flags =>
-        Object.keys(flags).forEach(key => {
-          featureFlags[key] = flags[key];
-        })
-      )
-      .then(() => onReady instanceof Function && onReady())
+      .then(flags => setFeatureFlags(flags))
       .catch(console.error);
-  }, [onReady]);
+  }, []);
 
-  return <React.Fragment>{children}</React.Fragment>;
+  return (
+    <FeatureFlagContext.Provider value={featureFlags}>
+      {children}
+    </FeatureFlagContext.Provider>
+  );
 }
