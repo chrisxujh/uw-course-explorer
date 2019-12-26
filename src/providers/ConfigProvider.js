@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { getConfig } from "../services/config/configService";
+import { getConfig } from "../core/services/config/configService";
 import { configList } from "../config/config";
 import PropTypes from "prop-types";
 

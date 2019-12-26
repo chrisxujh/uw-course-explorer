@@ -1,6 +1,6 @@
 import { put, call, takeLatest } from "redux-saga/effects";
 import { getTermsFailre, getTermsSuccess, coreActionTypes } from "./actions";
-import * as termService from "../../services/term/termService";
+import * as termService from "../../core/services/term/termService";
 
 function* getTerms() {
   try {
