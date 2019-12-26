@@ -10,10 +10,10 @@ const oauth = {
   facebookLogin: () => {}
 };
 
-const oauthContext = React.createContext(oauth);
+const OAuthContext = React.createContext(oauth);
 
 const OAuthProvider = ({ children, oauthSignIn }) => {
-  const accountEnabled = useFeatureFlags().account;
+  const accountEnabled = useFeatureFlags().account === true;
 
   useEffect(() => {
     const oauthToken = localStorage.getItem("oauth-token");
@@ -30,7 +30,7 @@ const OAuthProvider = ({ children, oauthSignIn }) => {
   };
 
   return (
-    <React.Fragment>
+    <OAuthContext.Provider value={oauth}>
       {children}
       <FacebookLogin
         render={({ onClick }) => {
@@ -41,7 +41,7 @@ const OAuthProvider = ({ children, oauthSignIn }) => {
         fields="name,email,picture"
         callback={onFacebookResponse}
       />
-    </React.Fragment>
+    </OAuthContext.Provider>
   );
 };
 
@@ -54,6 +54,6 @@ const mapDispatchToProps = {
   oauthSignIn
 };
 
-export const useOAuth = () => useContext(oauthContext);
+export const useOAuth = () => useContext(OAuthContext);
 
 export default connect(null, mapDispatchToProps)(OAuthProvider);
