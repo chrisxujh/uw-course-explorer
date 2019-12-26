@@ -3,17 +3,17 @@ import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
+import ProfileButton from "./ProfileButton";
 import { Link } from "react-router-dom";
-import { Container } from "@material-ui/core";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   root: {
     flexGrow: 1
   },
   title: {
     flexGrow: 1
   },
-  link: {
+  titleLink: {
     color: "#fff",
     textDecoration: "none"
   }
@@ -26,13 +26,12 @@ export default function ButtonAppBar() {
     <div className={classes.root}>
       <AppBar position="fixed">
         <Toolbar>
-          <Container maxWidth="lg">
-            <Link className={classes.link} to="/">
-              <Typography variant="h6" className={classes.title}>
-                UW Course Explorer
-              </Typography>
+          <Typography className={classes.title} variant="h6">
+            <Link className={classes.titleLink} to="/">
+              UW Course Explorer
             </Link>
-          </Container>
+          </Typography>
+          <ProfileButton />
         </Toolbar>
       </AppBar>
     </div>
