@@ -1,5 +1,4 @@
 import { courseActionTypes } from "./actions";
-import Immutable from "immutable";
 
 const initialState = {
   loading: false,
@@ -38,14 +37,15 @@ export default function(state = initialState, action) {
       return { ...state, schedule: { ...state.schedule, loading: false } };
 
     case courseActionTypes.SHORTLIST_COURSE_SUCCESS:
-    case courseActionTypes.UNSHORTLIST_COURSE_SUCCESS:
-      return Immutable.merge(state, {
-        course: {
-          shortlisted:
-            action.type === courseActionTypes.SHORTLIST_COURSE_SUCCESS &&
-            action.course.course_id === state.course.course_id
-        }
-      });
+    case courseActionTypes.UNSHORTLIST_COURSE_SUCCESS: {
+      if (action.course.course_id === state.course.course_id) {
+        const course = Object.assign({}, state.course);
+        course.shortlisted =
+          action.type === courseActionTypes.SHORTLIST_COURSE_SUCCESS;
+        return { ...state, course };
+      }
+      return state;
+    }
 
     default:
       break;
