@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { courseIsLoadingSelector, courseSelector } from "./selectors";
-import { getCourseById } from "./actions";
+import { getCourseById, shortlistCourse, unshortlistCourse } from "./actions";
 import Spinner from "../spinner/Spinner";
 import { useParams } from "react-router-dom";
 import {
@@ -12,10 +12,13 @@ import {
   TableRow,
   TableCell,
   Table,
-  Link
+  Link,
+  Grid,
+  Button
 } from "@material-ui/core";
 import CourseSchedulePanel from "../../layouts/CourseSchedulePanel";
 import MessageBanner from "../common/MessageBanner";
+import { userIsLoggedInSelector } from "../../core/user/selectors";
 import _ from "lodash";
 
 const displayedFileds = [
@@ -46,7 +49,14 @@ const displayedFileds = [
   }
 ];
 
-const CoursePage = ({ loading, course, getCourseById }) => {
+const CoursePage = ({
+  loading,
+  course,
+  loggedIn,
+  getCourseById,
+  shortlistCourse,
+  unshortlistCourse
+}) => {
   const { courseId } = useParams();
   useEffect(() => {
     getCourseById(courseId);
@@ -55,6 +65,15 @@ const CoursePage = ({ loading, course, getCourseById }) => {
   if (loading) return <Spinner />;
   if (course === null || _.isEmpty(course))
     return <MessageBanner message="Course not available." />;
+
+  const { shortlisted } = course;
+  const handleShortlist = () => {
+    shortlistCourse(course);
+  };
+
+  const handleUnshortlist = () => {
+    unshortlistCourse(course);
+  };
 
   const fields = displayedFileds
     .filter(({ key, accessor }) =>
@@ -78,9 +97,28 @@ const CoursePage = ({ loading, course, getCourseById }) => {
       {!loading && course && (
         <React.Fragment>
           <div>
-            <Typography variant="h4" gutterBottom>
-              {course.subject} {course.catalog_number} {course.title}
-            </Typography>
+            <Grid container>
+              <Grid item md={10}>
+                <Typography variant="h4" gutterBottom>
+                  {course.subject} {course.catalog_number} {course.title}
+                </Typography>
+              </Grid>
+              <Grid item md={2}>
+                <Grid container>
+                  {loggedIn && (
+                    <Button
+                      variant="outlined"
+                      color={shortlisted ? "secondary" : "primary"}
+                      onClick={
+                        shortlisted ? handleUnshortlist : handleShortlist
+                      }
+                    >
+                      {shortlisted ? "Unshortlist" : "Shortlist"}
+                    </Button>
+                  )}
+                </Grid>
+              </Grid>
+            </Grid>
             <Typography variant="subtitle1">{course.description}</Typography>
           </div>
           <br />
@@ -104,17 +142,23 @@ const CoursePage = ({ loading, course, getCourseById }) => {
 CoursePage.propTypes = {
   loading: PropTypes.bool,
   course: PropTypes.object,
+  loggedIn: PropTypes.bool,
 
-  getCourseById: PropTypes.func.isRequired
+  getCourseById: PropTypes.func.isRequired,
+  shortlistCourse: PropTypes.func.isRequired,
+  unshortlistCourse: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
   loading: courseIsLoadingSelector(state),
-  course: courseSelector(state)
+  course: courseSelector(state),
+  loggedIn: userIsLoggedInSelector(state)
 });
 
 const mapDispatchToProps = {
-  getCourseById
+  getCourseById,
+  shortlistCourse,
+  unshortlistCourse
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CoursePage);

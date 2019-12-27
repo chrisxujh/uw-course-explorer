@@ -7,7 +7,11 @@ export const userActionTypes = {
 
   OAUTH_SIGN_IN: "user/OAUTH_SIGN_IN",
   OAUTH_SIGN_IN_SUCCESS: "user/OAUTH_SIGN_IN_SUCCESS",
-  OAUTH_SIGN_IN_FAILURE: "user/OAUTH_SIGN_IN_FAILURE"
+  OAUTH_SIGN_IN_FAILURE: "user/OAUTH_SIGN_IN_FAILURE",
+
+  LOG_OUT: "user/LOG_OUT",
+  LOG_OUT_SUCCESS: "user/LOG_OUT_SUCCESS",
+  LOG_OUT_FAILURE: "user/LOG_OUT_FAILURE"
 };
 
 export const getUserInfo = () => ({
@@ -42,4 +46,16 @@ export const oauthSignInSuccess = payload => ({
 export const oauthSignInFailure = error => ({
   type: userActionTypes.OAUTH_SIGN_IN_FAILURE,
   error
+});
+
+export const logOut = () => ({
+  type: userActionTypes.LOG_OUT
+});
+
+export const logOutSuccess = () => ({
+  type: userActionTypes.LOG_OUT_SUCCESS
+});
+
+export const logOutFailure = () => ({
+  type: userActionTypes.LOG_OUT_FAILURE
 });

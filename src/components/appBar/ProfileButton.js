@@ -2,17 +2,25 @@ import React from "react";
 import { connect } from "react-redux";
 import {
   userIsLoadingSelector,
-  userInfoSelector
+  userIsLoggedInSelector
 } from "../../core/user/selectors";
-import { Button, Typography, IconButton } from "@material-ui/core";
+import {
+  Button,
+  Typography,
+  IconButton,
+  Menu,
+  MenuItem
+} from "@material-ui/core";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import { useOAuth } from "../../providers/OAuthProvider";
 import { useFeatureFlags } from "../../providers/FeatureFlagProvider";
+import { logOut } from "../../core/user/actions";
 import PropTypes from "prop-types";
 
-const ProfileButton = ({ loading, userInfo }) => {
+const ProfileButton = ({ loading, loggedIn, logOut }) => {
   const { facebookLogin } = useOAuth();
   const accountEnabled = useFeatureFlags().account;
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
   if (!accountEnabled) return null;
 
@@ -20,11 +28,35 @@ const ProfileButton = ({ loading, userInfo }) => {
 
   if (loading) return <Typography variant="body1">...</Typography>;
 
-  if (userInfo)
+  const handleClick = event => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleLogOut = () => {
+    logOut();
+    handleClose();
+  };
+
+  if (loggedIn)
     return (
-      <IconButton color="inherit">
-        <AccountCircle />
-      </IconButton>
+      <React.Fragment>
+        <IconButton onClick={handleClick} color="inherit">
+          <AccountCircle />
+        </IconButton>
+        <Menu
+          id="simple-menu"
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+        >
+          <MenuItem onClick={handleLogOut}>Logout</MenuItem>
+        </Menu>
+      </React.Fragment>
     );
 
   return (
@@ -36,12 +68,17 @@ const ProfileButton = ({ loading, userInfo }) => {
 
 ProfileButton.propTypes = {
   loading: PropTypes.bool,
-  userInfo: PropTypes.object
+  loggedIn: PropTypes.bool,
+  logOut: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
   loading: userIsLoadingSelector(state),
-  userInfo: userInfoSelector(state)
+  loggedIn: userIsLoggedInSelector(state)
 });
 
-export default connect(mapStateToProps)(ProfileButton);
+const mapDispatchToProps = {
+  logOut
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileButton);
