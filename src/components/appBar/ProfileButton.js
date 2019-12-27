@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import {
   userIsLoadingSelector,
-  userIsSignedInSelector
+  userInfoSelector
 } from "../../core/user/selectors";
 import { Button, Typography, IconButton } from "@material-ui/core";
 import AccountCircle from "@material-ui/icons/AccountCircle";
@@ -10,7 +10,7 @@ import { useOAuth } from "../../providers/OAuthProvider";
 import { useFeatureFlags } from "../../providers/FeatureFlagProvider";
 import PropTypes from "prop-types";
 
-const ProfileButton = ({ loading, signedIn }) => {
+const ProfileButton = ({ loading, userInfo }) => {
   const { facebookLogin } = useOAuth();
   const accountEnabled = useFeatureFlags().account;
 
@@ -18,9 +18,9 @@ const ProfileButton = ({ loading, signedIn }) => {
 
   const onLoginClicked = () => facebookLogin();
 
-  if (loading) return <Typography variant="body1">Signing in</Typography>;
+  if (loading) return <Typography variant="body1">...</Typography>;
 
-  if (signedIn)
+  if (userInfo)
     return (
       <IconButton color="inherit">
         <AccountCircle />
@@ -36,12 +36,12 @@ const ProfileButton = ({ loading, signedIn }) => {
 
 ProfileButton.propTypes = {
   loading: PropTypes.bool,
-  signedIn: PropTypes.bool
+  userInfo: PropTypes.object
 };
 
 const mapStateToProps = state => ({
   loading: userIsLoadingSelector(state),
-  signedIn: userIsSignedInSelector(state)
+  userInfo: userInfoSelector(state)
 });
 
 export default connect(mapStateToProps)(ProfileButton);

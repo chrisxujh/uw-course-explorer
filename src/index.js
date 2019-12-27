@@ -3,16 +3,22 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import { Provider } from "react-redux";
 import configureStore from "./config/configureStore";
+import configAxios from "./config/configAxios";
+import InitializationProvider from "./providers/InitializationProvider";
+import NotificationsProvider from "./providers/NotificationsProvider";
 import * as serviceWorker from "./serviceWorker";
 import "./index.css";
-import configAxios from "./config/configAxios";
 
 const store = configureStore();
 configAxios(store);
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <InitializationProvider>
+      <NotificationsProvider>
+        <App />
+      </NotificationsProvider>
+    </InitializationProvider>
   </Provider>,
   document.getElementById("root")
 );

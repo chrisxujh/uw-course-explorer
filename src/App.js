@@ -7,10 +7,10 @@ import SubjectsLayout from "./layouts/SubjectsLayout";
 import CoursesListLayout from "./layouts/CoursesListLayout";
 import { connect } from "react-redux";
 import { getTerms } from "./core/term/actions";
-import PropTypes from "prop-types";
 import Footer from "./components/footer/Footer";
-import NotificationsProvider from "./providers/NotificationsProvider";
-import InitializationProvider from "./providers/InitializationProvider";
+import { resumeUserSession } from "./core/user/actions";
+import { useFeatureFlags } from "./providers/FeatureFlagProvider";
+import PropTypes from "prop-types";
 import "./App.css";
 
 const useStyle = makeStyles(theme => ({
@@ -20,52 +20,56 @@ const useStyle = makeStyles(theme => ({
   }
 }));
 
-function App({ getTerms }) {
+function App({ getTerms, resumeUserSession }) {
   const classes = useStyle();
+  const accountEnabled = useFeatureFlags().account;
+
+  useEffect(() => {
+    if (accountEnabled) resumeUserSession();
+  }, [accountEnabled, resumeUserSession]);
+
   useEffect(() => {
     getTerms();
   }, [getTerms]);
 
   return (
     <div className="App">
-      <InitializationProvider>
-        <NotificationsProvider>
-          <Container className={classes.container} maxWidth="lg">
-            <BrowserRouter basename="/uw-course-explorer">
-              <AppBar />
-              <div className={classes.offset} />
-              <Switch>
-                <Route path="/subjects/:subject/:courseId">
-                  <CoursePage />
-                </Route>
+      <Container className={classes.container} maxWidth="lg">
+        <BrowserRouter basename="/uw-course-explorer">
+          <AppBar />
+          <div className={classes.offset} />
+          <Switch>
+            <Route path="/subjects/:subject/:courseId">
+              <CoursePage />
+            </Route>
 
-                <Route path="/subjects/:subject">
-                  <CoursesListLayout />
-                </Route>
+            <Route path="/subjects/:subject">
+              <CoursesListLayout />
+            </Route>
 
-                <Route path="/subjects">
-                  <SubjectsLayout />
-                </Route>
+            <Route path="/subjects">
+              <SubjectsLayout />
+            </Route>
 
-                <Route exact path="/">
-                  <Redirect to="/subjects" />
-                </Route>
-              </Switch>
-              <Footer />
-            </BrowserRouter>
-          </Container>
-        </NotificationsProvider>
-      </InitializationProvider>
+            <Route exact path="/">
+              <Redirect to="/subjects" />
+            </Route>
+          </Switch>
+          <Footer />
+        </BrowserRouter>
+      </Container>
     </div>
   );
 }
 
 App.propTypes = {
-  getTerms: PropTypes.func.isRequired
+  getTerms: PropTypes.func.isRequired,
+  resumeUserSession: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = {
-  getTerms
+  getTerms,
+  resumeUserSession
 };
 
 export default connect(null, mapDispatchToProps)(App);

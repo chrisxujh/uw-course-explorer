@@ -1,15 +1,12 @@
-import Axios from "axios";
+import { httpGet } from "../../core/services/http/httpService";
 import { SERVER_URL } from "../../config/config";
 
-const parseResponse = res => res.data;
-
-export const getCourses = () =>
-  Axios.get(`${SERVER_URL}/course`).then(parseResponse);
+export const getCourses = () => httpGet(`${SERVER_URL}/course`);
 
 export const getCourseById = id =>
-  Axios.get(`${SERVER_URL}/course/${id}`).then(parseResponse);
+  httpGet(`${SERVER_URL}/course/${id}`, {
+    withCredentials: true
+  });
 
 export const getCourseSchedule = (term, subject, catalogNumber) =>
-  Axios.get(
-    `${SERVER_URL}/term/${term}/${subject}/${catalogNumber}/schedule`
-  ).then(parseResponse);
+  httpGet(`${SERVER_URL}/term/${term}/${subject}/${catalogNumber}/schedule`);

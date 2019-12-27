@@ -1,19 +1,17 @@
 import { userActionTypes } from "./actions";
 
-const initialState = { loading: false, signedIn: false };
+const initialState = { loading: false, userInfo: null };
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case userActionTypes.OAUTH_SIGN_IN:
-      return { ...state, loading: true, signedIn: false };
+    case userActionTypes.GET_USER_INFO:
+      return { ...state, loading: true };
 
-    case userActionTypes.OAUTH_SIGN_IN_SUCCESS: {
-      const { displayName } = action.payload;
-      return { ...state, loading: false, signedIn: true, displayName };
-    }
+    case userActionTypes.GET_USER_INFO_SUCCESS:
+      return { ...state, loading: false, userInfo: action.userInfo };
 
-    case userActionTypes.OAUTH_SIGN_IN_FAILURE:
-      return { ...state, loading: false, signedIn: false };
+    case userActionTypes.GET_USER_INFO_FAILURE:
+      return { ...state, loading: false, userInfo: null };
 
     default:
       break;

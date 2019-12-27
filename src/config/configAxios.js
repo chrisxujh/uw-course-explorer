@@ -11,7 +11,7 @@ export default function(store) {
 
       if (!response) {
         returnError = new Error(
-          "Network connection error. Please check your network connection."
+          "Oops... we couldn't reach the server. You might be offline."
         );
         store.dispatch(networkError(returnError));
       }

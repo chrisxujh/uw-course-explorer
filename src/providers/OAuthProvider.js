@@ -1,9 +1,8 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 import { FACEBOOK_APP_ID } from "../config/config";
 import { connect } from "react-redux";
 import { oauthSignIn } from "../core/user/actions";
-import { useFeatureFlags } from "./FeatureFlagProvider";
 import PropTypes from "prop-types";
 
 const oauth = {
@@ -13,17 +12,6 @@ const oauth = {
 const OAuthContext = React.createContext(oauth);
 
 const OAuthProvider = ({ children, oauthSignIn }) => {
-  const accountEnabled = useFeatureFlags().account === true;
-
-  useEffect(() => {
-    const oauthToken = localStorage.getItem("oauth-token");
-    if (oauthToken !== null && accountEnabled) {
-      oauthSignIn(localStorage.getItem("oauth-provider"), {
-        accessToken: oauthToken
-      });
-    }
-  }, [accountEnabled, oauthSignIn]);
-
   const onFacebookResponse = res => {
     const { accessToken } = res;
     oauthSignIn("facebook", { accessToken });
