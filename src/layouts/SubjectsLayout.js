@@ -7,6 +7,9 @@ import { connect } from "react-redux";
 import { subjectsIsLoadingSelector } from "../components/subjects/selectors";
 import PropTypes from "prop-types";
 import { getSubjects } from "../components/subjects/actions";
+import CourseShortlist from "../components/courses/CourseShortlist";
+import { getShortlistedCourses } from "../components/courses/actions";
+import { shortlistedCoursesSelector } from "../components/courses/selectors";
 
 const popularFilter = isPopular => ({ subject }) => isPopular[subject] === true;
 
@@ -15,11 +18,20 @@ const noPopularFilter = isPopular => ({ subject }) =>
 
 const allFilter = () => true;
 
-const SubjectsLayout = ({ loading, getSubjects }) => {
+const SubjectsLayout = ({
+  loading,
+  getSubjects,
+  shortlist,
+  getShortlistedCourses
+}) => {
   const { popularSubjects } = useConfig();
   useEffect(() => {
     getSubjects();
   }, [getSubjects]);
+
+  useEffect(() => {
+    getShortlistedCourses();
+  }, [getShortlistedCourses]);
 
   if (loading) return <Spinner />;
 
@@ -33,6 +45,14 @@ const SubjectsLayout = ({ loading, getSubjects }) => {
 
   return (
     <React.Fragment>
+      {shortlist && shortlist.length > 0 && (
+        <React.Fragment>
+          <Typography variant="h5">Shortlisted courses:</Typography>
+          <br />
+          <CourseShortlist courses={shortlist} />
+          <br />
+        </React.Fragment>
+      )}
       {showPopular && (
         <React.Fragment>
           <Typography variant="h5">Popular subjects:</Typography>
@@ -48,15 +68,20 @@ const SubjectsLayout = ({ loading, getSubjects }) => {
 
 SubjectsLayout.propTypes = {
   loading: PropTypes.bool,
-  getSubjects: PropTypes.func.isRequired
+  shortlist: PropTypes.array,
+
+  getSubjects: PropTypes.func.isRequired,
+  getShortlistedCourses: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-  loading: subjectsIsLoadingSelector(state)
+  loading: subjectsIsLoadingSelector(state),
+  shortlist: shortlistedCoursesSelector(state)
 });
 
 const mapDispatchToProps = {
-  getSubjects
+  getSubjects,
+  getShortlistedCourses
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SubjectsLayout);

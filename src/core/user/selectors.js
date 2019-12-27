@@ -7,6 +7,11 @@ export const userIsLoadingSelector = createSelector(
   subState => subState.loading
 );
 
+export const userIsLoggedInSelector = createSelector(
+  selectDomain,
+  subState => subState.loggedIn
+);
+
 export const userInfoSelector = createSelector(
   selectDomain,
   subState => subState.userInfo

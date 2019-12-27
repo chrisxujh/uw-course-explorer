@@ -1,8 +1,13 @@
 import { coursesActionTypes } from "./actions";
+import Immutable from "immutable";
 
 const initialState = {
   loading: false,
-  courses: []
+  courses: [],
+  shortlist: {
+    loading: false,
+    courses: []
+  }
 };
 
 export default function(state = initialState, action) {
@@ -15,6 +20,19 @@ export default function(state = initialState, action) {
 
     case coursesActionTypes.GET_COURSES_FAILURE:
       return { ...state, loading: false, courses: [] };
+
+    case coursesActionTypes.GET_SHORTLISTED_COURSES:
+      return Immutable.merge(state, { shortlist: { loading: true } });
+
+    case coursesActionTypes.GET_SHORTLISTED_COURSES_SUCCESS:
+      return Immutable.merge(state, {
+        shortlist: { loading: false, courses: action.courses }
+      });
+
+    case coursesActionTypes.GET_SHORTLISTED_COURSES_FAILURE:
+      return Immutable.merge(state, {
+        shortlist: { loading: false, courses: [] }
+      });
 
     default:
       break;

@@ -5,7 +5,15 @@ export const courseActionTypes = {
 
   GET_COURSE_SCHEDULE: "course/GET_COURSE_SCHEDULE",
   GET_COURSE_SCHEDULE_SUCCESS: "course/GET_COURSE_SCHEDULE_SUCCESS",
-  GET_COURSE_SCHEDULE_FAILURE: "course/GET_COURSE_SCHEDULE_FAILURE"
+  GET_COURSE_SCHEDULE_FAILURE: "course/GET_COURSE_SCHEDULE_FAILURE",
+
+  SHORTLIST_COURSE: "course/SHORTLIST_COURSE",
+  SHORTLIST_COURSE_SUCCESS: "course/SHORTLIST_COURSE_SUCCESS",
+  SHORTLIST_COURSE_FAILURE: "course/SHORTLIST_COURSE_FAILURE",
+
+  UNSHORTLIST_COURSE: "course/UNSHORTLIST_COURSE",
+  UNSHORTLIST_COURSE_SUCCESS: "course/UNSHORTLIST_COURSE_SUCCESS",
+  UNSHORTLIST_COURSE_FAILURE: "course/UNSHORTLIST_COURSE_FAILURE"
 };
 
 export const getCourseById = id => ({
@@ -37,5 +45,35 @@ export const getCourseScheduleSuccess = sections => ({
 
 export const getCourseScheduleFailure = error => ({
   type: courseActionTypes.GET_COURSE_SCHEDULE_FAILURE,
+  error
+});
+
+export const shortlistCourse = course => ({
+  type: courseActionTypes.SHORTLIST_COURSE,
+  course
+});
+
+export const shortlistCourseSuccess = course => ({
+  type: courseActionTypes.SHORTLIST_COURSE_SUCCESS,
+  course
+});
+
+export const shortlistCourseFailure = error => ({
+  type: courseActionTypes.SHORTLIST_COURSE_FAILURE,
+  error
+});
+
+export const unshortlistCourse = course => ({
+  type: courseActionTypes.UNSHORTLIST_COURSE,
+  course
+});
+
+export const unshortlistCourseSuccess = course => ({
+  type: courseActionTypes.UNSHORTLIST_COURSE_SUCCESS,
+  course
+});
+
+export const unshortlistCourseFailure = error => ({
+  type: courseActionTypes.UNSHORTLIST_COURSE_FAILURE,
   error
 });

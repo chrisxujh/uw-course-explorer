@@ -4,11 +4,15 @@ import {
   getCourseFailure,
   getCourseSuccess,
   getCourseScheduleFailure,
-  getCourseScheduleSuccess
+  getCourseScheduleSuccess,
+  shortlistCourseFailure,
+  shortlistCourseSuccess,
+  unshortlistCourseSuccess,
+  unshortlistCourseFailure
 } from "./actions";
 import * as courseService from "../../services/course/courseService";
 
-function* getCourseById({ id }) {
+function* handleGetCourseById({ id }) {
   try {
     const course = yield call(courseService.getCourseById, id);
     yield put(getCourseSuccess(course));
@@ -31,7 +35,32 @@ function* getCourseSchedule({ term, subject, catalogNumber }) {
   }
 }
 
+function* handleShortlistCourse({ course }) {
+  try {
+    const { course_id } = course;
+    yield call(courseService.shortlistCourse, course_id);
+    yield put(shortlistCourseSuccess(course));
+  } catch (error) {
+    yield put(shortlistCourseFailure(error));
+  }
+}
+
+function* handleUnshortlistCourse({ course }) {
+  try {
+    const { course_id } = course;
+    yield call(courseService.unshortlistCourse, course_id);
+    yield put(unshortlistCourseSuccess(course));
+  } catch (error) {
+    yield put(unshortlistCourseFailure(error));
+  }
+}
+
 export default function*() {
-  yield takeLatest(courseActionTypes.GET_COURSE_BY_ID, getCourseById);
+  yield takeLatest(courseActionTypes.GET_COURSE_BY_ID, handleGetCourseById);
   yield takeLatest(courseActionTypes.GET_COURSE_SCHEDULE, getCourseSchedule);
+  yield takeLatest(courseActionTypes.SHORTLIST_COURSE, handleShortlistCourse);
+  yield takeLatest(
+    courseActionTypes.UNSHORTLIST_COURSE,
+    handleUnshortlistCourse
+  );
 }

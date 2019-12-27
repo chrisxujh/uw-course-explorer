@@ -10,3 +10,5 @@ export const doOAuth = (provider, access_token) =>
     provider,
     access_token
   });
+
+export const logOut = () => httpAuthPost(`${SERVER_URL}/user/logout`);

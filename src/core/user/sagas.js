@@ -5,7 +5,9 @@ import {
   oauthSignInSuccess,
   getUserInfo,
   getUserInfoFailure,
-  getUserInfoSuccess
+  getUserInfoSuccess,
+  logOutFailure,
+  logOutSuccess
 } from "./actions";
 import * as userService from "../services/user/userService";
 
@@ -42,6 +44,15 @@ function* handleResumeUserSession() {
   }
 }
 
+function* handleUserLogOut() {
+  try {
+    yield call(userService.logOut);
+    yield put(logOutSuccess());
+  } catch (error) {
+    yield put(logOutFailure(error));
+  }
+}
+
 export default function*() {
   yield takeLatest(userActionTypes.OAUTH_SIGN_IN, oauthSignIn);
   yield takeLatest(userActionTypes.GET_USER_INFO, handleGetUserInfo);
@@ -49,4 +60,5 @@ export default function*() {
     userActionTypes.RESUME_USER_SESSION,
     handleResumeUserSession
   );
+  yield takeLatest(userActionTypes.LOG_OUT, handleUserLogOut);
 }
