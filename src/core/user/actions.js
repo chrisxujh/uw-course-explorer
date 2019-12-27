@@ -1,8 +1,32 @@
 export const userActionTypes = {
+  GET_USER_INFO: "user/GET_USER_INFO",
+  GET_USER_INFO_SUCCESS: "user/GET_USER_INFO_SUCCESS",
+  GET_USER_INFO_FAILURE: "user/GET_USER_INFO_FAILURE",
+
+  RESUME_USER_SESSION: "user/RESUME_USER_SESSION",
+
   OAUTH_SIGN_IN: "user/OAUTH_SIGN_IN",
   OAUTH_SIGN_IN_SUCCESS: "user/OAUTH_SIGN_IN_SUCCESS",
   OAUTH_SIGN_IN_FAILURE: "user/OAUTH_SIGN_IN_FAILURE"
 };
+
+export const getUserInfo = () => ({
+  type: userActionTypes.GET_USER_INFO
+});
+
+export const getUserInfoSuccess = userInfo => ({
+  type: userActionTypes.GET_USER_INFO_SUCCESS,
+  userInfo
+});
+
+export const getUserInfoFailure = error => ({
+  type: userActionTypes.GET_USER_INFO_FAILURE,
+  error
+});
+
+export const resumeUserSession = () => ({
+  type: userActionTypes.RESUME_USER_SESSION
+});
 
 export const oauthSignIn = (provider, params) => ({
   type: userActionTypes.OAUTH_SIGN_IN,
