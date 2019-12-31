@@ -16,7 +16,9 @@ export default function({ children }) {
       configList.map(({ key, url }) =>
         getConfig(url).then(result => (newConfig[key] = result))
       )
-    ).then(() => setConfig(newConfig));
+    )
+      .then(() => setConfig(newConfig))
+      .catch(console.error);
   }, []);
 
   return (

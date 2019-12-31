@@ -13,7 +13,7 @@ export const getTermsSuccess = result => ({
   result
 });
 
-export const getTermsFailre = error => ({
+export const getTermsFailure = error => ({
   type: coreActionTypes.GET_TERMS_FAILURE,
   error
 });
