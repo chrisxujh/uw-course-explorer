@@ -1,5 +1,6 @@
 import { coursesActionTypes } from "./actions";
 import Immutable from "immutable";
+import { userActionTypes } from "../../core/user/actions";
 
 const initialState = {
   loading: false,
@@ -29,6 +30,7 @@ export default function(state = initialState, action) {
         shortlist: { loading: false, courses: action.courses }
       });
 
+    case userActionTypes.LOG_OUT_SUCCESS:
     case coursesActionTypes.GET_SHORTLISTED_COURSES_FAILURE:
       return Immutable.merge(state, {
         shortlist: { loading: false, courses: [] }

@@ -1,5 +1,5 @@
 import { put, call, takeLatest } from "redux-saga/effects";
-import { getTermsFailre, getTermsSuccess, coreActionTypes } from "./actions";
+import { getTermsFailure, getTermsSuccess, coreActionTypes } from "./actions";
 import * as termService from "../../core/services/term/termService";
 
 function* getTerms() {
@@ -26,7 +26,7 @@ function* getTerms() {
 
     yield put(getTermsSuccess(result));
   } catch (error) {
-    yield put(getTermsFailre(error));
+    yield put(getTermsFailure(error));
   }
 }
 
