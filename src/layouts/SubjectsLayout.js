@@ -10,6 +10,7 @@ import { getSubjects } from "../components/subjects/actions";
 import CourseShortlist from "../components/courses/CourseShortlist";
 import { getShortlistedCourses } from "../components/courses/actions";
 import { shortlistedCoursesSelector } from "../components/courses/selectors";
+import { userIsLoggedInSelector } from "../core/user/selectors";
 
 const popularFilter = isPopular => ({ subject }) => isPopular[subject] === true;
 
@@ -22,6 +23,7 @@ const SubjectsLayout = ({
   loading,
   getSubjects,
   shortlist,
+  isLoggedIn,
   getShortlistedCourses
 }) => {
   const { popularSubjects } = useConfig();
@@ -30,8 +32,8 @@ const SubjectsLayout = ({
   }, [getSubjects]);
 
   useEffect(() => {
-    getShortlistedCourses();
-  }, [getShortlistedCourses]);
+    if (isLoggedIn) getShortlistedCourses();
+  }, [getShortlistedCourses, isLoggedIn]);
 
   if (loading) return <Spinner />;
 
@@ -69,6 +71,7 @@ const SubjectsLayout = ({
 SubjectsLayout.propTypes = {
   loading: PropTypes.bool,
   shortlist: PropTypes.array,
+  isLoggedIn: PropTypes.bool,
 
   getSubjects: PropTypes.func.isRequired,
   getShortlistedCourses: PropTypes.func.isRequired
@@ -76,7 +79,8 @@ SubjectsLayout.propTypes = {
 
 const mapStateToProps = state => ({
   loading: subjectsIsLoadingSelector(state),
-  shortlist: shortlistedCoursesSelector(state)
+  shortlist: shortlistedCoursesSelector(state),
+  isLoggedIn: userIsLoggedInSelector(state)
 });
 
 const mapDispatchToProps = {
