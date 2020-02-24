@@ -93,7 +93,7 @@ const CoursePage = ({
     ));
 
   return (
-    <div>
+    <React.Fragment>
       {!loading && course && (
         <React.Fragment>
           <div>
@@ -122,20 +122,18 @@ const CoursePage = ({
             <Typography variant="subtitle1">{course.description}</Typography>
           </div>
           <br />
-          <div>
-            <TableContainer>
-              <Table>
-                <TableBody>{fields}</TableBody>
-              </Table>
-            </TableContainer>
-          </div>
+          <TableContainer>
+            <Table>
+              <TableBody>{fields}</TableBody>
+            </Table>
+          </TableContainer>
           <br />
           <br />
           <Typography variant="h6">Sections</Typography>
           {course !== null && <CourseSchedulePanel course={course} />}
         </React.Fragment>
       )}
-    </div>
+    </React.Fragment>
   );
 };
 
