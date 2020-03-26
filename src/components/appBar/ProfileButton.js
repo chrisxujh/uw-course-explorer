@@ -13,16 +13,12 @@ import {
 } from "@material-ui/core";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import { useOAuth } from "../../providers/OAuthProvider";
-import { useFeatureFlags } from "../../providers/FeatureFlagProvider";
 import { logOut } from "../../core/user/actions";
 import PropTypes from "prop-types";
 
 const ProfileButton = ({ loading, loggedIn, logOut }) => {
   const { facebookLogin } = useOAuth();
-  const accountEnabled = useFeatureFlags().account;
   const [anchorEl, setAnchorEl] = React.useState(null);
-
-  if (!accountEnabled) return null;
 
   const onLoginClicked = () => facebookLogin();
 
