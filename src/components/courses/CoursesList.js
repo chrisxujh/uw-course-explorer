@@ -8,9 +8,9 @@ import MessageBanner from "../common/MessageBanner";
 import PaginatedList from "../common/PaginatedList";
 import PropTypes from "prop-types";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
   link: {
-    color: "#333",
+    color: theme.palette.text.primary,
     textDecoration: "none"
   }
 }));

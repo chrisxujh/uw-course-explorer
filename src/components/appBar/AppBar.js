@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { useFeatureFlags } from "../../providers/FeatureFlagProvider";
 import SearchBar from "./SearchBar";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
   toolbarWrapper: {
     width: "100%",
     display: "flex",
@@ -19,13 +19,13 @@ const useStyles = makeStyles(() => ({
     display: "flex"
   },
   titleLink: {
-    color: "#fff",
+    color: theme.palette.common.white,
     textDecoration: "none"
   },
   searchBarWrapper: {
     display: "flex",
     alignItems: "center",
-    marginRight: "4em"
+    marginRight: theme.spacing(8)
   }
 }));
 
@@ -34,7 +34,7 @@ export default function ButtonAppBar() {
   const isSearchEnabled = useFeatureFlags().search;
 
   return (
-    <AppBar position="fixed">
+    <AppBar elevation={0} square={true} position="fixed">
       <Toolbar>
         <div className={classes.toolbarWrapper}>
           <span>
