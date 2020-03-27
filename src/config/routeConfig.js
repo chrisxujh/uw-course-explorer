@@ -5,7 +5,7 @@ import ResultsLayout from "../layouts/ResultLayout";
 
 const routeConfig = [
   {
-    path: "/subjects/:subject/:courseId",
+    path: "/subjects/:subject/:catalogNumber",
     component: CoursePage
   },
   {

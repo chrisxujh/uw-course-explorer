@@ -9,6 +9,7 @@ import {
   CardActionArea
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import { getCourseLink } from "../../utils/navigationUtils";
 
 const useStyles = makeStyles(theme => ({
   courseCard: {
@@ -22,14 +23,11 @@ const useStyles = makeStyles(theme => ({
     height: "100%"
   }
 }));
+
 const CourseShortlist = ({ courses }) => {
   const classes = useStyles();
   const coursesList = courses.map((course, key) => (
-    <Link
-      className={classes.courseLink}
-      key={key}
-      to={`/subjects/${course.subject}/${course.course_id}`}
-    >
+    <Link className={classes.courseLink} key={key} to={getCourseLink(course)}>
       <Card variant="outlined" className={classes.courseCard}>
         <CardActionArea style={{ height: "100%" }}>
           <CardContent style={{ height: "100%" }}>

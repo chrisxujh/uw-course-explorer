@@ -2,7 +2,11 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { courseIsLoadingSelector, courseSelector } from "./selectors";
-import { getCourseById, shortlistCourse, unshortlistCourse } from "./actions";
+import {
+  shortlistCourse,
+  unshortlistCourse,
+  getCourseByCatalogNumber
+} from "./actions";
 import Spinner from "../spinner/Spinner";
 import { useParams } from "react-router-dom";
 import {
@@ -53,14 +57,15 @@ const CoursePage = ({
   loading,
   course,
   loggedIn,
-  getCourseById,
+  getCourseByCatalogNumber,
   shortlistCourse,
   unshortlistCourse
 }) => {
-  const { courseId } = useParams();
+  const { subject, catalogNumber } = useParams();
+
   useEffect(() => {
-    getCourseById(courseId);
-  }, [courseId, getCourseById]);
+    getCourseByCatalogNumber({ subject, catalogNumber });
+  }, [catalogNumber, getCourseByCatalogNumber, subject]);
 
   if (loading) return <Spinner />;
   if (course === null || _.isEmpty(course))
@@ -142,7 +147,7 @@ CoursePage.propTypes = {
   course: PropTypes.object,
   loggedIn: PropTypes.bool,
 
-  getCourseById: PropTypes.func.isRequired,
+  getCourseByCatalogNumber: PropTypes.func.isRequired,
   shortlistCourse: PropTypes.func.isRequired,
   unshortlistCourse: PropTypes.func.isRequired
 };
@@ -154,7 +159,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  getCourseById,
+  getCourseByCatalogNumber,
   shortlistCourse,
   unshortlistCourse
 };

@@ -7,10 +7,10 @@ import { SERVER_URL } from "../../config/config";
 
 export const getCourses = () => httpGet(`${SERVER_URL}/course`);
 
-export const getCourseById = id =>
-  httpGet(`${SERVER_URL}/course/${id}`, {
-    withCredentials: true
-  });
+export const getCourseById = id => httpAuthGet(`${SERVER_URL}/course/${id}`);
+
+export const getCourseByCatalogNumber = (subject, catalogNumber) =>
+  httpAuthGet(`${SERVER_URL}/course/${subject}/${catalogNumber}`);
 
 export const getCourseSchedule = (term, subject, catalogNumber) =>
   httpGet(`${SERVER_URL}/term/${term}/${subject}/${catalogNumber}/schedule`);

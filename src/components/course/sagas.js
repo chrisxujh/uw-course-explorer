@@ -12,9 +12,16 @@ import {
 } from "./actions";
 import * as courseService from "../../services/course/courseService";
 
-function* handleGetCourseById({ id }) {
+function* handleGetCourseByCatalogNumber({
+  payload: { subject, catalogNumber }
+}) {
   try {
-    const course = yield call(courseService.getCourseById, id);
+    const course = yield call(
+      courseService.getCourseByCatalogNumber,
+      subject,
+      catalogNumber
+    );
+
     yield put(getCourseSuccess(course));
   } catch (error) {
     yield put(getCourseFailure(error));
@@ -56,7 +63,10 @@ function* handleUnshortlistCourse({ course }) {
 }
 
 export default function*() {
-  yield takeLatest(courseActionTypes.GET_COURSE_BY_ID, handleGetCourseById);
+  yield takeLatest(
+    courseActionTypes.GET_COURSE_BY_CATALOG_NUMBER,
+    handleGetCourseByCatalogNumber
+  );
   yield takeLatest(courseActionTypes.GET_COURSE_SCHEDULE, getCourseSchedule);
   yield takeLatest(courseActionTypes.SHORTLIST_COURSE, handleShortlistCourse);
   yield takeLatest(

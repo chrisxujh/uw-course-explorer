@@ -1,5 +1,5 @@
 export const courseActionTypes = {
-  GET_COURSE_BY_ID: "course/GET_COURSE_BY_ID",
+  GET_COURSE_BY_CATALOG_NUMBER: "course/GET_COURSE_BY_CATALOG_NUMBER",
   GET_COURSE_SUCCESS: "course/GET_COURSE_SUCCESS",
   GET_COURSE_FAILURE: "course/GET_COURSE_FAILURE",
 
@@ -16,9 +16,9 @@ export const courseActionTypes = {
   UNSHORTLIST_COURSE_FAILURE: "course/UNSHORTLIST_COURSE_FAILURE"
 };
 
-export const getCourseById = id => ({
-  type: courseActionTypes.GET_COURSE_BY_ID,
-  id
+export const getCourseByCatalogNumber = payload => ({
+  type: courseActionTypes.GET_COURSE_BY_CATALOG_NUMBER,
+  payload
 });
 
 export const getCourseSuccess = course => ({
