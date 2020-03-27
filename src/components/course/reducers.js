@@ -11,7 +11,7 @@ const initialState = {
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case courseActionTypes.GET_COURSE_BY_ID:
+    case courseActionTypes.GET_COURSE_BY_CATALOG_NUMBER:
       return { ...state, loading: true };
 
     case courseActionTypes.GET_COURSE_SUCCESS:

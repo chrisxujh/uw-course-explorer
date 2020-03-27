@@ -17,6 +17,7 @@ import {
   Typography
 } from "@material-ui/core";
 import MessageBanner from "../components/common/MessageBanner";
+import { getCourseLink } from "../utils/navigationUtils";
 
 const useStyles = makeStyles(theme => ({
   result: {
@@ -50,7 +51,7 @@ const ResultsLayout = ({ isLoading, getSearchResult, results }) => {
         </ListItemText>
       );
     } else if (type === "course") {
-      url = `/subjects/${item.subject}/${item.course_id}`;
+      url = getCourseLink(item);
       content = (
         <ListItemText>
           <p>{`${item.subject} ${item.catalog_number}`}</p>
