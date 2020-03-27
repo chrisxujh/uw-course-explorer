@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 import { makeStyles, ListItem } from "@material-ui/core";
 import PaginatedList from "../common/PaginatedList";
 import PropTypes from "prop-types";
-import { getSubjectLink } from "../../utils/navigationUtils";
 
 const useStyles = makeStyles(theme => ({
   link: {
@@ -24,7 +23,11 @@ const SubjectsList = ({ subjects, loading, filter, pagination = false }) => {
   const filterUsed = filter instanceof Function ? filter : () => true;
 
   const renderSubject = (subject, key) => (
-    <Link key={key} className={classes.link} to={getSubjectLink(subject)}>
+    <Link
+      key={key}
+      className={classes.link}
+      to={`/subjects/${subject.subject}`}
+    >
       <ListItem button>
         <ListItemText>
           <h4>{subject.subject}</h4>
@@ -40,7 +43,7 @@ const SubjectsList = ({ subjects, loading, filter, pagination = false }) => {
       renderItem={renderSubject}
       filter={filterUsed}
       pagination={pagination}
-      rowsPerPageOptions={[20, 30, 50, 100]}
+      rowsPerPage={[20, 30, 50, 100]}
     />
   );
 };

@@ -17,7 +17,7 @@ import {
   Typography
 } from "@material-ui/core";
 import MessageBanner from "../components/common/MessageBanner";
-import { getCourseLink, useNavigation } from "../utils/navigationUtils";
+import { getCourseLink } from "../utils/navigationUtils";
 
 const useStyles = makeStyles(theme => ({
   result: {
@@ -27,25 +27,15 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const ResultsLayout = ({ isLoading, getSearchResult, results }) => {
-  const classes = useStyles();
   const location = useLocation();
-  const navigation = useNavigation();
   const queryParams = new URLSearchParams(location.search);
   const query = queryParams.get("query");
+
+  const classes = useStyles();
 
   useEffect(() => {
     getSearchResult({ query });
   }, [getSearchResult, query]);
-
-  const onPageChange = page => {
-    queryParams.set("page", page);
-    navigation.navigateTo(location.pathname, queryParams);
-  };
-
-  const onChangeRowsPerPage = rowsPerPage => {
-    queryParams.set("rowsPerPage", rowsPerPage);
-    navigation.navigateTo(location.pathname, queryParams);
-  };
 
   const renderResultItem = (result, i) => {
     const { type, item } = result;
@@ -71,7 +61,7 @@ const ResultsLayout = ({ isLoading, getSearchResult, results }) => {
     }
 
     return (
-      <React.Fragment key={i}>
+      <React.Fragment>
         {i !== 0 && <Divider light />}
         <Link to={url} className={classes.result}>
           <ListItem button>{content}</ListItem>
@@ -89,11 +79,7 @@ const ResultsLayout = ({ isLoading, getSearchResult, results }) => {
       <PaginatedList
         items={results}
         renderItem={renderResultItem}
-        currentPage={Number(queryParams.get("page"))}
-        rowsPerPage={Number(queryParams.get("rowsPerPage"))}
-        onPageChange={onPageChange}
-        onChangeRowsPerPage={onChangeRowsPerPage}
-        rowsPerPageOptions={[10, 20, 30, 50]}
+        rowsPerPageOptions={[6, 15, 30, 50]}
       />
     );
   };
