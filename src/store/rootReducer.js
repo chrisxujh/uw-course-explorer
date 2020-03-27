@@ -2,6 +2,7 @@ import { combineReducers } from "redux";
 import subjects from "../components/subjects/reducers";
 import courses from "../components/courses/reducers";
 import course from "../components/course/reducers";
+import search from "./search/reducers";
 
 // core
 import term from "../core/term/reducers";
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
   course,
   term,
   error,
-  user
+  user,
+  search
 });
 
 export default rootReducer;
