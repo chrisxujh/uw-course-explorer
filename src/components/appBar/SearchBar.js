@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { makeStyles, InputBase, IconButton } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
-import { useNavigation } from "../../utils/navigationUtils";
+import { useHistory } from "react-router-dom";
 
 const useInputBaseStyles = makeStyles(theme => ({
   root: {
@@ -34,11 +34,11 @@ const useStyles = makeStyles(theme => ({
 
 export default function SearchBar() {
   const classes = useStyles();
-  const navigation = useNavigation();
+  const history = useHistory();
   const [query, setQuery] = useState("");
   const inputBaseClasses = useInputBaseStyles();
 
-  const onSearch = () => navigation.navigateTo(`/results?query=${query}`);
+  const onSearch = () => history.push(`/results?query=${query}`);
   const onInputChange = e => {
     e.preventDefault();
     setQuery(e.target.value);

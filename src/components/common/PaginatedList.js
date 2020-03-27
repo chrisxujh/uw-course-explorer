@@ -5,27 +5,15 @@ import PropTypes from "prop-types";
 const PaginatedList = ({
   items,
   renderItem,
-  filter,
-  pagination,
-  currentPage,
-  rowsPerPage,
-  rowsPerPageOptions,
-  onPageChange,
-  onChangeRowsPerPage
+  filter = () => true,
+  pagination = true,
+  rowsPerPageOptions = [10, 25, 50, 100]
 }) => {
-  rowsPerPage = rowsPerPage || rowsPerPageOptions[0];
+  const [page, setPage] = useState(0);
+  const [maxRowsPerPage, setMaxRowsPerPage] = useState(rowsPerPageOptions[0]);
 
-  const [page, setPage] = useState(currentPage);
-  const [maxRowsPerPage, setMaxRowsPerPage] = useState(rowsPerPage);
-
-  const handlePageChange = (e, newPage) => {
-    onPageChange && onPageChange(newPage);
-    setPage(newPage);
-  };
-
+  const onPageChange = (e, newPage) => setPage(newPage);
   const onMaxRowsPerPageChange = event => {
-    onChangeRowsPerPage && onChangeRowsPerPage(event.target.value);
-    onPageChange && onPageChange(0);
     setMaxRowsPerPage(event.target.value);
     setPage(0);
   };
@@ -47,18 +35,11 @@ const PaginatedList = ({
           rowsPerPageOptions={rowsPerPageOptions}
           onChangeRowsPerPage={onMaxRowsPerPageChange}
           page={page}
-          onChangePage={handlePageChange}
+          onChangePage={onPageChange}
         />
       )}
     </React.Fragment>
   );
-};
-
-PaginatedList.defaultProps = {
-  filter: () => true,
-  pagination: true,
-  currentPage: 0,
-  rowsPerPageOptions: [10, 25, 50, 100]
 };
 
 PaginatedList.propTypes = {
@@ -66,11 +47,7 @@ PaginatedList.propTypes = {
   renderItem: PropTypes.func.isRequired,
   filter: PropTypes.func,
   pagination: PropTypes.bool,
-  currentPage: PropTypes.number,
-  rowsPerPage: PropTypes.number,
-  rowsPerPageOptions: PropTypes.array,
-  onPageChange: PropTypes.func,
-  onChangeRowsPerPage: PropTypes.func
+  rowsPerPageOptions: PropTypes.array
 };
 
 export default PaginatedList;
