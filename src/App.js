@@ -1,14 +1,12 @@
 import React, { useEffect } from "react";
 import AppBar from "./components/appBar/AppBar";
-import CoursePage from "./components/course/CoursePage";
 import { Switch, Route, BrowserRouter, Redirect } from "react-router-dom";
 import { makeStyles, Container } from "@material-ui/core";
-import SubjectsLayout from "./layouts/SubjectsLayout";
-import CoursesListLayout from "./layouts/CoursesListLayout";
 import { connect } from "react-redux";
 import { getTerms } from "./core/term/actions";
 import Footer from "./components/footer/Footer";
 import { resumeUserSession } from "./core/user/actions";
+import routeConfig from "./config/routeConfig";
 import PropTypes from "prop-types";
 import "./App.css";
 
@@ -37,21 +35,13 @@ function App({ getTerms, resumeUserSession }) {
           <AppBar />
           <div className={classes.offset} />
           <Switch>
-            <Route path="/subjects/:subject/:courseId">
-              <CoursePage />
-            </Route>
-
-            <Route path="/subjects/:subject">
-              <CoursesListLayout />
-            </Route>
-
-            <Route path="/subjects">
-              <SubjectsLayout />
-            </Route>
-
-            <Route exact path="/">
-              <Redirect to="/subjects" />
-            </Route>
+            {routeConfig.map(
+              ({ path, exact, redirectTo, component: Component }, key) => (
+                <Route key={key} exact={exact} path={path}>
+                  {redirectTo ? <Redirect to={redirectTo} /> : <Component />}
+                </Route>
+              )
+            )}
           </Switch>
           <Footer />
         </BrowserRouter>
