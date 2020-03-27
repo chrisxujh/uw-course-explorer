@@ -8,10 +8,10 @@ import { makeStyles, ListItem } from "@material-ui/core";
 import PaginatedList from "../common/PaginatedList";
 import PropTypes from "prop-types";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
   link: {
-    color: "#333",
-    textDecoration: "none"
+    textDecoration: "none",
+    color: theme.palette.text.primary
   }
 }));
 

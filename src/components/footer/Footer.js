@@ -18,7 +18,10 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(1)
   },
   githubLnk: {
-    color: "#333"
+    color: theme.palette.text.primary
+  },
+  heartIcon: {
+    color: theme.palette.error.main
   }
 }));
 
@@ -56,11 +59,13 @@ export default function() {
         <Typography variant="caption" component="p" align="center">
           {age.days} days {age.hours} hrs {age.minutes} mins {age.seconds} secs
           &nbsp;
-          <SvgIcon
-            component={FavoriteIcon}
-            fontSize="small"
-            className="heart-icon icon"
-          />
+          <span className={classes.heartIcon}>
+            <SvgIcon
+              component={FavoriteIcon}
+              fontSize="small"
+              className="heart-icon icon"
+            />
+          </span>
           &nbsp; |&nbsp;
           <Link
             className={classes.githubLnk}
@@ -69,11 +74,7 @@ export default function() {
             rel="noopener"
           >
             GITHUB&nbsp;
-            <SvgIcon
-              className="icon"
-              component={GitHubIcon}
-              fontSize="small"
-            ></SvgIcon>
+            <SvgIcon className="icon" component={GitHubIcon} fontSize="small" />
           </Link>
         </Typography>
       </div>

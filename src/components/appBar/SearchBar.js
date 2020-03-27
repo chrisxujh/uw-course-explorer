@@ -3,26 +3,32 @@ import { makeStyles, InputBase, IconButton } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import { useHistory } from "react-router-dom";
 
-const useInputBaseStyles = makeStyles(() => ({
+const useInputBaseStyles = makeStyles(theme => ({
   root: {
-    minWidth: "250px",
+    flex: 1,
+    minWidth: theme.spacing(22),
+    transition: theme.transitions.create("min-width"),
+
+    "&.Mui-focused": {
+      minWidth: theme.spacing(28)
+    },
 
     "& .MuiInputBase-input": {
-      color: "#fff",
+      color: theme.palette.common.white,
       fontSize: "0.875rem",
-      textIndent: "1em"
+      textIndent: theme.spacing(2)
     }
   }
 }));
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
   wrapper: {
+    display: "flex",
     backgroundColor: "rgba(225,225,225,0.1)",
-    borderRadius: "4px",
-    padding: "0 2px"
+    borderRadius: theme.shape.borderRadius
   },
   searchIcon: {
-    color: "#fff"
+    color: theme.palette.common.white
   }
 }));
 

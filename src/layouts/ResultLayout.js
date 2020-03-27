@@ -18,9 +18,9 @@ import {
 } from "@material-ui/core";
 import MessageBanner from "../components/common/MessageBanner";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
   result: {
-    color: "#333",
+    color: theme.palette.text.primary,
     textDecoration: "none"
   }
 }));
