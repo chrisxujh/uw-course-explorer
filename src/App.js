@@ -5,6 +5,7 @@ import { makeStyles, Container } from "@material-ui/core";
 import { connect } from "react-redux";
 import { getTerms } from "./core/term/actions";
 import Footer from "./components/footer/Footer";
+import NavigationBreadcrumb from "./components/navigation/NavigationBreadcrumb";
 import { resumeUserSession } from "./core/user/actions";
 import routeConfig from "./config/routeConfig";
 import PropTypes from "prop-types";
@@ -35,13 +36,28 @@ function App({ getTerms, resumeUserSession }) {
           <AppBar />
           <div className={classes.offset} />
           <Switch>
-            {routeConfig.map(
-              ({ path, exact, redirectTo, component: Component }, key) => (
+            {routeConfig.map((config, key) => {
+              const {
+                path,
+                exact,
+                redirectTo,
+                breadcrumb,
+                component: Component
+              } = config;
+
+              return (
                 <Route key={key} exact={exact} path={path}>
-                  {redirectTo ? <Redirect to={redirectTo} /> : <Component />}
+                  {redirectTo ? (
+                    <Redirect to={redirectTo} />
+                  ) : (
+                    <React.Fragment>
+                      {breadcrumb && <NavigationBreadcrumb />}
+                      <Component />
+                    </React.Fragment>
+                  )}
                 </Route>
-              )
-            )}
+              );
+            })}
           </Switch>
           <Footer />
         </BrowserRouter>

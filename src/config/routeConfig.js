@@ -6,11 +6,13 @@ import ResultsLayout from "../layouts/ResultLayout";
 const routeConfig = [
   {
     path: "/subjects/:subject/:catalogNumber",
-    component: CoursePage
+    component: CoursePage,
+    breadcrumb: true
   },
   {
     path: "/subjects/:subject",
-    component: CoursesListLayout
+    component: CoursesListLayout,
+    breadcrumb: true
   },
   {
     path: "/subjects",

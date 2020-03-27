@@ -21,6 +21,13 @@ const useStyles = makeStyles(theme => ({
     textDecoration: "none",
     color: "inherit",
     height: "100%"
+  },
+  courseTitle: {
+    display: "-webkit-box",
+    WebkitBoxOrient: "vertical",
+    WebkitLineClamp: 2,
+    textOverflow: "ellipsis",
+    overflow: "hidden"
   }
 }));
 
@@ -36,7 +43,9 @@ const CourseShortlist = ({ courses }) => {
                 {course.subject} {course.catalog_number}
               </b>
             </Typography>
-            <Typography variant="body2">{course.title}</Typography>
+            <Typography className={classes.courseTitle} variant="body2">
+              {course.title}
+            </Typography>
           </CardContent>
         </CardActionArea>
       </Card>
