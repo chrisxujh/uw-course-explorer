@@ -12,15 +12,13 @@ import {
   MenuItem
 } from "@material-ui/core";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-import { useOAuth } from "../../providers/OAuthProvider";
-import { logOut } from "../../core/user/actions";
+import { logOut, oauthSignIn } from "../../core/user/actions";
+import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
+import { FACEBOOK_APP_ID } from "../../config/config";
 import PropTypes from "prop-types";
 
-const ProfileButton = ({ loading, loggedIn, logOut }) => {
-  const { facebookLogin } = useOAuth();
+const ProfileButton = ({ loading, loggedIn, logOut, oauthSignIn }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
-
-  const onLoginClicked = () => facebookLogin();
 
   if (loading) return <Typography variant="body1">...</Typography>;
 
@@ -37,7 +35,7 @@ const ProfileButton = ({ loading, loggedIn, logOut }) => {
     handleClose();
   };
 
-  if (loggedIn)
+  if (loggedIn) {
     return (
       <React.Fragment>
         <IconButton onClick={handleClick} color="inherit">
@@ -54,18 +52,34 @@ const ProfileButton = ({ loading, loggedIn, logOut }) => {
         </Menu>
       </React.Fragment>
     );
+  }
+
+  const onFacebookResponse = res => {
+    const { accessToken } = res;
+    oauthSignIn("facebook", { accessToken });
+  };
 
   return (
-    <Button color="inherit" onClick={onLoginClicked}>
-      Login
-    </Button>
+    <FacebookLogin
+      render={({ onClick }) => {
+        return (
+          <Button color="inherit" onClick={onClick}>
+            Login
+          </Button>
+        );
+      }}
+      appId={FACEBOOK_APP_ID}
+      fields="name,email,picture"
+      callback={onFacebookResponse}
+    />
   );
 };
 
 ProfileButton.propTypes = {
   loading: PropTypes.bool,
   loggedIn: PropTypes.bool,
-  logOut: PropTypes.func.isRequired
+  logOut: PropTypes.func.isRequired,
+  oauthSignIn: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -74,7 +88,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  logOut
+  logOut,
+  oauthSignIn
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileButton);
