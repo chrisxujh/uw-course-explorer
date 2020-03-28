@@ -1,41 +1,52 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { errorMessageSelector } from "../core/error/selectors";
+import { notificationsSelector } from "../core/notifications/selectors";
 import { SnackbarProvider, useSnackbar } from "notistack";
 import PropTypes from "prop-types";
 
-const Notifications = ({ errorMessage }) => {
+const displayed = new Map();
+
+const NotificationsProvider = props => {
+  const { children, notifications } = props;
   const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
-    if (errorMessage !== null)
-      enqueueSnackbar(errorMessage, { variant: "error" });
-  }, [enqueueSnackbar, errorMessage]);
+    if (notifications.length) {
+      const { id, message, ...rest } = notifications.pop();
 
-  return <div />;
+      if (!displayed.has(id)) {
+        enqueueSnackbar(message, {
+          autoHideDuration: 4000,
+          preventDuplicate: true,
+          ...rest
+        });
+        displayed.set(id, true);
+      }
+    }
+  }, [enqueueSnackbar, notifications]);
+
+  return <React.Fragment>{children}</React.Fragment>;
+};
+
+NotificationsProvider.propTypes = {
+  children: PropTypes.node,
+  notifications: PropTypes.array
 };
 
 const mapStateToProps = state => ({
-  errorMessage: errorMessageSelector(state)
+  notifications: notificationsSelector(state)
 });
 
-Notifications.propTypes = {
-  errorMessage: PropTypes.string
-};
-
-const NotificationsConnected = connect(mapStateToProps)(Notifications);
+const NotificationsProviderConnected = connect(mapStateToProps)(
+  NotificationsProvider
+);
 
 export default function({ children }) {
   return (
-    <SnackbarProvider
-      maxSnack={3}
-      anchorOrigin={{
-        vertical: "bottom",
-        horizontal: "center"
-      }}
-    >
-      {children}
-      <NotificationsConnected />
+    <SnackbarProvider maxSnack={3}>
+      <NotificationsProviderConnected>
+        {children}
+      </NotificationsProviderConnected>
     </SnackbarProvider>
   );
 }

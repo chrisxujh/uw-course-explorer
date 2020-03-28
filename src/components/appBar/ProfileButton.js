@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import {
   userIsLoadingSelector,
@@ -13,12 +13,12 @@ import {
 } from "@material-ui/core";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import { logOut, oauthSignIn } from "../../core/user/actions";
-import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
-import { FACEBOOK_APP_ID } from "../../config/config";
 import PropTypes from "prop-types";
+import LoginDialog from "../login/LoginDialog";
 
 const ProfileButton = ({ loading, loggedIn, logOut, oauthSignIn }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [showLoginDialog, setShowLoginDialog] = useState(false);
 
   if (loading) return <Typography variant="body1">...</Typography>;
 
@@ -54,24 +54,25 @@ const ProfileButton = ({ loading, loggedIn, logOut, oauthSignIn }) => {
     );
   }
 
-  const onFacebookResponse = res => {
-    const { accessToken } = res;
-    oauthSignIn("facebook", { accessToken });
+  const handleLogin = () => {
+    setShowLoginDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setShowLoginDialog(false);
   };
 
   return (
-    <FacebookLogin
-      render={({ onClick }) => {
-        return (
-          <Button color="inherit" onClick={onClick}>
-            Login
-          </Button>
-        );
-      }}
-      appId={FACEBOOK_APP_ID}
-      fields="name,email,picture"
-      callback={onFacebookResponse}
-    />
+    <React.Fragment>
+      <Button color="inherit" onClick={handleLogin}>
+        Login
+      </Button>
+      <LoginDialog
+        open={showLoginDialog}
+        onClose={handleCloseDialog}
+        oauthSignIn={oauthSignIn}
+      />
+    </React.Fragment>
   );
 };
 

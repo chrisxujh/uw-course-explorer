@@ -6,16 +6,16 @@ import search from "./search/reducers";
 
 // core
 import term from "../core/term/reducers";
-import error from "../core/error/reducers";
 import user from "../core/user/reducers";
+import notifications from "../core/notifications/reducers";
 
 const rootReducer = combineReducers({
   subjects,
   courses,
   course,
   term,
-  error,
   user,
+  notifications,
   search
 });
 
