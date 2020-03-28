@@ -14,7 +14,9 @@ import {
   Divider,
   ListItem,
   ListItemText,
-  Typography
+  Typography,
+  Container,
+  Paper
 } from "@material-ui/core";
 import MessageBanner from "../components/common/MessageBanner";
 import { getCourseLink, useNavigation } from "../utils/navigationUtils";
@@ -23,6 +25,10 @@ const useStyles = makeStyles(theme => ({
   result: {
     color: theme.palette.text.primary,
     textDecoration: "none"
+  },
+  wrapper: {
+    marginTop: theme.spacing(4),
+    padding: theme.spacing(2)
   }
 }));
 
@@ -99,13 +105,15 @@ const ResultsLayout = ({ isLoading, getSearchResult, results }) => {
   };
 
   return (
-    <React.Fragment>
-      <Typography variant="h5">
-        Search results for: <b>{query}</b>
-      </Typography>
-      <br />
-      {renderContent()}
-    </React.Fragment>
+    <Container>
+      <Paper variant="outlined" square className={classes.wrapper}>
+        <Typography variant="h5">
+          Search results for: <b>{query}</b>
+        </Typography>
+        <br />
+        {renderContent()}
+      </Paper>
+    </Container>
   );
 };
 
