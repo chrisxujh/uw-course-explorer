@@ -9,7 +9,6 @@ import NavigationBreadcrumb from "./components/navigation/NavigationBreadcrumb";
 import { resumeUserSession } from "./core/user/actions";
 import routeConfig from "./config/routeConfig";
 import PropTypes from "prop-types";
-import "./App.css";
 
 const useStyle = makeStyles(theme => ({
   offset: theme.mixins.toolbar,
