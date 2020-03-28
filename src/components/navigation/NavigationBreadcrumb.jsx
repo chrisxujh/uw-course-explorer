@@ -4,7 +4,8 @@ import { Link, useLocation } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   breadcrumb: {
-    marginBottom: theme.spacing(3)
+    paddingTop: theme.spacing(3),
+    paddingBottom: theme.spacing(3)
   },
   link: {
     color: theme.palette.text.primary,

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import SubjectsList from "../components/subjects/SubjectsList";
-import { Typography } from "@material-ui/core";
+import { Typography, Container, Paper, makeStyles } from "@material-ui/core";
 import Spinner from "../components/spinner/Spinner";
 import { useConfig } from "../providers/ConfigProvider";
 import { connect } from "react-redux";
@@ -11,6 +11,16 @@ import CourseShortlist from "../components/courses/CourseShortlist";
 import { getShortlistedCourses } from "../components/courses/actions";
 import { shortlistedCoursesSelector } from "../components/courses/selectors";
 import { userIsLoggedInSelector } from "../core/user/selectors";
+
+const useStyles = makeStyles(theme => ({
+  paper: {
+    marginTop: theme.spacing(4),
+    padding: theme.spacing(2)
+  },
+  shortlist: {
+    marginTop: theme.spacing(4)
+  }
+}));
 
 const popularFilter = isPopular => ({ subject }) => isPopular[subject] === true;
 
@@ -27,6 +37,7 @@ const SubjectsLayout = ({
   getShortlistedCourses
 }) => {
   const { popularSubjects } = useConfig();
+  const classes = useStyles();
   useEffect(() => {
     getSubjects();
   }, [getSubjects]);
@@ -46,25 +57,25 @@ const SubjectsLayout = ({
   const otherFilter = showPopular ? noPopularFilter(isPopular) : allFilter;
 
   return (
-    <React.Fragment>
+    <Container>
       {shortlist && shortlist.length > 0 && (
-        <React.Fragment>
+        <div className={classes.shortlist}>
           <Typography variant="h5">Shortlisted courses:</Typography>
           <br />
           <CourseShortlist courses={shortlist} />
-          <br />
-        </React.Fragment>
+        </div>
       )}
       {showPopular && (
-        <React.Fragment>
+        <Paper variant="outlined" square className={classes.paper}>
           <Typography variant="h5">Popular subjects:</Typography>
           <SubjectsList filter={popularFilter(isPopular)} />
-          <br />
-        </React.Fragment>
+        </Paper>
       )}
-      <Typography variant="h5">Other subjects:</Typography>
-      <SubjectsList filter={otherFilter} pagination={true} />
-    </React.Fragment>
+      <Paper variant="outlined" square className={classes.paper}>
+        <Typography variant="h5">Other subjects:</Typography>
+        <SubjectsList filter={otherFilter} pagination={true} />
+      </Paper>
+    </Container>
   );
 };
 

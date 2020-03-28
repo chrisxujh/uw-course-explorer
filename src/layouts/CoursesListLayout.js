@@ -1,15 +1,26 @@
 import React, { useEffect } from "react";
 import CoursesList from "../components/courses/CoursesList";
-import { Typography } from "@material-ui/core";
+import { Typography, Container, Paper, makeStyles } from "@material-ui/core";
 import Spinner from "../components/spinner/Spinner";
+import NavigationBreadcrumb from "../components/navigation/NavigationBreadcrumb";
 import { useParams } from "react-router-dom";
 import { connect } from "react-redux";
 import { coursesIsLoadingSelector } from "../components/courses/selectors";
 import { getCourses } from "../components/courses/actions";
 import PropTypes from "prop-types";
 
+const useStyles = makeStyles(theme => ({
+  wrapper: {
+    marginTop: theme.spacing(4),
+    padding: theme.spacing(2),
+    paddingTop: 0
+  }
+}));
+
 const CoursesListLayout = ({ loading, getCourses }) => {
   const { subject } = useParams();
+  const classes = useStyles();
+
   useEffect(() => {
     getCourses(subject);
   }, [getCourses, subject]);
@@ -17,10 +28,13 @@ const CoursesListLayout = ({ loading, getCourses }) => {
   if (loading) return <Spinner />;
 
   return (
-    <React.Fragment>
-      <Typography variant="h5">Courses of {subject}:</Typography>
-      <CoursesList />
-    </React.Fragment>
+    <Container>
+      <Paper variant="outlined" square className={classes.wrapper}>
+        <NavigationBreadcrumb />
+        <Typography variant="h5">Courses of {subject}:</Typography>
+        <CoursesList />
+      </Paper>
+    </Container>
   );
 };
 

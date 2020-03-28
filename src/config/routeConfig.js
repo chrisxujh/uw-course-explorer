@@ -1,4 +1,4 @@
-import CoursePage from "../components/course/CoursePage";
+import CourseLayout from "../layouts/CourseLayout";
 import CoursesListLayout from "../layouts/CoursesListLayout";
 import SubjectsLayout from "../layouts/SubjectsLayout";
 import ResultsLayout from "../layouts/ResultLayout";
@@ -6,13 +6,11 @@ import ResultsLayout from "../layouts/ResultLayout";
 const routeConfig = [
   {
     path: "/subjects/:subject/:catalogNumber",
-    component: CoursePage,
-    breadcrumb: true
+    component: CourseLayout
   },
   {
     path: "/subjects/:subject",
-    component: CoursesListLayout,
-    breadcrumb: true
+    component: CoursesListLayout
   },
   {
     path: "/subjects",

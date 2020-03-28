@@ -1,13 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { courseIsLoadingSelector, courseSelector } from "./selectors";
+import {
+  courseIsLoadingSelector,
+  courseSelector
+} from "../../components/course/selectors";
 import {
   shortlistCourse,
   unshortlistCourse,
   getCourseByCatalogNumber
-} from "./actions";
-import Spinner from "../spinner/Spinner";
+} from "../../components/course/actions";
+import Spinner from "../../components/spinner/Spinner";
 import { useParams } from "react-router-dom";
 import {
   Typography,
@@ -18,12 +21,17 @@ import {
   Table,
   Link,
   Grid,
-  Button
+  Button,
+  Paper,
+  Container,
+  makeStyles,
+  Collapse
 } from "@material-ui/core";
-import CourseSchedulePanel from "../../layouts/CourseSchedulePanel";
-import MessageBanner from "../common/MessageBanner";
+import CourseSchedulePanel from "../CourseSchedulePanel";
+import MessageBanner from "../../components/common/MessageBanner";
 import { userIsLoggedInSelector } from "../../core/user/selectors";
 import _ from "lodash";
+import NavigationBreadcrumb from "../../components/navigation/NavigationBreadcrumb";
 
 const displayedFileds = [
   { key: "units", display: "Units" },
@@ -53,7 +61,27 @@ const displayedFileds = [
   }
 ];
 
-const CoursePage = ({
+const useStyles = makeStyles(theme => ({
+  courseInfoSection: {
+    paddingBottom: theme.spacing(2)
+  },
+  basicCourseInfo: {
+    marginBottom: theme.spacing(2)
+  },
+  courseDetails: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(4)
+  },
+  sectionsContainer: {
+    marginTop: theme.spacing(4)
+  },
+  schedules: {
+    padding: theme.spacing(2),
+    paddingBottom: theme.spacing(6)
+  }
+}));
+
+const CourseLayout = ({
   loading,
   course,
   loggedIn,
@@ -62,6 +90,9 @@ const CoursePage = ({
   unshortlistCourse
 }) => {
   const { subject, catalogNumber } = useParams();
+  const classes = useStyles();
+
+  const [showDetails, setShowDetails] = useState(false);
 
   useEffect(() => {
     getCourseByCatalogNumber({ subject, catalogNumber });
@@ -78,6 +109,10 @@ const CoursePage = ({
 
   const handleUnshortlist = () => {
     unshortlistCourse(course);
+  };
+
+  const handleShowDetails = () => {
+    setShowDetails(!showDetails);
   };
 
   const fields = displayedFileds
@@ -99,9 +134,10 @@ const CoursePage = ({
 
   return (
     <React.Fragment>
-      {!loading && course && (
-        <React.Fragment>
-          <div>
+      <Paper variant="outlined" square className={classes.courseInfoSection}>
+        <Container maxWidth="lg">
+          <NavigationBreadcrumb />
+          <div className={classes.basicCourseInfo}>
             <Grid container>
               <Grid item md={10}>
                 <Typography variant="h4" gutterBottom>
@@ -126,23 +162,31 @@ const CoursePage = ({
             </Grid>
             <Typography variant="subtitle1">{course.description}</Typography>
           </div>
-          <br />
-          <TableContainer>
-            <Table>
-              <TableBody>{fields}</TableBody>
-            </Table>
-          </TableContainer>
-          <br />
-          <br />
+          <Collapse in={showDetails}>
+            <TableContainer className={classes.courseDetails}>
+              <Table>
+                <TableBody>{fields}</TableBody>
+              </Table>
+            </TableContainer>
+          </Collapse>
+        </Container>
+        <Container>
+          <Button color="primary" onClick={handleShowDetails}>
+            Show {showDetails ? "less" : "more"}
+          </Button>
+        </Container>
+      </Paper>
+      <Container className={classes.sectionsContainer}>
+        <Paper variant="outlined" square className={classes.schedules}>
           <Typography variant="h6">Sections</Typography>
           {course !== null && <CourseSchedulePanel course={course} />}
-        </React.Fragment>
-      )}
+        </Paper>
+      </Container>
     </React.Fragment>
   );
 };
 
-CoursePage.propTypes = {
+CourseLayout.propTypes = {
   loading: PropTypes.bool,
   course: PropTypes.object,
   loggedIn: PropTypes.bool,
@@ -164,4 +208,4 @@ const mapDispatchToProps = {
   unshortlistCourse
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CoursePage);
+export default connect(mapStateToProps, mapDispatchToProps)(CourseLayout);

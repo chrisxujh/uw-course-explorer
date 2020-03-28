@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import AppBar from "./components/appBar/AppBar";
 import { Switch, Route, BrowserRouter, Redirect } from "react-router-dom";
-import { makeStyles, Container } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 import { connect } from "react-redux";
 import { getTerms } from "./core/term/actions";
 import Footer from "./components/footer/Footer";
@@ -11,10 +11,16 @@ import routeConfig from "./config/routeConfig";
 import PropTypes from "prop-types";
 
 const useStyle = makeStyles(theme => ({
-  offset: theme.mixins.toolbar,
-  container: {
-    paddingTop: theme.spacing(4)
-  }
+  app: {
+    backgroundColor: theme.palette.background.default,
+    height: "100%",
+    overflow: "hidden"
+  },
+  appContent: {
+    height: "100%",
+    overflowY: "scroll"
+  },
+  offset: theme.mixins.toolbar
 }));
 
 function App({ getTerms, resumeUserSession }) {
@@ -29,10 +35,10 @@ function App({ getTerms, resumeUserSession }) {
   }, [getTerms]);
 
   return (
-    <div className="App">
-      <Container className={classes.container} maxWidth="lg">
-        <BrowserRouter basename="/uw-course-explorer">
-          <AppBar />
+    <div className={classes.app}>
+      <BrowserRouter basename="/uw-course-explorer">
+        <AppBar />
+        <div className={classes.appContent}>
           <div className={classes.offset} />
           <Switch>
             {routeConfig.map((config, key) => {
@@ -41,7 +47,8 @@ function App({ getTerms, resumeUserSession }) {
                 exact,
                 redirectTo,
                 breadcrumb,
-                component: Component
+                component: Component,
+                props
               } = config;
 
               return (
@@ -51,7 +58,7 @@ function App({ getTerms, resumeUserSession }) {
                   ) : (
                     <React.Fragment>
                       {breadcrumb && <NavigationBreadcrumb />}
-                      <Component />
+                      <Component {...props} />
                     </React.Fragment>
                   )}
                 </Route>
@@ -59,8 +66,8 @@ function App({ getTerms, resumeUserSession }) {
             })}
           </Switch>
           <Footer />
-        </BrowserRouter>
-      </Container>
+        </div>
+      </BrowserRouter>
     </div>
   );
 }
