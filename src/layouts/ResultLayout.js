@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { getSearchResult, clearSearchResult } from "../store/search/actions";
+import { getSearchResult } from "../store/search/actions";
 import Spinner from "../components/spinner/Spinner";
 import PropTypes from "prop-types";
 import {
@@ -39,13 +39,11 @@ const ResultsLayout = props => {
   const queryParams = new URLSearchParams(location.search);
   const query = queryParams.get("query");
 
-  const { isLoading, getSearchResult, clearSearchResult, results } = props;
+  const { isLoading, getSearchResult, results } = props;
 
   useEffect(() => {
     getSearchResult({ query });
-
-    return () => clearSearchResult();
-  }, [clearSearchResult, getSearchResult, query]);
+  }, [getSearchResult, query]);
 
   const onPageChange = page => {
     queryParams.set("page", page);
@@ -128,8 +126,7 @@ ResultsLayout.defaultProps = {
 ResultsLayout.propTypes = {
   isLoading: PropTypes.bool,
   results: PropTypes.array,
-  getSearchResult: PropTypes.func.isRequired,
-  clearSearchResult: PropTypes.func.isRequired
+  getSearchResult: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -138,8 +135,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  getSearchResult,
-  clearSearchResult
+  getSearchResult
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResultsLayout);
