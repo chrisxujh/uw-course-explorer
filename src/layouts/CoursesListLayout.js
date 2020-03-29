@@ -5,8 +5,8 @@ import Spinner from "../components/spinner/Spinner";
 import NavigationBreadcrumb from "../components/navigation/NavigationBreadcrumb";
 import { useParams } from "react-router-dom";
 import { connect } from "react-redux";
-import { coursesIsLoadingSelector } from "../components/courses/selectors";
-import { getCourses } from "../components/courses/actions";
+import { coursesIsLoadingSelector } from "../store/courses/selectors";
+import { getCourses } from "../store/courses/actions";
 import PropTypes from "prop-types";
 
 const useStyles = makeStyles(theme => ({

@@ -8,8 +8,8 @@ import { subjectsIsLoadingSelector } from "../components/subjects/selectors";
 import PropTypes from "prop-types";
 import { getSubjects } from "../components/subjects/actions";
 import CourseShortlist from "../components/courses/CourseShortlist";
-import { getShortlistedCourses } from "../components/courses/actions";
-import { shortlistedCoursesSelector } from "../components/courses/selectors";
+import { getShortlistedCourses } from "../store/courses/actions";
+import { shortlistedCoursesSelector } from "../store/courses/selectors";
 import { userIsLoggedInSelector } from "../core/user/selectors";
 
 const useStyles = makeStyles(theme => ({

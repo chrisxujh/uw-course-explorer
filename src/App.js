@@ -38,8 +38,8 @@ function App({ getTerms, resumeUserSession }) {
     <div className={classes.app}>
       <BrowserRouter basename="/uw-course-explorer">
         <AppBar />
+        <div className={classes.offset} />
         <div className={classes.appContent}>
-          <div className={classes.offset} />
           <Switch>
             {routeConfig.map((config, key) => {
               const {

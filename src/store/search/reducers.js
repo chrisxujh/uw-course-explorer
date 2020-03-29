@@ -6,11 +6,12 @@ const results = (state = { isLoading: false, data: [] }, action) => {
 
   switch (type) {
     case resultActionTypes.GET_SEARCH_RESULT:
-      return { ...state, isLoading: true, data: [] };
+      return { ...state, isLoading: true };
 
     case resultActionTypes.GET_SEARCH_RESULT_SUCCESS:
       return { ...state, isLoading: false, data: payload.results };
 
+    case resultActionTypes.CLEAR_SEARCH_RESULT:
     case resultActionTypes.GET_SEARCH_RESULT_FAILURE:
       return {
         ...state,

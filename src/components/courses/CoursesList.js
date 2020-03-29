@@ -1,6 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
-import { coursesSelector, coursesIsLoadingSelector } from "./selectors";
+import {
+  coursesSelector,
+  coursesIsLoadingSelector
+} from "../../store/courses/selectors";
 import Spinner from "../spinner/Spinner";
 import { ListItem, ListItemText, makeStyles } from "@material-ui/core";
 import { Link, useLocation } from "react-router-dom";

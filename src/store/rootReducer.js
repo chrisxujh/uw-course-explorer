@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
 import subjects from "../components/subjects/reducers";
-import courses from "../components/courses/reducers";
+import courses from "./courses/reducers";
 import course from "../components/course/reducers";
 import search from "./search/reducers";
 

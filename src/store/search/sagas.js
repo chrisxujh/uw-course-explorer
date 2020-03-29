@@ -6,9 +6,9 @@ import {
 } from "./actions";
 import { querySearch } from "../../services/search/searchService";
 
-function* handleSearch({ payload: { query } }) {
+function* handleSearch({ payload }) {
   try {
-    const results = yield call(querySearch, query);
+    const results = yield call(querySearch, payload);
     yield put(getSearchResultSuccess({ results }));
   } catch (err) {
     yield put(getSearchResultFailure(err));
