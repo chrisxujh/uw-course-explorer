@@ -21,24 +21,24 @@ export default function ButtonAppBar() {
   const isSearchEnabled = useFeatureFlags().search;
 
   return (
-    <AppBar elevation={0} square={true} position="fixed">
+    <AppBar elevation={0} square={true} position="relative">
       <Toolbar>
         <Grid container>
-          <Grid container item xs={2} alignItems="center">
+          <Grid container item md={2} alignItems="center">
             <Typography variant="h6">
               <Link className={classes.titleLink} to="/">
                 UW Course Explorer
               </Link>
             </Typography>
           </Grid>
-          <Grid container item xs={6} alignItems="center">
+          <Grid container item md={6} alignItems="center">
             {isSearchEnabled && (
               <div className={classes.searchBarWrapper}>
                 <SearchBar />
               </div>
             )}
           </Grid>
-          <Grid container item xs={4} alignItems="center" justify="flex-end">
+          <Grid container item md={4} alignItems="center" justify="flex-end">
             <ProfileButton />
           </Grid>
         </Grid>
