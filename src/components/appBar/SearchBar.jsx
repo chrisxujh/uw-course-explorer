@@ -20,12 +20,12 @@ import {
   getCourseLink,
   getSubjectLink,
   getResultsPageLink,
-  getSubjectsPageLink,
   useNavigation
 } from "../../utils/navigationUtils";
 import { Link } from "react-router-dom";
 import { getSearchResult, clearSearchResult } from "../../store/search/actions";
 import { searchResultsSelector } from "../../store/search/selectors";
+import MessageBanner from "../common/MessageBanner";
 
 const MAX_ENTRIES = 6;
 
@@ -115,8 +115,13 @@ const SearchBar = props => {
           />
         </Box>
       </div>
-      <div className={focused ? classes.resultsSection : classes.hidden}>
+      <div
+        className={focused && input ? classes.resultsSection : classes.hidden}
+      >
         <Paper square>
+          {results.length === 0 && (
+            <MessageBanner message="No results found." />
+          )}
           <List>
             {results.slice(0, MAX_ENTRIES).map(result => {
               const { type, item } = result;
@@ -186,20 +191,6 @@ const SearchBar = props => {
                 </ListItem>
               </Link>
             )}
-            <Link
-              to={getSubjectsPageLink()}
-              className={classes.link}
-              onClick={handleSelect}
-            >
-              <ListItem button>
-                <ListItemIcon>
-                  <ListIcon />
-                </ListItemIcon>
-                <ListItemText>
-                  <Typography color="primary">Explore all subjects</Typography>
-                </ListItemText>
-              </ListItem>
-            </Link>
           </List>
         </Paper>
       </div>
