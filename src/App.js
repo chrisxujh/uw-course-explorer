@@ -11,16 +11,17 @@ import routeConfig from "./config/routeConfig";
 import PropTypes from "prop-types";
 
 const useStyle = makeStyles(theme => ({
-  app: {
-    backgroundColor: theme.palette.background.default,
+  appContainer: {
+    display: "flex",
+    flexDirection: "column",
     height: "100%",
-    overflow: "hidden"
+    backgroundColor: theme.palette.background.default
   },
   appContent: {
+    flex: 1,
     height: "100%",
     overflowY: "scroll"
-  },
-  offset: theme.mixins.toolbar
+  }
 }));
 
 function App({ getTerms, resumeUserSession }) {
@@ -35,10 +36,9 @@ function App({ getTerms, resumeUserSession }) {
   }, [getTerms]);
 
   return (
-    <div className={classes.app}>
-      <BrowserRouter basename="/uw-course-explorer">
+    <BrowserRouter basename="/uw-course-explorer">
+      <div className={classes.appContainer}>
         <AppBar />
-        <div className={classes.offset} />
         <div className={classes.appContent}>
           <Switch>
             {routeConfig.map((config, key) => {
@@ -67,8 +67,8 @@ function App({ getTerms, resumeUserSession }) {
           </Switch>
           <Footer />
         </div>
-      </BrowserRouter>
-    </div>
+      </div>
+    </BrowserRouter>
   );
 }
 
