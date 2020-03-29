@@ -7,25 +7,12 @@ import ProfileButton from "./ProfileButton";
 import { Link } from "react-router-dom";
 import { useFeatureFlags } from "../../providers/FeatureFlagProvider";
 import SearchBar from "./SearchBar";
+import { Grid } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
-  toolbarWrapper: {
-    width: "100%",
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center"
-  },
-  leftColumn: {
-    display: "flex"
-  },
   titleLink: {
     color: theme.palette.common.white,
     textDecoration: "none"
-  },
-  searchBarWrapper: {
-    display: "flex",
-    alignItems: "center",
-    marginRight: theme.spacing(8)
   }
 }));
 
@@ -36,23 +23,25 @@ export default function ButtonAppBar() {
   return (
     <AppBar elevation={0} square={true} position="fixed">
       <Toolbar>
-        <div className={classes.toolbarWrapper}>
-          <span>
+        <Grid container>
+          <Grid container item xs={2} alignItems="center">
             <Typography variant="h6">
               <Link className={classes.titleLink} to="/">
                 UW Course Explorer
               </Link>
             </Typography>
-          </span>
-          <div className={classes.leftColumn}>
+          </Grid>
+          <Grid container item xs={6} alignItems="center">
             {isSearchEnabled && (
               <div className={classes.searchBarWrapper}>
                 <SearchBar />
               </div>
             )}
+          </Grid>
+          <Grid container item xs={4} alignItems="center" justify="flex-end">
             <ProfileButton />
-          </div>
-        </div>
+          </Grid>
+        </Grid>
       </Toolbar>
     </AppBar>
   );

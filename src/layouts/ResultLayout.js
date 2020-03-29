@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { getSearchResult } from "../store/search/actions";
+import { getSearchResult, clearSearchResult } from "../store/search/actions";
 import Spinner from "../components/spinner/Spinner";
 import PropTypes from "prop-types";
 import {
@@ -32,16 +32,20 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const ResultsLayout = ({ isLoading, getSearchResult, results }) => {
+const ResultsLayout = props => {
   const classes = useStyles();
   const location = useLocation();
   const navigation = useNavigation();
   const queryParams = new URLSearchParams(location.search);
   const query = queryParams.get("query");
 
+  const { isLoading, getSearchResult, clearSearchResult, results } = props;
+
   useEffect(() => {
     getSearchResult({ query });
-  }, [getSearchResult, query]);
+
+    return () => clearSearchResult();
+  }, [clearSearchResult, getSearchResult, query]);
 
   const onPageChange = page => {
     queryParams.set("page", page);
@@ -123,8 +127,9 @@ ResultsLayout.defaultProps = {
 
 ResultsLayout.propTypes = {
   isLoading: PropTypes.bool,
+  results: PropTypes.array,
   getSearchResult: PropTypes.func.isRequired,
-  results: PropTypes.array
+  clearSearchResult: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -133,7 +138,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  getSearchResult
+  getSearchResult,
+  clearSearchResult
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResultsLayout);

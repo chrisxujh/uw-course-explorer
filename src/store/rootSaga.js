@@ -1,6 +1,6 @@
 import { all, fork } from "redux-saga/effects";
 import subjects from "../components/subjects/sagas";
-import courses from "../components/courses/sagas";
+import courses from "./courses/sagas";
 import course from "../components/course/sagas";
 import search from "./search/sagas";
 

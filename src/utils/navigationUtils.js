@@ -19,4 +19,9 @@ export const useNavigation = () => {
 export const getCourseLink = course =>
   `/subjects/${course.subject}/${course.catalog_number}`;
 
-export const getSubjectLink = subject => `/subjects/${subject.subject}`;
+export const getSubjectsPageLink = () => "/subjects";
+
+export const getSubjectLink = subject =>
+  `${getSubjectsPageLink()}/${subject.subject}`;
+
+export const getResultsPageLink = query => `/results?query=${query}`;
