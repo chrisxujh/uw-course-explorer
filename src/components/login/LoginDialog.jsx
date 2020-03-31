@@ -1,5 +1,10 @@
 import React from "react";
-import { Dialog, DialogTitle, DialogContent } from "@material-ui/core";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions
+} from "@material-ui/core";
 import PropTypes from "prop-types";
 import FacebookLogin from "react-facebook-login";
 import { FACEBOOK_APP_ID } from "../../config/config";
@@ -19,6 +24,7 @@ const LoginDialog = ({ open, onClose, oauthSignIn }) => {
           fields="name,email,picture"
           callback={onFacebookResponse}
         />
+        <DialogActions />
       </DialogContent>
     </Dialog>
   );
