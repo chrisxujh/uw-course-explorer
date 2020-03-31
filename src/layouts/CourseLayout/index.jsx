@@ -11,7 +11,7 @@ import {
   getCourseByCatalogNumber
 } from "../../components/course/actions";
 import Spinner from "../../components/spinner/Spinner";
-import { useParams } from "react-router-dom";
+import { useParams, Link as RouterLink } from "react-router-dom";
 import {
   Typography,
   TableContainer,
@@ -32,6 +32,32 @@ import MessageBanner from "../../components/common/MessageBanner";
 import { userIsLoggedInSelector } from "../../core/user/selectors";
 import _ from "lodash";
 import NavigationBreadcrumb from "../../components/navigation/NavigationBreadcrumb";
+import { useFeatureFlags } from "../../providers/FeatureFlagProvider";
+import { getCourseLink } from "../../utils/navigationUtils";
+
+const processCourseMatch = (str, matches, { classes }) => {
+  if (!str) return str;
+
+  const result = [];
+  let startIndex = 0;
+
+  matches.forEach(({ index, match, subject, catalog_number }) => {
+    result.push(str.slice(startIndex, index));
+    result.push(
+      <RouterLink
+        className={classes.courseLink}
+        to={getCourseLink({ subject, catalog_number })}
+      >
+        {match}
+      </RouterLink>
+    );
+    startIndex = index + match.length;
+  });
+
+  result.push(str.slice(startIndex));
+
+  return result;
+};
 
 const displayedFileds = [
   { key: "units", display: "Units" },
@@ -39,8 +65,26 @@ const displayedFileds = [
     key: "academic_level",
     display: "Academic level"
   },
-  { key: "prerequisites", display: "Prerequisites" },
-  { key: "antirequisites", display: "Antirequisites" },
+  {
+    key: "prerequisites",
+    display: "Prerequisites",
+    accessor: (str, course, { isCourseMatchEnabled, classes }) => {
+      if (!isCourseMatchEnabled) return str;
+
+      const { preReqCourseMatches = [] } = course;
+      return processCourseMatch(str, preReqCourseMatches, { classes });
+    }
+  },
+  {
+    key: "antirequisites",
+    display: "Antirequisites",
+    accessor: (str, course, { isCourseMatchEnabled, classes }) => {
+      if (!isCourseMatchEnabled) return str;
+
+      const { antiReqCourseMatches = [] } = course;
+      return processCourseMatch(str, antiReqCourseMatches, { classes });
+    }
+  },
   {
     key: "terms_offered",
     display: "Terms offered",
@@ -78,6 +122,9 @@ const useStyles = makeStyles(theme => ({
   schedules: {
     padding: theme.spacing(2),
     paddingBottom: theme.spacing(6)
+  },
+  courseLink: {
+    color: theme.palette.text.primary
   }
 }));
 
@@ -90,6 +137,7 @@ const CourseLayout = ({
   unshortlistCourse
 }) => {
   const { subject, catalogNumber } = useParams();
+  const isCourseMatchEnabled = useFeatureFlags().courseMatch;
   const classes = useStyles();
 
   const [showDetails, setShowDetails] = useState(false);
@@ -116,18 +164,27 @@ const CourseLayout = ({
   };
 
   const fields = displayedFileds
-    .filter(({ key, accessor }) =>
-      accessor instanceof Function ? accessor(course[key]) : course[key]
-    )
-    .map(({ key, display, accessor }, index) => (
+    .map(({ key, display, accessor }) => {
+      const content =
+        accessor instanceof Function
+          ? accessor(course[key], course, { isCourseMatchEnabled, classes })
+          : course[key];
+
+      if (content) {
+        return {
+          caption: display,
+          content
+        };
+      }
+    })
+    .filter(Boolean)
+    .map(({ caption, content }, index) => (
       <TableRow key={index}>
         <TableCell>
-          <Typography variant="body2">{display}</Typography>
+          <Typography variant="body2">{caption}</Typography>
         </TableCell>
         <TableCell>
-          <Typography variant="body2">
-            {accessor instanceof Function ? accessor(course[key]) : course[key]}
-          </Typography>
+          <Typography variant="body2">{content}</Typography>
         </TableCell>
       </TableRow>
     ));
