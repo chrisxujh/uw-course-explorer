@@ -60,7 +60,7 @@ const SubjectsLayout = ({
     <Container>
       {shortlist && shortlist.length > 0 && (
         <div className={classes.shortlist}>
-          <Typography variant="h5">Pinned courses:</Typography>
+          <Typography variant="h5">Shortlisted courses:</Typography>
           <br />
           <CourseShortlist courses={shortlist} />
         </div>
