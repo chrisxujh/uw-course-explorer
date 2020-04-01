@@ -35,7 +35,7 @@ const CourseShortlist = ({ courses }) => {
   const classes = useStyles();
   const coursesList = courses.map((course, key) => (
     <Link className={classes.courseLink} key={key} to={getCourseLink(course)}>
-      <Card variant="outlined" className={classes.courseCard}>
+      <Card variant="outlined" square className={classes.courseCard}>
         <CardActionArea style={{ height: "100%" }}>
           <CardContent style={{ height: "100%" }}>
             <Typography variant="body1">

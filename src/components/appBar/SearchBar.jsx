@@ -104,7 +104,7 @@ const SearchBar = props => {
     >
       <div className={classes.inputContainer}>
         <Box display="flex" alignItems="center">
-          <SearchIcon className={classes.searchIcon} />
+          <SearchIcon fontSize="large" className={classes.searchIcon} />
           <InputBase
             value={input}
             onChange={handleInputChange}

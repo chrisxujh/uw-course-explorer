@@ -4,11 +4,11 @@ import { userActionTypes } from "../core/user/actions";
 
 const notificationConfig = {
   [courseActionTypes.SHORTLIST_COURSE_SUCCESS]: {
-    message: "Shortlisted!",
+    message: "Pinned course successfully!",
     variant: "success"
   },
   [courseActionTypes.UNSHORTLIST_COURSE_SUCCESS]: {
-    message: "Removed from shortlist!",
+    message: "Removed from pinned list!",
     variant: "success"
   },
   [errorActionTypes.NETWORK_ERROR]: {
