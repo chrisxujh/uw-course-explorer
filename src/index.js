@@ -6,6 +6,7 @@ import configureStore from "./config/configureStore";
 import configAxios from "./config/configAxios";
 import InitializationProvider from "./providers/InitializationProvider";
 import NotificationsProvider from "./providers/NotificationsProvider";
+import { CssBaseline } from "@material-ui/core";
 import * as serviceWorker from "./serviceWorker";
 import "./index.css";
 
@@ -14,6 +15,7 @@ configAxios(store);
 
 ReactDOM.render(
   <Provider store={store}>
+    <CssBaseline />
     <InitializationProvider>
       <NotificationsProvider>
         <App />
