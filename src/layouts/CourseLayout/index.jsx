@@ -25,7 +25,8 @@ import {
   Paper,
   Container,
   makeStyles,
-  Collapse
+  Collapse,
+  IconButton
 } from "@material-ui/core";
 import CourseSchedulePanel from "../CourseSchedulePanel";
 import MessageBanner from "../../components/common/MessageBanner";
@@ -34,6 +35,8 @@ import _ from "lodash";
 import NavigationBreadcrumb from "../../components/navigation/NavigationBreadcrumb";
 import { useFeatureFlags } from "../../providers/FeatureFlagProvider";
 import { getCourseLink } from "../../utils/navigationUtils";
+import StarBorderIcon from "@material-ui/icons/StarBorder";
+import StarIcon from "@material-ui/icons/Star";
 
 const processCourseMatch = (str, matches, { classes }) => {
   if (!str) return str;
@@ -45,6 +48,7 @@ const processCourseMatch = (str, matches, { classes }) => {
     result.push(str.slice(startIndex, index));
     result.push(
       <RouterLink
+        key={index}
         className={classes.courseLink}
         to={getCourseLink({ subject, catalog_number })}
       >
@@ -123,6 +127,12 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2),
     paddingBottom: theme.spacing(6)
   },
+  courseTitle: {
+    marginBottom: 0
+  },
+  courseTitleContainer: {
+    paddingBottom: theme.spacing(2)
+  },
   courseLink: {
     color: theme.palette.text.primary
   }
@@ -176,6 +186,8 @@ const CourseLayout = ({
           content
         };
       }
+
+      return content;
     })
     .filter(Boolean)
     .map(({ caption, content }, index) => (
@@ -195,26 +207,36 @@ const CourseLayout = ({
         <Container maxWidth="lg">
           <NavigationBreadcrumb />
           <div className={classes.basicCourseInfo}>
-            <Grid container>
+            <Grid container className={classes.courseTitleContainer}>
               <Grid item md={10}>
-                <Typography variant="h4" gutterBottom>
+                <Typography
+                  variant="h4"
+                  gutterBottom
+                  className={classes.courseTitle}
+                >
                   {course.subject} {course.catalog_number} {course.title}
                 </Typography>
               </Grid>
-              <Grid item md={2}>
-                <Grid container>
-                  {loggedIn && (
-                    <Button
-                      variant="outlined"
-                      color={shortlisted ? "secondary" : "primary"}
-                      onClick={
-                        shortlisted ? handleUnshortlist : handleShortlist
-                      }
-                    >
-                      {shortlisted ? "Unshortlist" : "Shortlist"}
-                    </Button>
-                  )}
-                </Grid>
+              <Grid
+                container
+                item
+                md={2}
+                alignItems="center"
+                justify="flex-end"
+              >
+                {loggedIn && (
+                  <IconButton
+                    size="small"
+                    color="secondary"
+                    onClick={shortlisted ? handleUnshortlist : handleShortlist}
+                  >
+                    {shortlisted ? (
+                      <StarIcon fontSize="large" />
+                    ) : (
+                      <StarBorderIcon fontSize="large" />
+                    )}
+                  </IconButton>
+                )}
               </Grid>
             </Grid>
             <Typography variant="subtitle1">{course.description}</Typography>
