@@ -19,7 +19,6 @@ import {
   TableRow,
   TableCell,
   Table,
-  Link,
   Grid,
   Button,
   Paper,
@@ -64,11 +63,6 @@ const processCourseMatch = (str, matches, { classes }) => {
 };
 
 const displayedFileds = [
-  { key: "units", display: "Units" },
-  {
-    key: "academic_level",
-    display: "Academic level"
-  },
   {
     key: "prerequisites",
     display: "Prerequisites",
@@ -97,15 +91,6 @@ const displayedFileds = [
   {
     key: "notes",
     display: "Notes"
-  },
-  {
-    key: "url",
-    display: "Url",
-    accessor: url => (
-      <Link href={url} target="_blank" rel="noopener">
-        {url}
-      </Link>
-    )
   }
 ];
 
