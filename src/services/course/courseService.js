@@ -1,9 +1,11 @@
 import {
   httpGet,
   httpAuthPut,
-  httpAuthGet
-} from "../../core/services/http/httpService";
-import { SERVER_URL } from "../../config/config";
+  httpAuthGet,
+  httpAuthPost,
+  httpAuthDelete
+} from '../../core/services/http/httpService';
+import { SERVER_URL } from '../../config/config';
 
 export const getCourses = () => httpGet(`${SERVER_URL}/course`);
 
@@ -23,3 +25,12 @@ export const unshortlistCourse = courseId =>
 
 export const getShortlistedCourses = () =>
   httpAuthGet(`${SERVER_URL}/course/shortlist`);
+
+export const markCourseTaken = (subject, catalogNumber) =>
+  httpAuthPost(`${SERVER_URL}/user/coursesTaken`, { subject, catalogNumber });
+
+export const unMarkCourseTaken = (subject, catalogNumber) => {
+  const params = new URLSearchParams({ subject, catalogNumber });
+
+  return httpAuthDelete(`${SERVER_URL}/user/coursesTaken?${params.toString()}`);
+};

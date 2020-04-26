@@ -1,24 +1,34 @@
-import React, { useState } from "react";
-import { connect } from "react-redux";
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import {
   userIsLoadingSelector,
   userIsLoggedInSelector
-} from "../../core/user/selectors";
+} from '../../core/user/selectors';
 import {
   Button,
   Typography,
   IconButton,
   Menu,
-  MenuItem
-} from "@material-ui/core";
-import AccountCircle from "@material-ui/icons/AccountCircle";
-import { logOut, oauthSignIn } from "../../core/user/actions";
-import PropTypes from "prop-types";
-import LoginDialog from "../login/LoginDialog";
+  MenuItem,
+  makeStyles
+} from '@material-ui/core';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import { logOut, oauthSignIn } from '../../core/user/actions';
+import PropTypes from 'prop-types';
+import LoginDialog from '../login/LoginDialog';
+import { Link } from 'react-router-dom';
+
+const useStyles = makeStyles({
+  link: {
+    color: 'black',
+    textDecoration: 'none'
+  }
+});
 
 const ProfileButton = ({ loading, loggedIn, logOut, oauthSignIn }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [showLoginDialog, setShowLoginDialog] = useState(false);
+  const classNames = useStyles();
 
   if (loading) return <Typography variant="body1">...</Typography>;
 
@@ -48,6 +58,13 @@ const ProfileButton = ({ loading, loggedIn, logOut, oauthSignIn }) => {
           open={Boolean(anchorEl)}
           onClose={handleClose}
         >
+          <Link
+            className={classNames.link}
+            to="/profile"
+            onClick={() => setAnchorEl(null)}
+          >
+            <MenuItem>Profile</MenuItem>
+          </Link>
           <MenuItem onClick={handleLogOut}>Logout</MenuItem>
         </Menu>
       </React.Fragment>

@@ -3,6 +3,7 @@ import CoursesListLayout from '../layouts/CoursesListLayout';
 import SubjectsLayout from '../layouts/SubjectsLayout';
 import ResultsLayout from '../layouts/ResultLayout';
 import NotFoundPage from '../layouts/NotFoundPage';
+import ProfileLayout from '../layouts/ProfileLayout';
 
 const routeConfig = [
   {
@@ -20,6 +21,10 @@ const routeConfig = [
   {
     path: '/results',
     component: ResultsLayout
+  },
+  {
+    path: '/profile',
+    component: ProfileLayout
   },
   { path: '/', exact: true, redirectTo: '/subjects' },
   { path: '**', component: NotFoundPage }

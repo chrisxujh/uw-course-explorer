@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import {
   courseIsLoadingSelector,
   courseSelector
-} from "../../components/course/selectors";
+} from '../../components/course/selectors';
 import {
   shortlistCourse,
   unshortlistCourse,
   getCourseByCatalogNumber
-} from "../../components/course/actions";
-import Spinner from "../../components/spinner/Spinner";
-import { useParams, Link as RouterLink } from "react-router-dom";
+} from '../../components/course/actions';
+import Spinner from '../../components/spinner/Spinner';
+import { useParams, Link as RouterLink } from 'react-router-dom';
 import {
   Typography,
   TableContainer,
@@ -19,23 +19,31 @@ import {
   TableRow,
   TableCell,
   Table,
-  Grid,
   Button,
   Paper,
   Container,
   makeStyles,
   Collapse,
-  IconButton
-} from "@material-ui/core";
-import CourseSchedulePanel from "../CourseSchedulePanel";
-import MessageBanner from "../../components/common/MessageBanner";
-import { userIsLoggedInSelector } from "../../core/user/selectors";
-import _ from "lodash";
-import NavigationBreadcrumb from "../../components/navigation/NavigationBreadcrumb";
-import { useFeatureFlags } from "../../providers/FeatureFlagProvider";
-import { getCourseLink } from "../../utils/navigationUtils";
-import StarBorderIcon from "@material-ui/icons/StarBorder";
-import StarIcon from "@material-ui/icons/Star";
+  IconButton,
+  Box,
+  Chip
+} from '@material-ui/core';
+import CourseSchedulePanel from '../CourseSchedulePanel';
+import MessageBanner from '../../components/common/MessageBanner';
+import {
+  userIsLoggedInSelector,
+  coursesTakenMapSelector
+} from '../../core/user/selectors';
+import _ from 'lodash';
+import NavigationBreadcrumb from '../../components/navigation/NavigationBreadcrumb';
+import { useFeatureFlags } from '../../providers/FeatureFlagProvider';
+import { getCourseLink } from '../../utils/navigationUtils';
+import StarBorderIcon from '@material-ui/icons/StarBorder';
+import StarIcon from '@material-ui/icons/Star';
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import MoreMenu from './components/MoreMenu';
+import DoneIcon from '@material-ui/icons/Done';
+import { getCourseCode } from '../../utils/utils';
 
 const processCourseMatch = (str, matches, { classes }) => {
   if (!str) return str;
@@ -64,8 +72,8 @@ const processCourseMatch = (str, matches, { classes }) => {
 
 const displayedFileds = [
   {
-    key: "prerequisites",
-    display: "Prerequisites",
+    key: 'prerequisites',
+    display: 'Prerequisites',
     accessor: (str, course, { isCourseMatchEnabled, classes }) => {
       if (!isCourseMatchEnabled) return str;
 
@@ -74,8 +82,8 @@ const displayedFileds = [
     }
   },
   {
-    key: "antirequisites",
-    display: "Antirequisites",
+    key: 'antirequisites',
+    display: 'Antirequisites',
     accessor: (str, course, { isCourseMatchEnabled, classes }) => {
       if (!isCourseMatchEnabled) return str;
 
@@ -84,22 +92,19 @@ const displayedFileds = [
     }
   },
   {
-    key: "terms_offered",
-    display: "Terms offered",
-    accessor: terms => terms.join(", ")
+    key: 'terms_offered',
+    display: 'Terms offered',
+    accessor: terms => terms.join(', ')
   },
   {
-    key: "notes",
-    display: "Notes"
+    key: 'notes',
+    display: 'Notes'
   }
 ];
 
 const useStyles = makeStyles(theme => ({
   courseInfoSection: {
     paddingBottom: theme.spacing(2)
-  },
-  basicCourseInfo: {
-    marginBottom: theme.spacing(2)
   },
   courseDetails: {
     marginTop: theme.spacing(2),
@@ -115,8 +120,8 @@ const useStyles = makeStyles(theme => ({
   courseTitle: {
     marginBottom: 0
   },
-  courseTitleContainer: {
-    paddingBottom: theme.spacing(2)
+  starIcon: {
+    color: theme.palette.warning.main
   },
   courseLink: {
     color: theme.palette.text.primary
@@ -127,6 +132,7 @@ const CourseLayout = ({
   loading,
   course,
   loggedIn,
+  coursesTakenMap,
   getCourseByCatalogNumber,
   shortlistCourse,
   unshortlistCourse
@@ -136,6 +142,7 @@ const CourseLayout = ({
   const classes = useStyles();
 
   const [showDetails, setShowDetails] = useState(false);
+  const [moreMenuAnchor, setMoreMenuAnchor] = useState(null);
 
   useEffect(() => {
     getCourseByCatalogNumber({ subject, catalogNumber });
@@ -157,6 +164,14 @@ const CourseLayout = ({
   const handleShowDetails = () => {
     setShowDetails(!showDetails);
   };
+
+  const handleOpenMoreMenu = event => setMoreMenuAnchor(event.currentTarget);
+
+  const handleCloseMoreMenu = () => setMoreMenuAnchor(null);
+
+  const isCourseTaken = Boolean(
+    coursesTakenMap[getCourseCode(course.subject, course.catalog_number)]
+  );
 
   const fields = displayedFileds
     .map(({ key, display, accessor }) => {
@@ -191,40 +206,71 @@ const CourseLayout = ({
       <Paper variant="outlined" square className={classes.courseInfoSection}>
         <Container maxWidth="lg">
           <NavigationBreadcrumb />
-          <div className={classes.basicCourseInfo}>
-            <Grid container className={classes.courseTitleContainer}>
-              <Grid item md={10}>
-                <Typography
-                  variant="h4"
-                  gutterBottom
-                  className={classes.courseTitle}
-                >
-                  {course.subject} {course.catalog_number} {course.title}
-                </Typography>
-              </Grid>
-              <Grid
-                container
-                item
-                md={2}
+          <Box marginBottom={2}>
+            <Box marginBottom={3}>
+              <Box
+                display="flex"
                 alignItems="center"
-                justify="flex-end"
+                justifyContent="space-between"
+                marginBottom={1}
               >
-                {loggedIn && (
-                  <IconButton
-                    size="small"
-                    onClick={shortlisted ? handleUnshortlist : handleShortlist}
+                <Box display="flex">
+                  <Typography
+                    variant="h4"
+                    gutterBottom
+                    className={classes.courseTitle}
                   >
-                    {shortlisted ? (
-                      <StarIcon fontSize="large" />
-                    ) : (
-                      <StarBorderIcon fontSize="large" />
+                    {course.subject} {course.catalog_number} {course.title}
+                  </Typography>
+                  <Box marginLeft={1}>
+                    {loggedIn && (
+                      <IconButton
+                        size="small"
+                        onClick={
+                          shortlisted ? handleUnshortlist : handleShortlist
+                        }
+                      >
+                        {shortlisted ? (
+                          <StarIcon
+                            className={classes.starIcon}
+                            fontSize="large"
+                          />
+                        ) : (
+                          <StarBorderIcon fontSize="large" />
+                        )}
+                      </IconButton>
                     )}
+                  </Box>
+                </Box>
+                <Box>
+                  <IconButton
+                    aria-label="more"
+                    size="small"
+                    onClick={handleOpenMoreMenu}
+                  >
+                    <MoreHorizIcon fontSize="large" />
                   </IconButton>
+                  <MoreMenu
+                    course={course}
+                    anchorEl={moreMenuAnchor}
+                    onClose={handleCloseMoreMenu}
+                  />
+                </Box>
+              </Box>
+              <div>
+                {isCourseTaken && (
+                  <Chip
+                    variant="outlined"
+                    size="small"
+                    icon={<DoneIcon />}
+                    label="Taken"
+                    color="primary"
+                  />
                 )}
-              </Grid>
-            </Grid>
+              </div>
+            </Box>
             <Typography variant="subtitle1">{course.description}</Typography>
-          </div>
+          </Box>
           <Collapse in={showDetails}>
             <TableContainer className={classes.courseDetails}>
               <Table>
@@ -235,7 +281,7 @@ const CourseLayout = ({
         </Container>
         <Container>
           <Button color="primary" onClick={handleShowDetails}>
-            Show {showDetails ? "less" : "more"}
+            Show {showDetails ? 'less' : 'more'}
           </Button>
         </Container>
       </Paper>
@@ -253,6 +299,7 @@ CourseLayout.propTypes = {
   loading: PropTypes.bool,
   course: PropTypes.object,
   loggedIn: PropTypes.bool,
+  coursesTakenMap: PropTypes.object.isRequired,
 
   getCourseByCatalogNumber: PropTypes.func.isRequired,
   shortlistCourse: PropTypes.func.isRequired,
@@ -262,7 +309,8 @@ CourseLayout.propTypes = {
 const mapStateToProps = state => ({
   loading: courseIsLoadingSelector(state),
   course: courseSelector(state),
-  loggedIn: userIsLoggedInSelector(state)
+  loggedIn: userIsLoggedInSelector(state),
+  coursesTakenMap: coursesTakenMapSelector(state)
 });
 
 const mapDispatchToProps = {

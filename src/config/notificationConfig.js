@@ -1,23 +1,31 @@
-import { courseActionTypes } from "../components/course/actions";
-import { errorActionTypes } from "../core/error/actions";
-import { userActionTypes } from "../core/user/actions";
+import { courseActionTypes } from '../components/course/actions';
+import { errorActionTypes } from '../core/error/actions';
+import { userActionTypes } from '../core/user/actions';
 
 const notificationConfig = {
   [courseActionTypes.SHORTLIST_COURSE_SUCCESS]: {
-    message: "Pinned course successfully!",
-    variant: "success"
+    message: 'Pinned course!',
+    variant: 'success'
   },
   [courseActionTypes.UNSHORTLIST_COURSE_SUCCESS]: {
-    message: "Removed from pinned list!",
-    variant: "success"
+    message: 'Unpinned course!',
+    variant: 'success'
   },
   [errorActionTypes.NETWORK_ERROR]: {
-    message: "Network error",
-    variant: "error"
+    message: 'Network error',
+    variant: 'error'
   },
   [userActionTypes.LOG_OUT_SUCCESS]: {
-    message: "Logged out successfully!",
-    variant: "success"
+    message: 'Logged out successfully!',
+    variant: 'success'
+  },
+  [courseActionTypes.MARK_COURSE_TAKEN_SUCCESS]: {
+    message: 'Marked as taken!',
+    variant: 'success'
+  },
+  [courseActionTypes.UN_MARK_COURSE_TAKEN_SUCCESS]: {
+    message: 'Marked as not taken!',
+    variant: 'success'
   }
 };
 
