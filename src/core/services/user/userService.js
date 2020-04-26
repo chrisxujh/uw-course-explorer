@@ -1,5 +1,5 @@
-import { httpAuthGet, httpAuthPost } from "../http/httpService";
-import { SERVER_URL } from "../../../config/config";
+import { httpAuthGet, httpAuthPost } from '../http/httpService';
+import { SERVER_URL } from '../../../config/config';
 
 export const checkLoginStatus = () => httpAuthGet(`${SERVER_URL}/user/status`);
 
@@ -12,3 +12,6 @@ export const doOAuth = (provider, access_token) =>
   });
 
 export const logOut = () => httpAuthPost(`${SERVER_URL}/user/logout`);
+
+export const getCoursesTaken = () =>
+  httpAuthGet(`${SERVER_URL}/user/coursesTaken`);

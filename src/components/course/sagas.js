@@ -1,4 +1,4 @@
-import { takeLatest, put, call } from "redux-saga/effects";
+import { takeLatest, put, call } from 'redux-saga/effects';
 import {
   courseActionTypes,
   getCourseFailure,
@@ -8,9 +8,13 @@ import {
   shortlistCourseFailure,
   shortlistCourseSuccess,
   unshortlistCourseSuccess,
-  unshortlistCourseFailure
-} from "./actions";
-import * as courseService from "../../services/course/courseService";
+  unshortlistCourseFailure,
+  markCourseTakenSuccess,
+  markCourseTakenFailure,
+  unMarkCourseTakenSuccess,
+  unMarkCourseTakenFailure
+} from './actions';
+import * as courseService from '../../services/course/courseService';
 
 function* handleGetCourseByCatalogNumber({
   payload: { subject, catalogNumber }
@@ -62,7 +66,37 @@ function* handleUnshortlistCourse({ course }) {
   }
 }
 
-export default function*() {
+function* handleMarkTaken({ payload: { subject, catalogNumber } }) {
+  try {
+    const { coursesTaken } = yield call(
+      courseService.markCourseTaken,
+      subject,
+      catalogNumber
+    );
+
+    yield put(markCourseTakenSuccess({ coursesTaken }));
+  } catch (error) {
+    console.error(error);
+    yield put(markCourseTakenFailure(error));
+  }
+}
+
+function* handleUnMarkTaken({ payload: { subject, catalogNumber } }) {
+  try {
+    const { coursesTaken } = yield call(
+      courseService.unMarkCourseTaken,
+      subject,
+      catalogNumber
+    );
+
+    yield put(unMarkCourseTakenSuccess({ coursesTaken }));
+  } catch (error) {
+    console.error(error);
+    yield put(unMarkCourseTakenFailure(error));
+  }
+}
+
+export default function* () {
   yield takeLatest(
     courseActionTypes.GET_COURSE_BY_CATALOG_NUMBER,
     handleGetCourseByCatalogNumber
@@ -73,4 +107,6 @@ export default function*() {
     courseActionTypes.UNSHORTLIST_COURSE,
     handleUnshortlistCourse
   );
+  yield takeLatest(courseActionTypes.MARK_COURSE_TAKEN, handleMarkTaken);
+  yield takeLatest(courseActionTypes.UN_MARK_COURSE_TAKEN, handleUnMarkTaken);
 }
