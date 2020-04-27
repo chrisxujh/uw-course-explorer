@@ -1,8 +1,9 @@
-import { coursesActionTypes } from "./actions";
-import Immutable from "immutable";
-import { userActionTypes } from "../../core/user/actions";
+import { coursesActionTypes } from './actions';
+import Immutable from 'immutable';
+import { userActionTypes } from '../../core/user/actions';
+import { combineReducers } from 'redux';
 
-const initialState = {
+const coursesInitialState = {
   loading: false,
   courses: [],
   shortlist: {
@@ -11,7 +12,7 @@ const initialState = {
   }
 };
 
-export default function(state = initialState, action) {
+const courses = (state = coursesInitialState, action) => {
   switch (action.type) {
     case coursesActionTypes.GET_COURSES:
       return { ...state, loading: true };
@@ -41,4 +42,52 @@ export default function(state = initialState, action) {
   }
 
   return state;
-}
+};
+
+const unlockedCourses = (state = [], action) => {
+  switch (action.type) {
+    case coursesActionTypes.GET_UNLOCKED_COURSES_SUCCESS:
+      return action.courses || [];
+
+    case coursesActionTypes.GET_UNLOCKED_COURSES:
+    case coursesActionTypes.GET_UNLOCKED_COURSES_FAILURE:
+    case userActionTypes.LOG_OUT_SUCCESS:
+      return [];
+
+    default:
+      break;
+  }
+
+  return [...state];
+};
+
+const unlockedCoursesMap = (state = {}, action) => {
+  switch (action.type) {
+    case coursesActionTypes.GET_UNLOCKED_COURSES_SUCCESS: {
+      const unlockedCourses = action.courses || [];
+      const newState = unlockedCourses.reduce((map, course) => {
+        map[course.name] = course;
+
+        return map;
+      }, {});
+
+      return newState;
+    }
+
+    case coursesActionTypes.GET_UNLOCKED_COURSES:
+    case coursesActionTypes.GET_UNLOCKED_COURSES_FAILURE:
+    case userActionTypes.LOG_OUT_SUCCESS:
+      return {};
+
+    default:
+      break;
+  }
+
+  return { ...state };
+};
+
+export default combineReducers({
+  courses,
+  unlockedCourses,
+  unlockedCoursesMap
+});

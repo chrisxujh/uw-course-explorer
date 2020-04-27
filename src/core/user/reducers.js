@@ -96,6 +96,10 @@ const coursesTaken = (state = coursesTakenInitialState, action) => {
         coursesTakenMap
       };
     }
+
+    case userActionTypes.LOG_OUT_SUCCESS:
+      return { ...coursesTakenInitialState };
+
     default:
       break;
   }

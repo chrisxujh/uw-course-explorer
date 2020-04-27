@@ -1,13 +1,18 @@
-import { takeLatest, call, put } from "redux-saga/effects";
+import { takeLatest, call, put } from 'redux-saga/effects';
 import {
   coursesActionTypes,
   getCoursesFailure,
   getCoursesSuccess,
   getShortlistedCoursesFailure,
-  getShortlistedCoursesSuccess
-} from "./actions";
-import * as subjectService from "../../services/subject/subjectService";
-import * as courseService from "../../services/course/courseService";
+  getShortlistedCoursesSuccess,
+  getUnlockedCoursesFailure,
+  getUnlockedCoursesSuccess,
+  getUnlockedCourses
+} from './actions';
+import * as subjectService from '../../services/subject/subjectService';
+import * as courseService from '../../services/course/courseService';
+import { userActionTypes } from '../../core/user/actions';
+import { courseActionTypes } from '../../components/course/actions';
 
 function* getCourses({ subject }) {
   try {
@@ -32,10 +37,44 @@ function* handleGetShortlistedCourses() {
   }
 }
 
-export default function*() {
+function* handleGetUnlockCourses() {
+  try {
+    const { courses = [] } = yield call(courseService.getUnlockedCourses);
+
+    yield put(getUnlockedCoursesSuccess({ courses }));
+  } catch (error) {
+    console.error(error);
+    yield put(getUnlockedCoursesFailure());
+  }
+}
+
+function* handleUpdateUnlockedCourses() {
+  yield put(getUnlockedCourses());
+}
+
+export default function* () {
   yield takeLatest(coursesActionTypes.GET_COURSES, getCourses);
   yield takeLatest(
     coursesActionTypes.GET_SHORTLISTED_COURSES,
     handleGetShortlistedCourses
+  );
+  yield takeLatest(
+    coursesActionTypes.GET_UNLOCKED_COURSES,
+    handleGetUnlockCourses
+  );
+
+  yield takeLatest(
+    courseActionTypes.MARK_COURSE_TAKEN_SUCCESS,
+    handleUpdateUnlockedCourses
+  );
+  yield takeLatest(
+    courseActionTypes.UN_MARK_COURSE_TAKEN_SUCCESS,
+    handleUpdateUnlockedCourses
+  );
+
+  // when user logs in
+  yield takeLatest(
+    userActionTypes.GET_USER_INFO_SUCCESS,
+    handleUpdateUnlockedCourses
   );
 }
