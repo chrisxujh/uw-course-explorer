@@ -34,3 +34,6 @@ export const unMarkCourseTaken = (subject, catalogNumber) => {
 
   return httpAuthDelete(`${SERVER_URL}/user/coursesTaken?${params.toString()}`);
 };
+
+export const getUnlockedCourses = () =>
+  httpAuthGet(`${SERVER_URL}/course/unlockedCourses`);

@@ -43,7 +43,9 @@ import StarIcon from '@material-ui/icons/Star';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import MoreMenu from './components/MoreMenu';
 import DoneIcon from '@material-ui/icons/Done';
+import LockOpenIcon from '@material-ui/icons/LockOpen';
 import { getCourseCode } from '../../utils/utils';
+import { unlockedCoursesMapSelector } from '../../store/courses/selectors';
 
 const processCourseMatch = (str, matches, { classes }) => {
   if (!str) return str;
@@ -133,6 +135,7 @@ const CourseLayout = ({
   course,
   loggedIn,
   coursesTakenMap,
+  unlockedCoursesMap,
   getCourseByCatalogNumber,
   shortlistCourse,
   unshortlistCourse
@@ -169,9 +172,19 @@ const CourseLayout = ({
 
   const handleCloseMoreMenu = () => setMoreMenuAnchor(null);
 
-  const isCourseTaken = Boolean(
-    coursesTakenMap[getCourseCode(course.subject, course.catalog_number)]
-  );
+  const chips = [];
+  const courseCode = getCourseCode(course.subject, course.catalog_number);
+  const isCourseTaken = Boolean(coursesTakenMap[courseCode]);
+  const isCourseUnlocked = Boolean(unlockedCoursesMap[courseCode]);
+  console.log(unlockedCoursesMap[courseCode]);
+
+  if (isCourseTaken) chips.push({ label: 'Taken', icon: <DoneIcon /> });
+  if (!isCourseTaken && isCourseUnlocked)
+    chips.push({
+      label: 'Prereq Met',
+      icon: <LockOpenIcon />,
+      color: 'primary'
+    });
 
   const fields = displayedFileds
     .map(({ key, display, accessor }) => {
@@ -258,15 +271,17 @@ const CourseLayout = ({
                 </Box>
               </Box>
               <div>
-                {isCourseTaken && (
+                {chips.map(({ icon, label, color = 'default', className }) => (
                   <Chip
+                    key={label}
                     variant="outlined"
                     size="small"
-                    icon={<DoneIcon />}
-                    label="Taken"
-                    color="primary"
+                    icon={icon}
+                    label={label}
+                    color={color}
+                    className={className}
                   />
-                )}
+                ))}
               </div>
             </Box>
             <Typography variant="subtitle1">{course.description}</Typography>
@@ -300,6 +315,7 @@ CourseLayout.propTypes = {
   course: PropTypes.object,
   loggedIn: PropTypes.bool,
   coursesTakenMap: PropTypes.object.isRequired,
+  unlockedCoursesMap: PropTypes.object.isRequired,
 
   getCourseByCatalogNumber: PropTypes.func.isRequired,
   shortlistCourse: PropTypes.func.isRequired,
@@ -310,7 +326,8 @@ const mapStateToProps = state => ({
   loading: courseIsLoadingSelector(state),
   course: courseSelector(state),
   loggedIn: userIsLoggedInSelector(state),
-  coursesTakenMap: coursesTakenMapSelector(state)
+  coursesTakenMap: coursesTakenMapSelector(state),
+  unlockedCoursesMap: unlockedCoursesMapSelector(state)
 });
 
 const mapDispatchToProps = {

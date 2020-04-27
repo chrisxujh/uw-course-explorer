@@ -1,19 +1,24 @@
-import { createSelector } from "reselect";
+import { createSelector } from 'reselect';
 
 const selectDomain = state => state.courses;
 
-export const coursesSelector = createSelector(
+const selectCoursesDomain = createSelector(
   selectDomain,
   subState => subState.courses
 );
 
+export const coursesSelector = createSelector(
+  selectCoursesDomain,
+  subState => subState.courses
+);
+
 export const coursesIsLoadingSelector = createSelector(
-  selectDomain,
+  selectCoursesDomain,
   subState => subState.loading
 );
 
 const shortlistSelector = createSelector(
-  selectDomain,
+  selectCoursesDomain,
   subState => subState.shortlist
 );
 
@@ -25,4 +30,9 @@ export const shortlistIsLoadingSelector = createSelector(
 export const shortlistedCoursesSelector = createSelector(
   shortlistSelector,
   subState => subState.courses
+);
+
+export const unlockedCoursesMapSelector = createSelector(
+  selectDomain,
+  subState => subState.unlockedCoursesMap
 );
