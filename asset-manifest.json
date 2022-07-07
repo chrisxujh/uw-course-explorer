@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/uw-course-explorer/static/css/main.8c31a355.chunk.css",
+    "main.js": "/uw-course-explorer/static/js/main.f28afd23.chunk.js",
+    "main.js.map": "/uw-course-explorer/static/js/main.f28afd23.chunk.js.map",
+    "runtime-main.js": "/uw-course-explorer/static/js/runtime-main.a2c56d8b.js",
+    "runtime-main.js.map": "/uw-course-explorer/static/js/runtime-main.a2c56d8b.js.map",
+    "static/js/2.dba6c9ca.chunk.js": "/uw-course-explorer/static/js/2.dba6c9ca.chunk.js",
+    "static/js/2.dba6c9ca.chunk.js.map": "/uw-course-explorer/static/js/2.dba6c9ca.chunk.js.map",
+    "index.html": "/uw-course-explorer/index.html",
+    "precache-manifest.891db54e08f68298b77c97c171b13eb3.js": "/uw-course-explorer/precache-manifest.891db54e08f68298b77c97c171b13eb3.js",
+    "service-worker.js": "/uw-course-explorer/service-worker.js",
+    "static/css/main.8c31a355.chunk.css.map": "/uw-course-explorer/static/css/main.8c31a355.chunk.css.map",
+    "static/js/2.dba6c9ca.chunk.js.LICENSE.txt": "/uw-course-explorer/static/js/2.dba6c9ca.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.a2c56d8b.js",
+    "static/js/2.dba6c9ca.chunk.js",
+    "static/css/main.8c31a355.chunk.css",
+    "static/js/main.f28afd23.chunk.js"
+  ]
+}
